@@ -23,6 +23,6 @@ interface StrictCommentAuthorProps {
 /**
  * A comment can contain an author.
  */
-const CommentAuthor: React.FC<CommentAuthorProps> = props => ChildrenOrContent('author', props);
+const CommentAuthor: React.FC<CommentAuthorProps> = props => ChildrenOrContent(props, 'author');
 
 export { CommentAuthor, CommentAuthorProps, StrictCommentAuthorProps };

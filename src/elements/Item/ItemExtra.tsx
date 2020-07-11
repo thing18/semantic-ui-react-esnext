@@ -23,7 +23,7 @@ interface StrictItemExtraProps {
 /**
  * An item can contain extra content meant to be formatted separately from the main content.
  */
-const ItemExtra: FCX<ItemExtraProps> = props => ChildrenOrContent('extra', props);
+const ItemExtra: FCX<ItemExtraProps> = props => ChildrenOrContent(props, 'extra');
 
 ItemExtra.create = createShorthandFactory(ItemExtra, (content) => ({ content }));
 

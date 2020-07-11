@@ -90,7 +90,7 @@ export const Form: CForm = props => {
     // Heads up! Third party libs can pass own data as first argument, we need to check that it has preventDefault()
     // method.
     if (typeof action !== 'string') e.preventDefault && e.preventDefault();
-    onSubmit && onSubmit(e, props, ...args);
+    onSubmit?.call(null, e, props, ...args);
   };
 
   const classes = getClassName('ui', size, [Use.Key, { error, inverted, loading, reply, success, unstackable, warning }], [Use.Width, widths, null, true], 'form', className);

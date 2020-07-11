@@ -83,7 +83,7 @@ export const Icon: CIcon = props => {
     'icon', className,
   );
 
-  const handleClick = useCallback((e) => disabled ? e.preventDefault() : (onClick && onClick(e, props)), [disabled, onClick]);
+  const handleClick = useCallback((e) => disabled ? e.preventDefault() : (onClick?.call(null, e, props)), [disabled, onClick]);
 
   const ariaOptions = {
     'aria-hidden': !!ariaHidden ? ariaHidden : ariaLabel == null ? 'true' : undefined,

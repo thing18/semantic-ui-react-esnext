@@ -67,7 +67,7 @@ export const MenuItem: FCX<MenuItemProps> = (props) => {
 
   const { as = 'div', active, children, className, color, content, disabled, fitted, header, icon, link, name, onClick, position, ...rest } = props;
 
-  const handleClick = (e: any) => !disabled && onClick && onClick(e, props);
+  const handleClick = (e: any) => !disabled && onClick?.call(null, e, props);
 
   // tslint:disable-next-line: object-shorthand-properties-first
   const classes = getClassName(color, position, [Use.Key, { active, disabledicon: icon === true || (icon && !(name || content)), header, link }], [Use.KeyOrValueKey, { fitted }], 'item', className);

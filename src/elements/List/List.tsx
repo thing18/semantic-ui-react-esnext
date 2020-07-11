@@ -100,7 +100,7 @@ const List: CList = ({ as = 'div', animated, bulleted, celled, children, classNa
     pp => ({
       onClick: (e: React.MouseEvent<any, any>, p: ListItemProps) => {
         pp?.onClick && pp.onClick(e, p);
-        onItemClick && onItemClick(e, p);
+        onItemClick?.call(null, e, p);
       },
     }),
     [onItemClick],

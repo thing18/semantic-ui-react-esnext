@@ -23,6 +23,6 @@ interface StrictCommentActionsProps {
 /**
  * A comment can contain an list of actions a user may perform related to this comment.
  */
-const CommentActions: React.FC<CommentActionsProps> = props => ChildrenOrContent('actions', props);
+const CommentActions: React.FC<CommentActionsProps> = props => ChildrenOrContent(props, 'actions');
 
 export { CommentActions, CommentActionsProps, StrictCommentActionsProps };

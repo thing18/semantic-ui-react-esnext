@@ -113,7 +113,7 @@ export const Menu: CMenu = ({ as: ElementType = 'div', onItemClick, items, attac
       setActiveIndex(itemProps.index as number);
 
       pprops.onClick && pprops.onClick(e, itemProps);
-      onItemClick && onItemClick(e, itemProps);
+      onItemClick?.call(null, e, itemProps);
     },
   });
 

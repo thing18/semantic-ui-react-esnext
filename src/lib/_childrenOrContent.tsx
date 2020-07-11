@@ -1,5 +1,5 @@
 import React, { Children } from 'react';
-import { SemanticShorthandContent, getClassNames } from '.';
+import { SemanticShorthandContent, getClassName } from '.';
 
 interface Props {
   /** An element type to render as (string or function). */
@@ -17,8 +17,8 @@ interface Props {
   [key: string]: any;
 }
 
-export const ChildrenOrContent = (className1: any, { as: ElementType = 'div', children, className, content, ...rest }: Props) => (
-  <ElementType {...rest} className={getClassNames([className1, className])}>
+export const ChildrenOrContent = ({ as: ElementType = 'div', children, className, content, ...rest }: Props, ...classNameArgs: any[]) => (
+  <ElementType {...rest} className={getClassName(...classNameArgs, className)}>
     {Children.count(children) ? children : content}
   </ElementType>
 );

@@ -23,6 +23,6 @@ export interface StrictMessageHeaderProps {
 /**
  * A message can contain a header.
  */
-export const MessageHeader: FCX<MessageHeaderProps> = (props) => ChildrenOrContent('header', props);
+export const MessageHeader: FCX<MessageHeaderProps> = (props) => ChildrenOrContent(props, 'header');
 
 MessageHeader.create = createShorthandFactory(MessageHeader, (val) => ({ content: val }));

@@ -23,7 +23,7 @@ interface StrictItemHeaderProps {
 /**
  * An item can contain a header.
  */
-const ItemHeader: FCX<ItemHeaderProps> = props => ChildrenOrContent('header', props);
+const ItemHeader: FCX<ItemHeaderProps> = props => ChildrenOrContent(props, 'header');
 
 ItemHeader.create = createShorthandFactory(ItemHeader, (content) => ({ content }));
 

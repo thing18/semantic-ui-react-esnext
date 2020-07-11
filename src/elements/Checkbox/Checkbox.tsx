@@ -121,7 +121,7 @@ export const Checkbox: React.FC<CheckboxProps> = props => {
 
     // https://github.com/Semantic-Org/Semantic-UI-React/pull/3351
     if (!isLabelClickAndForwardedToInput) {
-      onClick && onClick(e, { ...props, checked: !isChecked, indeterminate: !!isIndeterminate });
+      onClick?.call(null, e, { ...props, checked: !isChecked, indeterminate: !!isIndeterminate });
     }
 
     if (isClickFromMouse) {
@@ -142,13 +142,13 @@ export const Checkbox: React.FC<CheckboxProps> = props => {
 
     if (!(!disabled && !readOnly && !(radio && isChecked))) return;
 
-    onChange && onChange(e, { ...props, checked: !isChecked, indeterminate: false });
+    onChange?.call(null, e, { ...props, checked: !isChecked, indeterminate: false });
     setState({ isChecked: !checked, isIndeterminate: false });
   };
 
   const handleMouseDown = (e: React.MouseEvent<HTMLInputElement>) => {
 
-    onMouseDown && onMouseDown(e, { ...props, checked: !!isChecked, indeterminate: !!isIndeterminate });
+    onMouseDown?.call(null, e, { ...props, checked: !!isChecked, indeterminate: !!isIndeterminate });
 
     if (!e.defaultPrevented) {
       inputRef.current?.focus();
@@ -161,7 +161,7 @@ export const Checkbox: React.FC<CheckboxProps> = props => {
 
   const handleMouseUp = (e: React.MouseEvent<HTMLInputElement>) => {
     setIsClickFromMouse(true);
-    onMouseUp && onMouseUp(e, { ...props, checked: !!isChecked, indeterminate: !!isIndeterminate });
+    onMouseUp?.call(null, e, { ...props, checked: !!isChecked, indeterminate: !!isIndeterminate });
   };
 
   // auto apply fitted class to compact white space when there is no label https://semantic-ui.com/modules/checkbox.html#fitted

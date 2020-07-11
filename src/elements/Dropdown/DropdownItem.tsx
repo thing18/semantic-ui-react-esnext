@@ -1,7 +1,7 @@
-import React, { Component, Children } from 'react';
+import React, { Children } from 'react';
 
 import { HtmlSpanProps, SemanticShorthandContent, SemanticShorthandItem, FCX, getClassName, createShorthand, createShorthandFactory } from '../../lib';
-import { FlagProps, Flag, IconProps, Icon, ImageProps, Image, LabelProps, Label } from '../../elements';
+import { FlagProps, Flag, IconProps, Icon, ImageProps, Image, LabelProps, Label } from '..';
 
 export interface DropdownItemProps extends StrictDropdownItemProps {
   [key: string]: any;
@@ -69,12 +69,9 @@ const DropdownItem: FCX<DropdownItemProps> = props => {
 
   const { as: ElementType = 'div', active, children, className, content, disabled, description, flag, icon, image, label, selected, text, onClick, ...rest } = props;
 
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => onClick && onClick(e, props);
+  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => onClick?.call(null, e, props);
 
   const classes = getClassName({ active, disabled, selected }, 'item', className);
-
-  // add default dropdown icon if item contains another menu
-  const iconName = icon == null ? childrenUtils.someByType(children, 'DropdownMenu') && 'dropdown' : icon;
 
   const ariaOptions = { role: 'option', 'aria-disabled': disabled, 'aria-checked': active, 'aria-selected': selected };
 
@@ -85,6 +82,9 @@ const DropdownItem: FCX<DropdownItemProps> = props => {
       </ElementType>
     );
   }
+
+  // add default dropdown icon if item contains another menu
+  const iconName = icon == null ? Children.toArray(children).some((c: any) => c.type === 'DropdownMenu') && 'dropdown' : icon;
 
   const flagElement = Flag.create(flag, { autoGenerateKey: false });
   const iconElement = Icon.create(iconName, { autoGenerateKey: false });
@@ -105,60 +105,6 @@ const DropdownItem: FCX<DropdownItemProps> = props => {
   );
 };
 
-DropdownItem.propTypes = {
-  /** An element type to render as (string or function). */
-  as: PropTypes.elementType,
-
-  /** Style as the currently chosen item. */
-  active: PropTypes.bool,
-
-  /** Primary content. */
-  children: PropTypes.node,
-
-  /** Additional classes. */
-  className: PropTypes.string,
-
-  /** Shorthand for primary content. */
-  content: customPropTypes.contentShorthand,
-
-  /** Additional text with less emphasis. */
-  description: customPropTypes.itemShorthand,
-
-  /** A dropdown item can be disabled. */
-  disabled: PropTypes.bool,
-
-  /** Shorthand for Flag. */
-  flag: customPropTypes.itemShorthand,
-
-  /** Shorthand for Icon. */
-  icon: customPropTypes.itemShorthand,
-
-  /** Shorthand for Image. */
-  image: customPropTypes.itemShorthand,
-
-  /** Shorthand for Label. */
-  label: customPropTypes.itemShorthand,
-
-  /**
-   * Called on click.
-   *
-   * @param {SyntheticEvent} event - React's original SyntheticEvent.
-   * @param {object} data - All props.
-   */
-  onClick: PropTypes.func,
-
-  /**
-   * The item currently selected by keyboard shortcut.
-   * This is not the active item.
-   */
-  selected: PropTypes.bool,
-
-  /** Display text. */
-  text: customPropTypes.contentShorthand,
-
-  /** Stored value. */
-  value: PropTypes.oneOfType([PropTypes.bool, PropTypes.number, PropTypes.string]),
-};
 DropdownItem.create = createShorthandFactory(DropdownItem, (opts: any) => opts);
 
 export { DropdownItem };

@@ -23,7 +23,7 @@ interface StrictItemMetaProps {
 /**
  * An item can contain content metadata.
  */
-const ItemMeta: FCX<ItemMetaProps> = props => ChildrenOrContent('meta', props);
+const ItemMeta: FCX<ItemMetaProps> = props => ChildrenOrContent(props, 'meta');
 
 ItemMeta.create = createShorthandFactory(ItemMeta, (content) => ({ content }));
 

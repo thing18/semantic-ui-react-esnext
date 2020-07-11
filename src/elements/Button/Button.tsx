@@ -137,7 +137,7 @@ export const Button: CButton = forwardRef<any, ButtonProps>((props, ref) => {
         return e.preventDefault();
       }
 
-      onClick && onClick(e, props);
+      onClick?.call(null, e, props);
     },
     [disabled, onClick],
   );

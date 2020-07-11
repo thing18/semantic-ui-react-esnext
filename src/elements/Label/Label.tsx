@@ -114,12 +114,12 @@ export const Label: CLabel = (props) => {
     [Use.ValueKey, { attached }],
     'label', className);
 
-  const handleClick = useCallback((e) => { onClick && onClick(e, props); }, []);
+  const handleClick = useCallback((e) => { onClick?.call(null, e, props); }, []);
 
   const handleIconOverrides = useCallback((predefinedProps) => ({
     onClick: (e: any) => {
       predefinedProps.onClick && predefinedProps.onClick(e);
-      onRemove && onRemove(e, props);
+      onRemove?.call(null, e, props);
     },
   }), []);
 

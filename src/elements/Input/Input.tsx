@@ -95,7 +95,7 @@ export const Input: FCX<InputProps> = forwardRef<any, InputProps>((props, ref) =
 
   const classes = getClassName('ui', size, [Use.Key, { disabled, error, fluid, focus, inverted, loading, transparent }], [Use.ValueKeyOrKey, { action: [actionPosition, action], icon: [iconPosition, icon || loading], labeled: [labelPosition, label] }], 'input', className);
 
-  const handleChange = useCallback((e) => !!onChange && onChange(e, { ...props, value: e?.target?.value }), []);
+  const handleChange = useCallback((e) => !!onChange?.call(null, e, { ...props, value: e?.target?.value }), []);
 
   const handleChildOverrides = useCallback(
     (child, defaultProps) => ({

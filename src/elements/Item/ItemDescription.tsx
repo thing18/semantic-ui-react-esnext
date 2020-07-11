@@ -23,7 +23,7 @@ interface StrictItemDescriptionProps {
 /**
  * An item can contain a description with a single or multiple paragraphs.
  */
-const ItemDescription: FCX<ItemDescriptionProps> = props => ChildrenOrContent('description', props);
+const ItemDescription: FCX<ItemDescriptionProps> = props => ChildrenOrContent(props, 'description');
 
 ItemDescription.create = createShorthandFactory(ItemDescription, (content) => ({ content }));
 

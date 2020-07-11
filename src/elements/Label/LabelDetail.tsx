@@ -20,6 +20,6 @@ export interface LabelDetailProps extends StrictLabelDetailProps {
   [key: string]: any;
 }
 
-export const LabelDetail: FCX<LabelDetailProps> = props => ChildrenOrContent('detail', props);
+export const LabelDetail: FCX<LabelDetailProps> = props => ChildrenOrContent(props, 'detail');
 
 LabelDetail.create = createShorthandFactory(LabelDetail, (val) => ({ content: val }));

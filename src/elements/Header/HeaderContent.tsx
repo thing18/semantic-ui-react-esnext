@@ -23,4 +23,4 @@ export interface HeaderContentProps extends StrictHeaderContentProps {
 /**
  * Header content wraps the main content when there is an adjacent Icon or Image.
  */
-export const HeaderContent: React.FC<HeaderContentProps> = props => ChildrenOrContent('content', props);
+export const HeaderContent: React.FC<HeaderContentProps> = props => ChildrenOrContent(props, 'content');

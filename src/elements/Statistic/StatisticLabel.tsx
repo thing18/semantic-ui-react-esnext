@@ -23,7 +23,7 @@ interface StrictStatisticLabelProps {
 /**
  * A statistic can contain a label to help provide context for the presented value.
  */
-const StatisticLabel: FCX<StatisticLabelProps> = props => ChildrenOrContent('label', props);
+const StatisticLabel: FCX<StatisticLabelProps> = props => ChildrenOrContent(props, 'label');
 
 StatisticLabel.create = createShorthandFactory(StatisticLabel, (content) => ({ content }));
 

@@ -59,7 +59,7 @@ export const ListItem: FCX<ListItemProps> = (props) => {
 
   const { as = 'div', active, children, className, content, description, disabled, header, icon, image, onClick, value, ...rest } = props;
 
-  const handleClick = useCallback((e) => !disabled && onClick && onClick(e, props), []);
+  const handleClick = useCallback((e) => !disabled && onClick?.call(null, e, props), []);
 
   const ElementType = !!rest.href ? 'a' : as;
   const valueProp = ElementType === 'li' ? { value } : { 'data-value': value };

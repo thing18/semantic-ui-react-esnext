@@ -20,7 +20,7 @@ interface StepDescriptionProps extends StrictStepDescriptionProps {
   [key: string]: any;
 }
 
-const StepDescription: FCX<StepDescriptionProps> = props => ChildrenOrContent('description', props);
+const StepDescription: FCX<StepDescriptionProps> = props => ChildrenOrContent(props, 'description');
 
 StepDescription.create = createShorthandFactory(StepDescription, (content) => ({ content }));
 

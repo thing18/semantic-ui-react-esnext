@@ -23,7 +23,7 @@ interface StepTitleProps extends StrictStepTitleProps {
 /**
  * A step can contain a title.
  */
-const StepTitle: FCX<StepTitleProps> = props => ChildrenOrContent('title', props);
+const StepTitle: FCX<StepTitleProps> = props => ChildrenOrContent(props, 'title');
 
 StepTitle.create = createShorthandFactory(StepTitle, (content) => ({ content }));
 

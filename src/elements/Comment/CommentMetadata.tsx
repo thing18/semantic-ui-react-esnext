@@ -23,6 +23,6 @@ interface StrictCommentMetadataProps {
 /**
  * A comment can contain metadata about the comment, an arbitrary amount of metadata may be defined.
  */
-const CommentMetadata: React.FC<CommentMetadataProps> = props => ChildrenOrContent('metadata', props);
+const CommentMetadata: React.FC<CommentMetadataProps> = props => ChildrenOrContent(props, 'metadata');
 
 export { CommentMetadata, StrictCommentMetadataProps, CommentMetadataProps };

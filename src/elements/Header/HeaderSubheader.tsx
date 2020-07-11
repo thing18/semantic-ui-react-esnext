@@ -23,6 +23,6 @@ export interface HeaderSubheaderProps extends StrictHeaderSubheaderProps {
 /**
  * Headers may contain subheaders.
  */
-export const HeaderSubheader: FCX<HeaderSubheaderProps> = props => ChildrenOrContent('sub header', props);
+export const HeaderSubheader: FCX<HeaderSubheaderProps> = props => ChildrenOrContent(props, 'sub header');
 
 HeaderSubheader.create = createShorthandFactory<HeaderSubheaderProps>(HeaderSubheader, (content) => ({ content }));

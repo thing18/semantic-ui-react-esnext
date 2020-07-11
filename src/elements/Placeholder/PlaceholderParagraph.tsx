@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SemanticShorthandContent, childrenUtils, getClassNames, ChildrenOrContent } from '../../lib';
+import { SemanticShorthandContent, ChildrenOrContent } from '../../lib';
 
 interface StrictPlaceholderParagraphProps {
   /** An element type to render as (string or function). */
@@ -23,6 +23,6 @@ interface PlaceholderParagraphProps extends StrictPlaceholderParagraphProps {
 /**
  * A placeholder can contain a paragraph.
  */
-const PlaceholderParagraph: React.FC<PlaceholderParagraphProps> = props => ChildrenOrContent('paragraph', props);
+const PlaceholderParagraph: React.FC<PlaceholderParagraphProps> = props => ChildrenOrContent(props, 'paragraph');
 
 export { PlaceholderParagraph, PlaceholderParagraphProps, StrictPlaceholderParagraphProps };

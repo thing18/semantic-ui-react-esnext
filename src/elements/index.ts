@@ -18,9 +18,6 @@ export * from './Step';
 export { default as Radio, RadioProps, StrictRadioProps } from '../addons/Radio';
 export { default as Select, SelectProps, StrictSelectProps } from '../addons/Select';
 
-export { default as Dropdown, DropdownOnSearchChangeData, DropdownProps, StrictDropdownProps } from '../modules/Dropdown';
-export { default as DropdownItem, DropdownItemProps, StrictDropdownItemProps } from '../modules/Dropdown/DropdownItem';
-
 export * from './TextArea';
 export * from './Table';
 export * from './Message';
@@ -39,3 +36,5 @@ export * from './Statistic';
 
 // modules
 export * from './Checkbox';
+export * from './Dropdown';
+export * from './Dimmer';

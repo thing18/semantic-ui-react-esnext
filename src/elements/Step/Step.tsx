@@ -75,7 +75,7 @@ const Step: CStep = (props) => {
 
   const { as, active, children, className, completed, content, description, disabled, href, icon, link, onClick, ordered, title, ...rest } = props;
 
-  const handleClick = useCallback((e) => !disabled && !!onClick && onClick(e, props), [disabled, onClick]);
+  const handleClick = useCallback((e) => !disabled && !!onClick?.call(null, e, props), [disabled, onClick]);
   const classes = getClassName({ active, completed, disabled, ordered, link }, 'step', className);
   const ElementType = !!onClick ? 'a' : (as || 'div');
 

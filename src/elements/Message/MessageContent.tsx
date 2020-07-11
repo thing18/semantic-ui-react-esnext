@@ -23,4 +23,4 @@ export interface StrictMessageContentProps {
 /**
  * A message can contain a content.
  */
-export const MessageContent: React.FC<MessageContentProps> = (props) => ChildrenOrContent('content', props);
+export const MessageContent: React.FC<MessageContentProps> = (props) => ChildrenOrContent(props, 'content');

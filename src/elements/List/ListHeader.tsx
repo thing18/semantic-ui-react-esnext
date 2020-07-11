@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SemanticShorthandContent, childrenUtils, createShorthandFactory, FCX, getClassNames, ChildrenOrContent } from '../../lib';
+import { SemanticShorthandContent, createShorthandFactory, FCX, ChildrenOrContent } from '../../lib';
 
 interface ListHeaderProps extends StrictListHeaderProps {
   [key: string]: any;
@@ -23,7 +23,7 @@ interface StrictListHeaderProps {
 /**
  * A list item can contain a header.
  */
-const ListHeader: FCX<ListHeaderProps> = props => ChildrenOrContent('header', props);
+const ListHeader: FCX<ListHeaderProps> = props => ChildrenOrContent(props, 'header');
 
 ListHeader.create = createShorthandFactory(ListHeader, (content) => ({ content }));
 

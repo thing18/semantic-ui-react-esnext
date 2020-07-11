@@ -23,4 +23,4 @@ export interface StrictMenuHeaderProps {
 /**
  * A menu item may include a header or may itself be a header.
  */
-export const MenuHeader: React.FC<MenuHeaderProps> = (props) => ChildrenOrContent('header', props);
+export const MenuHeader: React.FC<MenuHeaderProps> = (props) => ChildrenOrContent(props, 'header');

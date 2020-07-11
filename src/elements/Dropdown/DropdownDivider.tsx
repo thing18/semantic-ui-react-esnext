@@ -17,11 +17,3 @@ export interface StrictDropdownDividerProps {
  * A dropdown menu can contain dividers to separate related content.
  */
 export const DropdownDivider: React.FC<DropdownDividerProps> = ({ as: ElementType = 'div', className, ...rest }) => <ElementType {...rest} className={getClassName('divider', className)} />;
-
-DropdownDivider.propTypes = {
-  /** An element type to render as (string or function). */
-  as: PropTypes.elementType,
-
-  /** Additional classes. */
-  className: PropTypes.string,
-};

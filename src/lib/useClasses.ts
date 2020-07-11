@@ -1,41 +1,6 @@
 import { useMemo } from 'react';
 import { numberToWord } from './numberToWord';
 import { SemanticTEXTALIGNMENTS, SemanticVERTICALALIGNMENTS, SemanticWIDTHS } from './types';
-import { SemanticTRANSITIONS } from '../generic';
-
-interface ClassBase {
-  t: 'key' | 'valueAndKey' | 'keyOrValueAndKey' | 'multiple' | 'textAlign' | 'verticalAlign' | 'width';
-  v: any;
-}
-
-interface UseKeyClass extends ClassBase {
-  t: 'key';
-  v: Record<string, any>;
-}
-interface UseValueAndKeyClass extends ClassBase {
-  t: 'valueAndKey';
-  v: Record<string, any>;
-}
-interface UseKeyOrValueAndKeyClass extends ClassBase {
-  t: 'keyOrValueAndKey';
-  v: Record<string, any>;
-}
-interface UseMultipleClass extends ClassBase {
-  t: 'multiple';
-  v: Record<string, any>;
-}
-interface UseTextAlignClass extends ClassBase {
-  t: 'textAlign';
-  v: SemanticTEXTALIGNMENTS | undefined;
-}
-interface UseVeritcalAlignClass extends ClassBase {
-  t: 'verticalAlign';
-  v: SemanticVERTICALALIGNMENTS | undefined;
-}
-interface UseWidthClass extends ClassBase {
-  t: 'width';
-  v: number | string | { value: any; widthClass?: string; canEqual?: boolean } | { value: any; widthClass?: string; canEqual?: boolean }[];
-}
 
 export const enum Use {
   __base__ = 421970,
@@ -51,7 +16,7 @@ export const enum Use {
 
 type OptionalString = string | undefined;
 type OptionalStrings = OptionalString[];
-type StringOrOptionalStrings = OptionalString | OptionalStrings;
+// type StringOrOptionalStrings = OptionalString | OptionalStrings;
 type ClassArg = OptionalString
   | OptionalStrings
   | Record<string, boolean | undefined>
@@ -64,18 +29,6 @@ type ClassArg = OptionalString
   | [Use.VerticalAlign, SemanticVERTICALALIGNMENTS | undefined]
   | [Use.Width, SemanticWIDTHS | 'equal' | undefined, (string | null)?, true?]
   | [Use.Width, [SemanticWIDTHS | 'equal' | undefined, string?, true?][]];
-
-interface P {
-  useStart?: any;
-  useKey?: Record<string, any>;
-  useValueAndKey?: Record<string, any>;
-  useKeyOrValueAndKey?: Record<string, any>;
-  useMultiple?: Record<string, any>;
-  useTextAlign?: any;
-  useVerticalAlign?: string;
-  useWidth?: number | string | { value: any; widthClass?: string; canEqual?: boolean } | { value: any; widthClass?: string; canEqual?: boolean }[];
-  useEnd?: any;
-}
 
 const reduceKeys = (acc: any[], [key, value]: [string, any]) => {
 
@@ -114,50 +67,6 @@ const reduceMultiple = (acc: any[], [key, value]: [string, any]) => {
 
   return acc;
 };
-
-export const getClassNames = (p: OptionalStrings | P) => {
-
-  if (Array.isArray(p)) {
-    return p.flat().filter(Boolean).join(' ');
-  }
-
-  const { useStart, useEnd, useWidth, useVerticalAlign, useTextAlign, useMultiple, useKey, useValueAndKey, useKeyOrValueAndKey } = p;
-
-  const res = [useStart];
-
-  if (useKey) Object.entries(useKey).reduce(reduceKeys, res);
-
-  if (useValueAndKey) Object.entries(useValueAndKey).reduce(reduceValueAndKey, res);
-
-  if (useKeyOrValueAndKey) Object.entries(useKeyOrValueAndKey).reduce(reduceKeyOrValueAndKey, res);
-
-  if (useMultiple) Object.entries(useMultiple).reduce(reduceMultiple, res);
-
-  if (useTextAlign != null) {
-    res.push(useTextAlign === 'justified' ? 'justified' : `${useTextAlign} aligned`);
-  }
-
-  if (useVerticalAlign != null) {
-    res.push(`${useVerticalAlign} aligned`);
-  }
-
-  if (useWidth != null) {
-
-    // tslint:disable-next-line: triple-equals
-    if (typeof useWidth != 'object') {
-      res.push(numberToWord(useWidth));
-    } else {
-
-      (Array.isArray(useWidth) ? useWidth : [useWidth]).forEach(({ value, widthClass = '', canEqual = false }) => res.push(canEqual && value === 'equal' ? 'equal width' : `${numberToWord(value)} ${widthClass}`));
-    }
-  }
-
-  res.push(useEnd);
-
-  return res.flat(2).filter(Boolean).join(' ');
-};
-
-export const useClassNames = (p: OptionalStrings | P, deps: any[]) => useMemo(() => getClassNames(p), deps);
 
 export const getClassName = (...args: ClassArg[]) => args
   .reduce(
@@ -221,3 +130,5 @@ export const getClassName = (...args: ClassArg[]) => args
   .flat(2)
   .filter(Boolean)
   .join(' ');
+
+export const useClassName = (p: ClassArg[], deps: any[]) => useMemo(() => getClassName(...p), deps);

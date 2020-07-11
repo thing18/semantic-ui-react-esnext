@@ -23,6 +23,6 @@ interface StrictFeedDateProps {
 /**
  * An event or an event summary can contain a date.
  */
-const FeedDate: React.FC<FeedDateProps> = props => ChildrenOrContent('date', props);
+const FeedDate: React.FC<FeedDateProps> = props => ChildrenOrContent(props, 'date');
 
 export { FeedDate, FeedDateProps, StrictFeedDateProps };

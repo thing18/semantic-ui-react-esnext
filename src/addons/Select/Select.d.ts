@@ -1,10 +1,10 @@
 import * as React from 'react'
 
-import { StrictDropdownProps } from '../../modules/Dropdown'
-import DropdownDivider from '../../modules/Dropdown/DropdownDivider'
-import DropdownHeader from '../../modules/Dropdown/DropdownHeader'
-import DropdownItem, { DropdownItemProps } from '../../modules/Dropdown/DropdownItem'
-import DropdownMenu from '../../modules/Dropdown/DropdownMenu'
+import { StrictDropdownProps } from '../../elements/Dropdown'
+import DropdownDivider from '../../elements/Dropdown/DropdownDivider'
+import DropdownHeader from '../../elements/Dropdown/DropdownHeader'
+import DropdownItem, { DropdownItemProps } from '../../elements/Dropdown/DropdownItem'
+import DropdownMenu from '../../elements/Dropdown/DropdownMenu'
 
 export interface SelectProps extends StrictSelectProps {
   [key: string]: any

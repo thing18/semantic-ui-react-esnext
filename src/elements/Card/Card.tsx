@@ -83,7 +83,7 @@ export const Card: CCard = props => {
 
   const { as = 'div', centered, children, className, color, content, description, extra, fluid, header, href, image, link, meta, onClick, raised, ...rest } = props;
 
-  const handleClick = useCallback((e) => onClick && onClick(e, props), [onClick]);
+  const handleClick = useCallback((e) => onClick?.call(null, e, props), [onClick]);
 
   const classes = getClassName('ui', color, { centered, fluid, link, raised }, 'card', className);
 

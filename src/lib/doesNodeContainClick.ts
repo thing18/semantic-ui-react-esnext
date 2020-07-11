@@ -8,7 +8,7 @@
  * @param {object} e - A SyntheticEvent or DOM Event.
  * @returns {boolean}
  */
-const doesNodeContainClick = (node: any, e: any) => {
+export const doesNodeContainClick = (node: HTMLElement, e: any) => {
   if (node == null || e == null) return false;
 
   // if there is an e.target and it is in the document, use a simple node.contains() check
@@ -45,5 +45,3 @@ const doesNodeContainClick = (node: any, e: any) => {
   // don't add an whole pixel (1) as the event/node values may be decimal sensitive
   return (clientY >= top && clientY < bottom + 0.001) && (clientX >= left && clientX < right + 0.001);
 };
-
-export default doesNodeContainClick;

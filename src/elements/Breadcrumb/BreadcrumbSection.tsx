@@ -45,7 +45,7 @@ export const BreadcrumbSection: FCX<BreadcrumbSectionProps> = props => {
 
   const { as = 'div', link, active, children, className, content, href, onClick, ...rest } = props;
 
-  const handleClick = (e: any) => onClick && onClick(e, props);
+  const handleClick = (e: any) => onClick?.call(null, e, props);
 
   const classes = getClassName([Use.Key, { active }], 'section', className);
   const ElementType = (link || onClick) ? 'a' : as;

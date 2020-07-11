@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { FCX, createShorthandFactory, getClassName } from '../../lib';
 
 export interface DropdownSearchInputProps extends StrictDropdownSearchInputProps {
@@ -28,17 +28,18 @@ export interface StrictDropdownSearchInputProps {
 /**
  * A search item sub-component for Dropdown component.
  */
-const DropdownSearchInput: FCX<DropdownSearchInputProps> = props => {
+const DropdownSearchInput: FCX<DropdownSearchInputProps> = forwardRef<any, DropdownSearchInputProps>((props, ref) => {
 
   const { as: ElementType = 'div', autoComplete = 'off', className, tabIndex, type = 'text', value, onChange, ...rest } = props;
 
-  const handleChange = (e: any) => onChange && onChange(e, { ...props, value: e.target.value });
+  const handleChange = (e: any) => onChange?.call(null, e, { ...props, value: e.target.value });
 
   const classes = getClassName('search', className);
 
   return (
     <input
       {...rest}
+      ref={ref}
       aria-autocomplete='list'
       autoComplete={autoComplete}
       className={classes}
@@ -48,27 +49,7 @@ const DropdownSearchInput: FCX<DropdownSearchInputProps> = props => {
       value={value}
     />
   );
-};
-
-DropdownSearchInput.propTypes = {
-  /** An element type to render as (string or function). */
-  as: PropTypes.elementType,
-
-  /** An input can have the auto complete. */
-  autoComplete: PropTypes.string,
-
-  /** Additional classes. */
-  className: PropTypes.string,
-
-  /** An input can receive focus. */
-  tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-  /** The HTML input type. */
-  type: PropTypes.string,
-
-  /** Stored value. */
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-};
+}) as any;
 
 DropdownSearchInput.defaultProps = { autoComplete: 'off', type: 'text' };
 DropdownSearchInput.create = createShorthandFactory(DropdownSearchInput, (type) => ({ type }));

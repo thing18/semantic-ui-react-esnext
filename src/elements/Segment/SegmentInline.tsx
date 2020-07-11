@@ -23,6 +23,6 @@ interface SegmentInlineProps extends StrictSegmentInlineProps {
 /**
  * A placeholder segment can be inline.
  */
-const SegmentInline: React.FC<SegmentInlineProps> = props => ChildrenOrContent('inline', props);
+const SegmentInline: React.FC<SegmentInlineProps> = props => ChildrenOrContent(props, 'inline');
 
 export { SegmentInline, SegmentInlineProps, StrictSegmentInlineProps };

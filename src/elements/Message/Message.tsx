@@ -98,7 +98,7 @@ interface CMessage extends React.FC<MessageProps> {
 export const Message: CMessage = props => {
 
   const { as: ElementType = 'div', attached, children, className, color, compact, content, error, floating, header, hidden, icon, info, list, negative, onDismiss, positive, size, success, visible, warning, ...rest } = props;
-  const handleDismiss = (e: any) => onDismiss && onDismiss(e, props);
+  const handleDismiss = (e: any) => onDismiss?.call(null, e, props);
 
   const classes = getClassName('ui', color, size, [Use.Key, { compact, error, floating, hidden, icon, info, negative, positive, success, visible, warning }], [Use.KeyOrValueKey, { attached }], 'message', className);
 
