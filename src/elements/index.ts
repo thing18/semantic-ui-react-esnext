@@ -38,3 +38,4 @@ export * from './Statistic';
 export * from './Checkbox';
 export * from './Dropdown';
 export * from './Dimmer';
+export * from './Search';
