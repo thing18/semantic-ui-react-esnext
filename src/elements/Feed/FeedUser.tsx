@@ -23,7 +23,7 @@ interface StrictFeedUserProps {
 /**
  * A feed can contain a user element.
  */
-const FeedUser: React.FC<FeedUserProps> = ({ as = 'a', ...rest }) => ChildrenOrContent('user', { as, ...rest });
+const FeedUser: React.FC<FeedUserProps> = ({ as = 'a', ...rest }) => ChildrenOrContent({ as, ...rest }, 'user');
 
 FeedUser.defaultProps = { as: 'a' };
 

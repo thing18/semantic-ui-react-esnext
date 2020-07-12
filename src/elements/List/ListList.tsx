@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SemanticProps, SemanticShorthandContent, childrenUtils, getClassNames } from '../../lib';
+import { SemanticProps, SemanticShorthandContent, childrenUtils, getClassName } from '../../lib';
 
 export interface StrictListListProps {
   /** An element type to render as (string or function). */
@@ -24,7 +24,7 @@ export type ListListProps = SemanticProps<StrictListListProps>;
 export const ListList: React.FC<ListListProps> = ({ as = 'div', children, className, content, ...rest }) => {
 
   const ElementType = !!rest.href ? 'a' : as;
-  const classes = getClassNames({ useKey: { list: ElementType !== 'ul' && ElementType !== 'ol' }, useEnd: [className] });
+  const classes = getClassName({ list: ElementType !== 'ul' && ElementType !== 'ol' }, className);
 
   return (
     <ElementType {...rest} className={classes}>

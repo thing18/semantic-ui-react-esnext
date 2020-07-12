@@ -1,4 +1,4 @@
-import React, { useState, Children } from 'react';
+import React, { useState, Children, useEffect } from 'react';
 
 import { SemanticCOLORS, SemanticShorthandCollection, SemanticWIDTHS, createShorthandFactory, FCX, Use, getClassName } from '../../lib';
 import { MenuHeader } from './MenuHeader';
@@ -101,18 +101,23 @@ interface CMenu extends FCX<MenuProps> {
  * A menu displays grouped navigation actions.
  * @see Dropdown
  */
-export const Menu: CMenu = ({ as: ElementType = 'div', onItemClick, items, attached, borderless, children, className, color, compact, fixed, floated, fluid, icon, inverted, pagination, pointing, secondary, size, stackable, tabular, text, vertical, widths, ...rest }) => {
+export const Menu: CMenu = ({ as: ElementType = 'div', onItemClick, activeIndex, defaultActiveIndex, items, attached, borderless, children, className, color, compact, fixed, floated, fluid, icon, inverted, pagination, pointing, secondary, size, stackable, tabular, text, vertical, widths, ...rest }) => {
 
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [__activeIndex, __setActiveIndex] = useState(Number(activeIndex ?? defaultActiveIndex ?? -1));
 
-  const classes = getClassName('ui', color, size, [Use.Key, { borderless, compact, fluid, inverted, pagination, pointing, secondary, stackable, text, vertical }], [Use.KeyOrValueKey, { attached, floated, icon, tabular }], [Use.ValueKey, { fixed }], [Use.Width, widths, 'item'], className, 'menu');
+  useEffect(
+    () => { __setActiveIndex(Number(activeIndex)); },
+    [activeIndex],
+  );
+
+  const classes = getClassName('ui', color, size, { borderless, compact, fluid, inverted, pagination, pointing, secondary, stackable, text, vertical }, [Use.KeyOrValueKey, { attached, floated, icon, tabular }], [Use.ValueKey, { fixed }], [Use.Width, widths, 'item'], className, 'menu');
 
   const handleItemOverrides = (pprops: MenuProps) => ({
     onClick: (e: any, itemProps: MenuItemProps) => {
 
-      setActiveIndex(itemProps.index as number);
+      __setActiveIndex(itemProps.index as number);
 
-      pprops.onClick && pprops.onClick(e, itemProps);
+      pprops.onClick?.call(null, e, itemProps);
       onItemClick?.call(null, e, itemProps);
     },
   });
@@ -123,7 +128,7 @@ export const Menu: CMenu = ({ as: ElementType = 'div', onItemClick, items, attac
         Children.count(children)
           ? children
           : Array.isArray(items)
-            ? items.map((item, index) => MenuItem.create(item, { defaultProps: { index, active: activeIndex === index }, overrideProps: handleItemOverrides }))
+            ? items.map((item, index) => MenuItem.create(item, { defaultProps: { index, active: __activeIndex === index }, overrideProps: handleItemOverrides }))
             : null
       }
     </ElementType>

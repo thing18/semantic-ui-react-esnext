@@ -26,7 +26,7 @@ interface Options {
 
 type MapValueToProps<T> = (val: any) => T;
 
-export const createShorthand = <T extends any = any>(Component: string | React.FC<T>, mapValueToProps: MapValueToProps<T>, val: any, options: Options = {}) => {
+export const createShorthand = <T extends any = any>(Component: string | React.FC<T>, mapValueToProps: MapValueToProps<T> | null, val: any, options: Options = {}) => {
 
   // tslint:disable-next-line: triple-equals
   if (process.env.NODE_ENV != 'production') {
@@ -71,10 +71,7 @@ export const createShorthand = <T extends any = any>(Component: string | React.F
   const { defaultProps = {} } = options;
 
   // User's props
-  const usersProps =
-    (valIsReactElement && val.props) ||
-    (valIsPropsObject && val) ||
-    (valIsPrimitiveValue && mapValueToProps(val));
+  const usersProps = (valIsReactElement && val.props) || (valIsPropsObject && val) || (valIsPrimitiveValue && mapValueToProps ? mapValueToProps(val) : {});
 
   // Override props
   let { overrideProps = {} } = options;
@@ -144,7 +141,7 @@ export const createShorthand = <T extends any = any>(Component: string | React.F
  * @param {function} mapValueToProps A function that maps a primitive value to the Component props
  * @returns {function} A shorthand factory function waiting for `val` and `defaultProps`.
  */
-export const createShorthandFactory = <T extends any = any>(Component: string | React.FC<T>, mapValueToProps: MapValueToProps<T>) => {
+export const createShorthandFactory = <T extends any = any>(Component: string | React.FC<T>, mapValueToProps: MapValueToProps<T> | null) => {
 
   // tslint:disable-next-line: triple-equals
   if (process.env.NODE_ENV != 'production') {

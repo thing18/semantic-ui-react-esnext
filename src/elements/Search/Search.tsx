@@ -203,7 +203,7 @@ export default class Search extends PureComponent<SearchProps, State> {
     showNoResults: true,
   };
 
-  static autoControlledProps = ['open', 'value'];
+  // static autoControlledProps = ['open', 'value'];
 
   static Category = SearchCategory;
   static Result = SearchResult;

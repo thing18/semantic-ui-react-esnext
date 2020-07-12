@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SemanticSIZES, SemanticShorthandContent, getClassName, ChildrenOrContent } from '../../lib';
+import { SemanticSIZES, SemanticShorthandContent, ChildrenOrContent } from '../../lib';
 
 export interface StrictImageGroupProps {
   /** An element type to render as (string or function). */
@@ -26,4 +26,4 @@ export interface ImageGroupProps extends StrictImageGroupProps {
 /**
  * A group of images.
  */
-export const ImageGroup: React.FC<ImageGroupProps> = ({ className, size, ...rest }) => ChildrenOrContent(null, { className: getClassName('ui', size, className, 'images'), ...rest });
+export const ImageGroup: React.FC<ImageGroupProps> = ({ className, size, ...rest }) => ChildrenOrContent(rest, 'ui', size, className, 'images');

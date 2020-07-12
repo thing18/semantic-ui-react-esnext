@@ -1,8 +1,7 @@
 import React, { Children } from 'react';
 
 import { SemanticFLOATS, SemanticShorthandContent, SemanticShorthandItem, SemanticSIZES, SemanticVERTICALALIGNMENTS, createShorthandFactory, htmlImageProps, partitionHTMLProps, FCX, getClassName, Use } from '../../lib';
-import { Dimmer, DimmerProps } from '../../modules';
-import { Label, LabelProps } from '..';
+import { Dimmer, DimmerProps, Label, LabelProps } from '..';
 import { ImageGroup } from './ImageGroup';
 
 export interface StrictImageProps {

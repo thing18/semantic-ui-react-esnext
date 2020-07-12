@@ -23,7 +23,7 @@ export interface StrictMessageItemProps {
 /**
  * A message list can contain an item.
  */
-export const MessageItem: FCX<MessageItemProps> = ({ as = 'li', ...rest }) => ChildrenOrContent('content', { as, ...rest });
+export const MessageItem: FCX<MessageItemProps> = ({ as = 'li', ...rest }) => ChildrenOrContent({ as, ...rest }, 'content');
 
 MessageItem.defaultProps = { as: 'li' };
 MessageItem.create = createShorthandFactory(MessageItem, (content) => ({ content }));

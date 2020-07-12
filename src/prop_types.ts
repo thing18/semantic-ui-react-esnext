@@ -9,10 +9,11 @@ import {
   MenuMenu, MenuHeader, MenuItem, Menu,
   GridRow, GridColumn, Grid,
   FormTextArea, FormSelect, FormRadio, FormInput, FormGroup, FormField, FormDropdown, FormCheckbox, FormButton, Form,
-  BreadcrumbSection, BreadcrumbDivider, Breadcrumb, TextArea, Rail, Checkbox, Dimmer, DimmerDimmable, DimmerInner, DropdownMenu, DropdownItem, DropdownHeader, DropdownSearchInput, DropdownDivider, SearchResults, SearchResult, SearchCategoryLayout, SearchCategory,
+  BreadcrumbSection, BreadcrumbDivider, Breadcrumb, TextArea, Rail, Checkbox, Dimmer, DimmerDimmable, DimmerInner, DropdownMenu, DropdownItem, DropdownHeader, DropdownSearchInput, DropdownDivider, SearchResults, SearchResult, SearchCategoryLayout, SearchCategory, Tab, TabPane,
 } from './elements';
 import { Visibility } from './behaviors/Visibility';
 import Search from './elements/Search/Search';
+import { Accordion, AccordionAccordion, AccordionContent, AccordionPanel, AccordionTitle } from './elements/Accordion';
 
 const _without = (array: string[], ...args: string[]) => array.filter(v => !args.includes(v));
 
@@ -2053,4 +2054,201 @@ Search.propTypes = {
 
   /** A search can have different sizes. */
   size: PropTypes.oneOf(_without(SUI.SIZES, 'medium')),
+};
+
+TabPane.propTypes = {
+  /** An element type to render as (string or function). */
+  as: PropTypes.elementType,
+
+  /** A tab pane can be active. */
+  active: PropTypes.bool,
+
+  /** Primary content. */
+  children: PropTypes.node,
+
+  /** Additional classes. */
+  className: PropTypes.string,
+
+  /** Shorthand for primary content. */
+  content: customPropTypes.contentShorthand,
+
+  /** A Tab.Pane can display a loading indicator. */
+  loading: PropTypes.bool,
+};
+
+Tab.propTypes = {
+  /** An element type to render as (string or function). */
+  as: PropTypes.elementType,
+
+  /** The initial activeIndex. */
+  defaultActiveIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+  /** Index of the currently active tab. */
+  activeIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+  /**
+   * Shorthand props for the Menu.
+   * tabular, if true, will derive final value from `menuPosition`, otherwise set 'left' or 'right' explicitly.
+   */
+  menu: PropTypes.object,
+
+  /** Align vertical menu */
+  menuPosition: PropTypes.oneOf(['left', 'right']),
+
+  /** Shorthand props for the Grid. */
+  grid: PropTypes.object,
+
+  /**
+   * Called on tab change.
+   *
+   * @param {SyntheticEvent} event - React's original SyntheticEvent.
+   * @param {object} data - All props and proposed new activeIndex.
+   * @param {object} data.activeIndex - The new proposed activeIndex.
+   */
+  onTabChange: PropTypes.func,
+
+  /**
+   * Array of objects describing each Menu.Item and Tab.Pane:
+   * { menuItem: 'Home', render: () => <Tab.Pane /> }
+   * or
+   * { menuItem: 'Home', pane: 'Welcome' }
+   */
+  panes: PropTypes.arrayOf(
+    PropTypes.shape({
+      menuItem: customPropTypes.itemShorthand,
+      pane: customPropTypes.itemShorthand,
+      render: PropTypes.func,
+    }) as any,
+  ),
+
+  /** A Tab can render only active pane. */
+  renderActiveOnly: PropTypes.bool,
+};
+
+AccordionTitle.propTypes = {
+  /** An element type to render as (string or function). */
+  as: PropTypes.elementType,
+
+  /** Whether or not the title is in the open state. */
+  active: PropTypes.bool,
+
+  /** Primary content. */
+  children: PropTypes.node,
+
+  /** Additional classes. */
+  className: PropTypes.string,
+
+  /** Shorthand for primary content. */
+  content: customPropTypes.contentShorthand,
+
+  /** Shorthand for Icon. */
+  icon: customPropTypes.itemShorthand,
+
+  /** AccordionTitle index inside Accordion. */
+  index: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+  /**
+   * Called on click.
+   *
+   * @param {SyntheticEvent} event - React's original SyntheticEvent.
+   * @param {object} data - All props.
+   */
+  onClick: PropTypes.func,
+};
+
+AccordionPanel.propTypes = {
+  /** Whether or not the title is in the open state. */
+  active: PropTypes.bool,
+
+  /** A shorthand for Accordion.Content. */
+  content: customPropTypes.itemShorthand,
+
+  /** A panel index. */
+  index: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+  /**
+   * Called when a panel title is clicked.
+   *
+   * @param {SyntheticEvent} event - React's original SyntheticEvent.
+   * @param {object} data - All item props.
+   */
+  onTitleClick: PropTypes.func,
+
+  /** A shorthand for Accordion.Title. */
+  title: customPropTypes.itemShorthand,
+};
+
+AccordionContent.propTypes = {
+  /** An element type to render as (string or function). */
+  as: PropTypes.elementType,
+
+  /** Whether or not the content is visible. */
+  active: PropTypes.bool,
+
+  /** Primary content. */
+  children: PropTypes.node,
+
+  /** Additional classes. */
+  className: PropTypes.string,
+
+  /** Shorthand for primary content. */
+  content: customPropTypes.contentShorthand,
+};
+AccordionAccordion.propTypes = {
+  /** An element type to render as (string or function). */
+  as: PropTypes.elementType,
+
+  /** Index of the currently active panel. */
+  activeIndex: customPropTypes.every([
+    customPropTypes.disallow(['children']),
+    PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.number), PropTypes.number]),
+  ]),
+
+  /** Primary content. */
+  children: PropTypes.node,
+
+  /** Additional classes. */
+  className: PropTypes.string,
+
+  /** Initial activeIndex value. */
+  defaultActiveIndex: customPropTypes.every([
+    customPropTypes.disallow(['children']),
+    PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.number), PropTypes.number]),
+  ]),
+
+  /** Only allow one panel open at a time. */
+  exclusive: PropTypes.bool,
+
+  /**
+   * Called when a panel title is clicked.
+   *
+   * @param {SyntheticEvent} event - React's original SyntheticEvent.
+   * @param {object} data - All item props.
+   */
+  onTitleClick: customPropTypes.every([customPropTypes.disallow(['children']), PropTypes.func]),
+
+  /** Shorthand array of props for Accordion. */
+  panels: customPropTypes.every([
+    customPropTypes.disallow(['children']),
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        content: customPropTypes.itemShorthand,
+        title: customPropTypes.itemShorthand,
+      }),
+    ),
+  ]),
+};
+
+Accordion.propTypes = {
+  /** Additional classes. */
+  className: PropTypes.string,
+
+  /** Format to take up the width of its container. */
+  fluid: PropTypes.bool,
+
+  /** Format for dark backgrounds. */
+  inverted: PropTypes.bool,
+
+  /** Adds some basic styling to accordion panels. */
+  styled: PropTypes.bool,
 };

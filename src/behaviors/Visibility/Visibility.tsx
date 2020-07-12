@@ -178,6 +178,8 @@ export interface VisibilityOnPassed {
  */
 export class Visibility extends Component<VisibilityProps> {
 
+  static propTypes: any;
+
   static defaultProps = {
     context: isBrowser() ? window : null,
     continuous: false,

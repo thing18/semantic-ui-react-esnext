@@ -34,7 +34,7 @@ export interface StrictFormFieldProps {
   error?: boolean | SemanticShorthandItem<LabelProps>;
 
   /** The id of the control */
-  id?: number | string;
+  id?: string;
 
   /** A field can have its label next to instead of above it. */
   inline?: boolean;
