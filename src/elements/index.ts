@@ -40,3 +40,4 @@ export * from './Dropdown';
 export * from './Dimmer';
 export * from './Search';
 export * from './Tab';
+export * from './Embed';
