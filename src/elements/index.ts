@@ -42,3 +42,4 @@ export * from './Search';
 export * from './Tab';
 export * from './Embed';
 export * from './Modal';
+export * from './Progress';
