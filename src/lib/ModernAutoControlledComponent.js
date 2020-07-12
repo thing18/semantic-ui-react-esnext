@@ -33,7 +33,7 @@ export default class ModernAutoControlledComponent extends Component {
     super(...args)
 
     const { autoControlledProps, getAutoControlledStateFromProps }=this.constructor
-    const state=_.invoke(this, 'getInitialAutoControlledState', this.props)||{}
+    const state=this.getInitialAutoControlledState?.call(null, this.props)||{}
 
     if (process.env.NODE_ENV!=='production') {
       const { defaultProps, name, propTypes, getDerivedStateFromProps }=this.constructor

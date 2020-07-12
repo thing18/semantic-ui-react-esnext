@@ -2,9 +2,9 @@ import * as React from 'react'
 
 import { SemanticShorthandItem } from '../../generic'
 import { ButtonProps } from '../../elements/Button'
-import { StrictModalProps } from '../../modules/Modal'
-import { ModalContentProps } from '../../modules/Modal/ModalContent'
-import { ModalHeaderProps } from '../../modules/Modal/ModalHeader'
+import { StrictModalProps } from '../../elements/Modal'
+import { ModalContentProps } from '../../elements/Modal/ModalContent'
+import { ModalHeaderProps } from '../../elements/Modal/ModalHeader'
 
 export interface ConfirmProps extends StrictConfirmProps {
   [key: string]: any

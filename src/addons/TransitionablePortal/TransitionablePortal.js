@@ -6,7 +6,7 @@ import Portal from '../Portal'
 import Transition from '../../modules/Transition'
 import { getUnhandledProps, makeDebugger } from '../../lib'
 
-const debug = makeDebugger('transitionable_portal')
+const debug=makeDebugger('transitionable_portal')
 
 /**
  * A sugar for `Portal` and `Transition`.
@@ -14,7 +14,7 @@ const debug = makeDebugger('transitionable_portal')
  * @see Transition
  */
 export default class TransitionablePortal extends Component {
-  static propTypes = {
+  static propTypes={
     /** Primary content. */
     children: PropTypes.node.isRequired,
 
@@ -57,14 +57,14 @@ export default class TransitionablePortal extends Component {
     transition: PropTypes.object,
   }
 
-  static defaultProps = {
+  static defaultProps={
     transition: {
       animation: 'scale',
       duration: 400,
     },
   }
 
-  state = {}
+  state={}
 
   // ----------------------------------------
   // Lifecycle
@@ -77,7 +77,7 @@ export default class TransitionablePortal extends Component {
     // props.open. It's related to implementation of the component itself as `onClose()` will be
     // called after a transition will end.
     // https://github.com/Semantic-Org/Semantic-UI-React/issues/2382
-    if (state.portalOpen === -1) {
+    if (state.portalOpen===-1) {
       return { portalOpen: false }
     }
 
@@ -92,40 +92,40 @@ export default class TransitionablePortal extends Component {
   // Callback handling
   // ----------------------------------------
 
-  handlePortalClose = () => {
+  handlePortalClose=() => {
     debug('handlePortalClose()')
 
     this.setState({ portalOpen: -1 })
   }
 
-  handlePortalOpen = () => {
+  handlePortalOpen=() => {
     debug('handlePortalOpen()')
 
     this.setState({ portalOpen: true })
   }
 
-  handleTransitionHide = (nothing, data) => {
+  handleTransitionHide=(nothing, data) => {
     debug('handleTransitionHide()')
-    const { portalOpen } = this.state
+    const { portalOpen }=this.state
 
     this.setState({ transitionVisible: false })
-    _.invoke(this.props, 'onClose', null, { ...data, portalOpen: false, transitionVisible: false })
-    _.invoke(this.props, 'onHide', null, { ...data, portalOpen, transitionVisible: false })
+    this.props.onClose?.call(null, null, { ...data, portalOpen: false, transitionVisible: false })
+    this.props.onHide?.call(null, null, { ...data, portalOpen, transitionVisible: false })
   }
 
-  handleTransitionStart = (nothing, data) => {
+  handleTransitionStart=(nothing, data) => {
     debug('handleTransitionStart()')
-    const { portalOpen } = this.state
-    const { status } = data
-    const transitionVisible = status === Transition.ENTERING
+    const { portalOpen }=this.state
+    const { status }=data
+    const transitionVisible=status===Transition.ENTERING
 
-    _.invoke(this.props, 'onStart', null, { ...data, portalOpen, transitionVisible })
+    this.props.onStart?.call(null, null, { ...data, portalOpen, transitionVisible })
 
     // Heads up! TransitionablePortal fires onOpen callback on the start of transition animation
     if (!transitionVisible) return
 
     this.setState({ transitionVisible })
-    _.invoke(this.props, 'onOpen', null, { ...data, transitionVisible, portalOpen: true })
+    this.props.onOpen?.call(null, null, { ...data, transitionVisible, portalOpen: true })
   }
 
   // ----------------------------------------
@@ -135,11 +135,11 @@ export default class TransitionablePortal extends Component {
   render() {
     debug('render()', this.state)
     // console.log('render', this.state)
-    const { children, transition } = this.props
-    const { portalOpen, transitionVisible } = this.state
+    const { children, transition }=this.props
+    const { portalOpen, transitionVisible }=this.state
 
-    const open = portalOpen || transitionVisible
-    const rest = getUnhandledProps(TransitionablePortal, this.props)
+    const open=portalOpen||transitionVisible
+    const rest=getUnhandledProps(TransitionablePortal, this.props)
 
     return (
       <Portal {...rest} open={open} onOpen={this.handlePortalOpen} onClose={this.handlePortalClose}>

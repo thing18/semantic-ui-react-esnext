@@ -24,13 +24,13 @@ import createReferenceProxy from './lib/createReferenceProxy'
 import PopupContent from './PopupContent'
 import PopupHeader from './PopupHeader'
 
-const debug = makeDebugger('popup')
+const debug=makeDebugger('popup')
 
 /**
  * A Popup displays additional information on top of a page.
  */
 export default class Popup extends Component {
-  static propTypes = {
+  static propTypes={
     /** An element type to render as (string or function). */
     as: PropTypes.elementType,
 
@@ -149,7 +149,7 @@ export default class Popup extends Component {
     wide: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['very'])]),
   }
 
-  static defaultProps = {
+  static defaultProps={
     disabled: false,
     eventsEnabled: true,
     offset: 0,
@@ -158,34 +158,34 @@ export default class Popup extends Component {
     position: 'top left',
   }
 
-  static Content = PopupContent
-  static Header = PopupHeader
+  static Content=PopupContent
+  static Header=PopupHeader
 
-  state = {}
+  state={}
 
-  open = false
-  triggerRef = createRef()
+  open=false
+  triggerRef=createRef()
 
   static getDerivedStateFromProps(props, state) {
-    if (state.closed || state.disabled) return {}
+    if (state.closed||state.disabled) return {}
 
-    const unhandledProps = getUnhandledProps(Popup, props)
-    const contentRestProps = _.reduce(
+    const unhandledProps=getUnhandledProps(Popup, props)
+    const contentRestProps=_.reduce(
       unhandledProps,
       (acc, val, key) => {
-        if (!_.includes(Portal.handledProps, key)) acc[key] = val
+        if (!_.includes(Portal.handledProps, key)) acc[key]=val
 
         return acc
       },
       {},
     )
-    const portalRestProps = _.pick(unhandledProps, Portal.handledProps)
+    const portalRestProps=_.pick(unhandledProps, Portal.handledProps)
 
     return { contentRestProps, portalRestProps }
   }
 
   componentDidUpdate(prevProps) {
-    const depsEqual = shallowEqual(this.props.popperDependencies, prevProps.popperDependencies)
+    const depsEqual=shallowEqual(this.props.popperDependencies, prevProps.popperDependencies)
 
     if (!depsEqual) {
       this.handleUpdate()
@@ -196,78 +196,78 @@ export default class Popup extends Component {
     clearTimeout(this.timeoutId)
   }
 
-  getPortalProps = () => {
+  getPortalProps=() => {
     debug('getPortalProps()')
-    const portalProps = {}
+    const portalProps={}
 
-    const { on, hoverable } = this.props
-    const normalizedOn = _.isArray(on) ? on : [on]
+    const { on, hoverable }=this.props
+    const normalizedOn=_.isArray(on)? on:[on]
 
     if (hoverable) {
-      portalProps.closeOnPortalMouseLeave = true
-      portalProps.mouseLeaveDelay = 300
+      portalProps.closeOnPortalMouseLeave=true
+      portalProps.mouseLeaveDelay=300
     }
     if (_.includes(normalizedOn, 'hover')) {
-      portalProps.openOnTriggerClick = false
-      portalProps.closeOnTriggerClick = false
-      portalProps.openOnTriggerMouseEnter = true
-      portalProps.closeOnTriggerMouseLeave = true
+      portalProps.openOnTriggerClick=false
+      portalProps.closeOnTriggerClick=false
+      portalProps.openOnTriggerMouseEnter=true
+      portalProps.closeOnTriggerMouseLeave=true
       // Taken from SUI: https://git.io/vPmCm
-      portalProps.mouseLeaveDelay = 70
-      portalProps.mouseEnterDelay = 50
+      portalProps.mouseLeaveDelay=70
+      portalProps.mouseEnterDelay=50
     }
     if (_.includes(normalizedOn, 'click')) {
-      portalProps.openOnTriggerClick = true
-      portalProps.closeOnTriggerClick = true
-      portalProps.closeOnDocumentClick = true
+      portalProps.openOnTriggerClick=true
+      portalProps.closeOnTriggerClick=true
+      portalProps.closeOnDocumentClick=true
     }
     if (_.includes(normalizedOn, 'focus')) {
-      portalProps.openOnTriggerFocus = true
-      portalProps.closeOnTriggerBlur = true
+      portalProps.openOnTriggerFocus=true
+      portalProps.closeOnTriggerBlur=true
     }
 
     return portalProps
   }
 
-  hideOnScroll = (e) => {
+  hideOnScroll=(e) => {
     debug('hideOnScroll()')
     this.setState({ closed: true })
 
     eventStack.unsub('scroll', this.hideOnScroll, { target: window })
-    this.timeoutId = setTimeout(() => {
+    this.timeoutId=setTimeout(() => {
       this.setState({ closed: false })
     }, 50)
 
     this.handleClose(e)
   }
 
-  handleClose = (e) => {
+  handleClose=(e) => {
     debug('handleClose()')
-    _.invoke(this.props, 'onClose', e, this.props)
+    this.props.onClose?.call(null, e, this.props)
   }
 
-  handleOpen = (e) => {
+  handleOpen=(e) => {
     debug('handleOpen()')
-    _.invoke(this.props, 'onOpen', e, this.props)
+    this.props.onOpen?.call(null, e, this.props)
   }
 
-  handlePortalMount = (e) => {
+  handlePortalMount=(e) => {
     debug('handlePortalMount()')
-    _.invoke(this.props, 'onMount', e, this.props)
+    this.props.onMount?.call(null, e, this.props)
   }
 
-  handlePortalUnmount = (e) => {
+  handlePortalUnmount=(e) => {
     debug('handlePortalUnmount()')
 
-    this.positionUpdate = null
-    _.invoke(this.props, 'onUnmount', e, this.props)
+    this.positionUpdate=null
+    this.props.onUnmount?.call(null, e, this.props)
   }
 
   handleUpdate() {
     if (this.positionUpdate) this.positionUpdate()
   }
 
-  renderContent = ({
+  renderContent=({
     placement: popperPlacement,
     ref: popperRef,
     scheduleUpdate,
@@ -285,12 +285,12 @@ export default class Popup extends Component {
       size,
       style,
       wide,
-    } = this.props
-    const { contentRestProps } = this.state
+    }=this.props
+    const { contentRestProps }=this.state
 
-    this.positionUpdate = scheduleUpdate
+    this.positionUpdate=scheduleUpdate
 
-    const classes = cx(
+    const classes=cx(
       'ui',
       placementMapping[popperPlacement],
       size,
@@ -301,8 +301,8 @@ export default class Popup extends Component {
       'popup transition visible',
       className,
     )
-    const ElementType = getElementType(Popup, this.props)
-    const styles = {
+    const ElementType=getElementType(Popup, this.props)
+    const styles={
       // Heads up! We need default styles to get working correctly `flowing`
       left: 'auto',
       right: 'auto',
@@ -313,15 +313,15 @@ export default class Popup extends Component {
     return (
       <Ref innerRef={popperRef}>
         <ElementType {...contentRestProps} className={classes} style={styles}>
-          {childrenUtils.isNil(children) ? (
+          {childrenUtils.isNil(children)? (
             <React.Fragment>
               {PopupHeader.create(header, { autoGenerateKey: false })}
               {PopupContent.create(content, { autoGenerateKey: false })}
             </React.Fragment>
-          ) : (
-            children
-          )}
-          {hideOnScroll && <EventStack on={this.hideOnScroll} name='scroll' target='window' />}
+          ):(
+              children
+            )}
+          {hideOnScroll&&<EventStack on={this.hideOnScroll} name='scroll' target='window' />}
         </ElementType>
       </Ref>
     )
@@ -338,12 +338,12 @@ export default class Popup extends Component {
       position,
       positionFixed,
       trigger,
-    } = this.props
-    const { closed, portalRestProps } = this.state
+    }=this.props
+    const { closed, portalRestProps }=this.state
 
-    if (closed || disabled) return trigger
+    if (closed||disabled) return trigger
 
-    const modifiers = _.merge(
+    const modifiers=_.merge(
       {
         arrow: { enabled: false },
         flip: { enabled: !pinned },
@@ -354,9 +354,9 @@ export default class Popup extends Component {
       },
       popperModifiers,
     )
-    const referenceElement = createReferenceProxy(_.isNil(context) ? this.triggerRef : context)
+    const referenceElement=createReferenceProxy(_.isNil(context)? this.triggerRef:context)
 
-    const mergedPortalProps = { ...this.getPortalProps(), ...portalRestProps }
+    const mergedPortalProps={ ...this.getPortalProps(), ...portalRestProps }
     debug('portal props:', mergedPortalProps)
 
     return (

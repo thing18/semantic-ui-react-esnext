@@ -15,7 +15,7 @@ import PaginationItem from './PaginationItem'
  * A component to render a pagination.
  */
 export default class Pagination extends Component {
-  static propTypes = {
+  static propTypes={
     /** A pagination item can have an aria label. */
     'aria-label': PropTypes.string,
 
@@ -64,9 +64,9 @@ export default class Pagination extends Component {
     totalPages: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   }
 
-  static autoControlledProps = ['activePage']
+  static autoControlledProps=['activePage']
 
-  static defaultProps = {
+  static defaultProps={
     'aria-label': 'Pagination Navigation',
     boundaryRange: 1,
     ellipsisItem: '...',
@@ -90,25 +90,25 @@ export default class Pagination extends Component {
     siblingRange: 1,
   }
 
-  static Item = PaginationItem
+  static Item=PaginationItem
 
-  handleItemClick = (e, { value: nextActivePage }) => {
-    const { activePage: prevActivePage } = this.state
+  handleItemClick=(e, { value: nextActivePage }) => {
+    const { activePage: prevActivePage }=this.state
 
     // Heads up! We need the cast to the "number" type there, as `activePage` can be a string
-    if (+prevActivePage === +nextActivePage) return
+    if (+prevActivePage===+nextActivePage) return
 
     this.setState({ activePage: nextActivePage })
-    _.invoke(this.props, 'onPageChange', e, { ...this.props, activePage: nextActivePage })
+    this.props.onPageChange?.call(null, e, { ...this.props, activePage: nextActivePage })
   }
 
-  handleItemOverrides = (active, type, value) => (predefinedProps) => ({
+  handleItemOverrides=(active, type, value) => (predefinedProps) => ({
     active,
     type,
     key: `${type}-${value}`,
     onClick: (e, itemProps) => {
-      _.invoke(predefinedProps, 'onClick', e, itemProps)
-      if (itemProps.type !== 'ellipsisItem') this.handleItemClick(e, itemProps)
+      predefinedProps.onClick?.call(null, e, itemProps)
+      if (itemProps.type!=='ellipsisItem') this.handleItemClick(e, itemProps)
     },
   })
 
@@ -120,17 +120,17 @@ export default class Pagination extends Component {
       ellipsisItem,
       siblingRange,
       totalPages,
-    } = this.props
-    const { activePage } = this.state
+    }=this.props
+    const { activePage }=this.state
 
-    const items = createPaginationItems({
+    const items=createPaginationItems({
       activePage,
       boundaryRange,
       hideEllipsis: _.isNil(ellipsisItem),
       siblingRange,
       totalPages,
     })
-    const rest = getUnhandledProps(Pagination, this.props)
+    const rest=getUnhandledProps(Pagination, this.props)
 
     return (
       <Menu {...rest} aria-label={ariaLabel} pagination role='navigation'>

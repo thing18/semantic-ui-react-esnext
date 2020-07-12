@@ -11,7 +11,7 @@ import Modal from '../../modules/Modal'
  * @see Modal
  */
 class Confirm extends Component {
-  static propTypes = {
+  static propTypes={
     /** The cancel button text. */
     cancelButton: customPropTypes.itemShorthand,
 
@@ -47,40 +47,40 @@ class Confirm extends Component {
     size: PropTypes.oneOf(['mini', 'tiny', 'small', 'large', 'fullscreen']),
   }
 
-  static defaultProps = {
+  static defaultProps={
     cancelButton: 'Cancel',
     confirmButton: 'OK',
     content: 'Are you sure?',
     size: 'small',
   }
 
-  handleCancel = (e) => {
-    _.invoke(this.props, 'onCancel', e, this.props)
+  handleCancel=(e) => {
+    this.props.onCancel?.call(null, e, this.props)
   }
 
-  handleCancelOverrides = (predefinedProps) => ({
+  handleCancelOverrides=(predefinedProps) => ({
     onClick: (e, buttonProps) => {
-      _.invoke(predefinedProps, 'onClick', e, buttonProps)
+      predefinedProps.onClick?.call(null, e, buttonProps)
       this.handleCancel(e)
     },
   })
 
-  handleConfirmOverrides = (predefinedProps) => ({
+  handleConfirmOverrides=(predefinedProps) => ({
     onClick: (e, buttonProps) => {
-      _.invoke(predefinedProps, 'onClick', e, buttonProps)
-      _.invoke(this.props, 'onConfirm', e, this.props)
+      predefinedProps.onClick?.call(null, e, buttonProps)
+      this.props.onConfirm?.call(null, e, this.props)
     },
   })
 
   render() {
-    const { cancelButton, confirmButton, content, header, open, size } = this.props
-    const rest = getUnhandledProps(Confirm, this.props)
+    const { cancelButton, confirmButton, content, header, open, size }=this.props
+    const rest=getUnhandledProps(Confirm, this.props)
 
     // `open` is auto controlled by the Modal
     // It cannot be present (even undefined) with `defaultOpen`
     // only apply it if the user provided an open prop
-    const openProp = {}
-    if (_.has(this.props, 'open')) openProp.open = open
+    const openProp={}
+    if (_.has(this.props, 'open')) openProp.open=open
 
     return (
       <Modal {...rest} {...openProp} size={size} onClose={this.handleCancel}>

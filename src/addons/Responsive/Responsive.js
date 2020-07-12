@@ -9,7 +9,7 @@ import isVisible from './lib/isVisible'
  * Responsive can control visibility of content.
  */
 export default class Responsive extends Component {
-  static propTypes = {
+  static propTypes={
     /** An element type to render as (string or function). */
     as: PropTypes.elementType,
 
@@ -40,29 +40,29 @@ export default class Responsive extends Component {
     onUpdate: PropTypes.func,
   }
 
-  static defaultProps = {
-    getWidth: () => (isBrowser() ? window.innerWidth : 0),
+  static defaultProps={
+    getWidth: () => (isBrowser()? window.innerWidth:0),
   }
 
-  static onlyMobile = { minWidth: 320, maxWidth: 767 }
-  static onlyTablet = { minWidth: 768, maxWidth: 991 }
-  static onlyComputer = { minWidth: 992 }
-  static onlyLargeScreen = { minWidth: 1200, maxWidth: 1919 }
-  static onlyWidescreen = { minWidth: 1920 }
+  static onlyMobile={ minWidth: 320, maxWidth: 767 }
+  static onlyTablet={ minWidth: 768, maxWidth: 991 }
+  static onlyComputer={ minWidth: 992 }
+  static onlyLargeScreen={ minWidth: 1200, maxWidth: 1919 }
+  static onlyWidescreen={ minWidth: 1920 }
 
-  state = {
+  state={
     visible: true,
   }
 
   static getDerivedStateFromProps(props) {
-    const width = _.invoke(props, 'getWidth')
-    const visible = isVisible(width, props)
+    const width=props.getWidth?.call(null)
+    const visible=isVisible(width, props)
 
     return { visible }
   }
 
   componentDidMount() {
-    const { fireOnMount } = this.props
+    const { fireOnMount }=this.props
 
     eventStack.sub('resize', this.handleResize, { target: 'window' })
     if (fireOnMount) this.handleUpdate()
@@ -77,22 +77,22 @@ export default class Responsive extends Component {
   // Event handlers
   // ----------------------------------------
 
-  handleResize = (e) => {
+  handleResize=(e) => {
     if (this.ticking) return
 
-    this.ticking = true
-    this.frameId = requestAnimationFrame(() => this.handleUpdate(e))
+    this.ticking=true
+    this.frameId=requestAnimationFrame(() => this.handleUpdate(e))
   }
 
-  handleUpdate = (e) => {
-    this.ticking = false
+  handleUpdate=(e) => {
+    this.ticking=false
 
-    const { visible } = this.state
-    const width = _.invoke(this.props, 'getWidth')
-    const nextVisible = isVisible(width, this.props)
+    const { visible }=this.state
+    const width=this.props.getWidth?.call(null)
+    const nextVisible=isVisible(width, this.props)
 
-    if (visible !== nextVisible) this.setState({ visible: nextVisible })
-    _.invoke(this.props, 'onUpdate', e, { ...this.props, width })
+    if (visible!==nextVisible) this.setState({ visible: nextVisible })
+    this.props.onUpdate?.call(null, e, { ...this.props, width })
   }
 
   // ----------------------------------------
@@ -100,11 +100,11 @@ export default class Responsive extends Component {
   // ----------------------------------------
 
   render() {
-    const { children } = this.props
-    const { visible } = this.state
+    const { children }=this.props
+    const { visible }=this.state
 
-    const ElementType = getElementType(Responsive, this.props)
-    const rest = getUnhandledProps(Responsive, this.props)
+    const ElementType=getElementType(Responsive, this.props)
+    const rest=getUnhandledProps(Responsive, this.props)
 
     if (visible) return <ElementType {...rest}>{children}</ElementType>
     return null

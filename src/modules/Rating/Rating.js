@@ -16,7 +16,7 @@ import RatingIcon from './RatingIcon'
  * A rating indicates user interest in content.
  */
 export default class Rating extends Component {
-  static propTypes = {
+  static propTypes={
     /** An element type to render as (string or function). */
     as: PropTypes.elementType,
 
@@ -57,28 +57,28 @@ export default class Rating extends Component {
     size: PropTypes.oneOf(_.without(SUI.SIZES, 'medium', 'big')),
   }
 
-  static autoControlledProps = ['rating']
+  static autoControlledProps=['rating']
 
-  static defaultProps = {
+  static defaultProps={
     clearable: 'auto',
     maxRating: 1,
   }
 
-  static Icon = RatingIcon
+  static Icon=RatingIcon
 
-  handleIconClick = (e, { index }) => {
-    const { clearable, disabled, maxRating, onRate } = this.props
-    const { rating } = this.state
+  handleIconClick=(e, { index }) => {
+    const { clearable, disabled, maxRating, onRate }=this.props
+    const { rating }=this.state
     if (disabled) return
 
     // default newRating is the clicked icon
     // allow toggling a binary rating
     // allow clearing ratings
-    let newRating = index + 1
-    if (clearable === 'auto' && maxRating === 1) {
-      newRating = +!rating
-    } else if (clearable === true && newRating === rating) {
-      newRating = 0
+    let newRating=index+1
+    if (clearable==='auto'&&maxRating===1) {
+      newRating=+!rating
+    } else if (clearable===true&&newRating===rating) {
+      newRating=0
     }
 
     // set rating
@@ -86,14 +86,14 @@ export default class Rating extends Component {
     if (onRate) onRate(e, { ...this.props, rating: newRating })
   }
 
-  handleIconMouseEnter = (e, { index }) => {
+  handleIconMouseEnter=(e, { index }) => {
     if (this.props.disabled) return
 
     this.setState({ selectedIndex: index, isSelecting: true })
   }
 
-  handleMouseLeave = (...args) => {
-    _.invoke(this.props, 'onMouseLeave', ...args)
+  handleMouseLeave=(...args) => {
+    this.props.onMouseLeave?.call(null, ...args)
 
     if (this.props.disabled) return
 
@@ -101,20 +101,20 @@ export default class Rating extends Component {
   }
 
   render() {
-    const { className, disabled, icon, maxRating, size } = this.props
-    const { rating, selectedIndex, isSelecting } = this.state
+    const { className, disabled, icon, maxRating, size }=this.props
+    const { rating, selectedIndex, isSelecting }=this.state
 
-    const classes = cx(
+    const classes=cx(
       'ui',
       icon,
       size,
       useKeyOnly(disabled, 'disabled'),
-      useKeyOnly(isSelecting && !disabled && selectedIndex >= 0, 'selected'),
+      useKeyOnly(isSelecting&&!disabled&&selectedIndex>=0, 'selected'),
       'rating',
       className,
     )
-    const rest = getUnhandledProps(Rating, this.props)
-    const ElementType = getElementType(Rating, this.props)
+    const rest=getUnhandledProps(Rating, this.props)
+    const ElementType=getElementType(Rating, this.props)
 
     return (
       <ElementType
@@ -122,20 +122,20 @@ export default class Rating extends Component {
         className={classes}
         role='radiogroup'
         onMouseLeave={this.handleMouseLeave}
-        tabIndex={disabled ? 0 : -1}
+        tabIndex={disabled? 0:-1}
       >
         {_.times(maxRating, (i) => (
           <RatingIcon
-            tabIndex={disabled ? -1 : 0}
-            active={rating >= i + 1}
-            aria-checked={rating === i + 1}
-            aria-posinset={i + 1}
+            tabIndex={disabled? -1:0}
+            active={rating>=i+1}
+            aria-checked={rating===i+1}
+            aria-posinset={i+1}
             aria-setsize={maxRating}
             index={i}
             key={i}
             onClick={this.handleIconClick}
             onMouseEnter={this.handleIconMouseEnter}
-            selected={selectedIndex >= i && isSelecting}
+            selected={selectedIndex>=i&&isSelecting}
           />
         ))}
       </ElementType>

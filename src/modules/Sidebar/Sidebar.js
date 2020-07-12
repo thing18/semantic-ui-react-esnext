@@ -20,7 +20,7 @@ import SidebarPusher from './SidebarPusher'
  * A sidebar hides additional content beside a page.
  */
 class Sidebar extends Component {
-  static propTypes = {
+  static propTypes={
     /** An element type to render as (string or function). */
     as: PropTypes.elementType,
 
@@ -88,24 +88,24 @@ class Sidebar extends Component {
     width: PropTypes.oneOf(['very thin', 'thin', 'wide', 'very wide']),
   }
 
-  static defaultProps = {
+  static defaultProps={
     direction: 'left',
     target: documentRef,
     visible: false,
   }
 
-  static animationDuration = 500
-  static autoControlledProps = ['visible']
+  static animationDuration=500
+  static autoControlledProps=['visible']
 
-  static Pushable = SidebarPushable
-  static Pusher = SidebarPusher
+  static Pushable=SidebarPushable
+  static Pusher=SidebarPusher
 
-  ref = createRef()
+  ref=createRef()
 
   constructor(props) {
     super(props)
 
-    this.state = {
+    this.state={
       animationTick: 0,
       visible: props.visible,
     }
@@ -113,16 +113,16 @@ class Sidebar extends Component {
 
   static getDerivedStateFromProps(props, state) {
     // We use `animationTick` to understand when an animation should be scheduled
-    const tickIncrement = !!props.visible === !!state.visible ? 0 : 1
+    const tickIncrement=!!props.visible===!!state.visible? 0:1
 
     return {
-      animationTick: state.animationTick + tickIncrement,
+      animationTick: state.animationTick+tickIncrement,
       visible: props.visible,
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.animationTick > prevState.animationTick) {
+    if (this.state.animationTick>prevState.animationTick) {
       this.handleAnimationStart()
     }
   }
@@ -131,33 +131,33 @@ class Sidebar extends Component {
     clearTimeout(this.animationTimer)
   }
 
-  handleAnimationStart = () => {
-    const { visible } = this.props
-    const callback = visible ? 'onVisible' : 'onHide'
+  handleAnimationStart=() => {
+    const { visible }=this.props
+    const callback=visible? 'onVisible':'onHide'
 
     clearTimeout(this.animationTimer)
-    this.animationTimer = setTimeout(this.handleAnimationEnd, Sidebar.animationDuration)
+    this.animationTimer=setTimeout(this.handleAnimationEnd, Sidebar.animationDuration)
 
     if (this.skipNextCallback) {
-      this.skipNextCallback = false
+      this.skipNextCallback=false
       return
     }
 
     _.invoke(this.props, callback, null, this.props)
   }
 
-  handleAnimationEnd = () => {
-    const { visible } = this.props
-    const callback = visible ? 'onShow' : 'onHidden'
+  handleAnimationEnd=() => {
+    const { visible }=this.props
+    const callback=visible? 'onShow':'onHidden'
 
     this.setState({ animationTick: 0 })
     _.invoke(this.props, callback, null, this.props)
   }
 
-  handleDocumentClick = (e) => {
+  handleDocumentClick=(e) => {
     if (!doesNodeContainClick(this.ref.current, e)) {
-      this.skipNextCallback = true
-      _.invoke(this.props, 'onHide', e, { ...this.props, visible: false })
+      this.skipNextCallback=true
+      this.props.onHide?.call(null, e, { ...this.props, visible: false })
     }
   }
 
@@ -171,28 +171,28 @@ class Sidebar extends Component {
       target,
       visible,
       width,
-    } = this.props
-    const { animationTick } = this.state
+    }=this.props
+    const { animationTick }=this.state
 
-    const classes = cx(
+    const classes=cx(
       'ui',
       animation,
       direction,
       width,
-      useKeyOnly(animationTick > 0, 'animating'),
+      useKeyOnly(animationTick>0, 'animating'),
       useKeyOnly(visible, 'visible'),
       'sidebar',
       className,
     )
-    const rest = getUnhandledProps(Sidebar, this.props)
-    const ElementType = getElementType(Sidebar, this.props)
-    const targetRef = isRefObject(target) ? target : toRefObject(target)
+    const rest=getUnhandledProps(Sidebar, this.props)
+    const ElementType=getElementType(Sidebar, this.props)
+    const targetRef=isRefObject(target)? target:toRefObject(target)
 
     return (
       <Ref innerRef={this.ref}>
         <ElementType {...rest} className={classes}>
-          {childrenUtils.isNil(children) ? content : children}
-          {visible && (
+          {childrenUtils.isNil(children)? content:children}
+          {visible&&(
             <EventListener listener={this.handleDocumentClick} targetRef={targetRef} type='click' />
           )}
         </ElementType>

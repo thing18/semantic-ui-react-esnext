@@ -10,7 +10,7 @@ import { getElementType, getUnhandledProps, useKeyOnly } from '../../lib'
  * An internal icon sub-component for Rating component
  */
 export default class RatingIcon extends Component {
-  static propTypes = {
+  static propTypes={
     /** An element type to render as (string or function). */
     as: PropTypes.elementType,
 
@@ -51,41 +51,41 @@ export default class RatingIcon extends Component {
     selected: PropTypes.bool,
   }
 
-  static defaultProps = {
+  static defaultProps={
     as: 'i',
   }
 
-  handleClick = (e) => {
-    _.invoke(this.props, 'onClick', e, this.props)
+  handleClick=(e) => {
+    this.props.onClick?.call(null, e, this.props)
   }
 
-  handleKeyUp = (e) => {
-    _.invoke(this.props, 'onKeyUp', e, this.props)
+  handleKeyUp=(e) => {
+    this.props.onKeyUp?.call(null, e, this.props)
 
     switch (keyboardKey.getCode(e)) {
       case keyboardKey.Enter:
       case keyboardKey.Spacebar:
         e.preventDefault()
-        _.invoke(this.props, 'onClick', e, this.props)
+        this.props.onClick?.call(null, e, this.props)
         break
       default:
     }
   }
 
-  handleMouseEnter = (e) => {
-    _.invoke(this.props, 'onMouseEnter', e, this.props)
+  handleMouseEnter=(e) => {
+    this.props.onMouseEnter?.call(null, e, this.props)
   }
 
   render() {
-    const { active, className, selected } = this.props
-    const classes = cx(
+    const { active, className, selected }=this.props
+    const classes=cx(
       useKeyOnly(active, 'active'),
       useKeyOnly(selected, 'selected'),
       'icon',
       className,
     )
-    const rest = getUnhandledProps(RatingIcon, this.props)
-    const ElementType = getElementType(RatingIcon, this.props)
+    const rest=getUnhandledProps(RatingIcon, this.props)
+    const ElementType=getElementType(RatingIcon, this.props)
 
     return (
       <ElementType

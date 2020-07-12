@@ -6,9 +6,9 @@ import { cloneElement, Component } from 'react'
 import { makeDebugger, normalizeTransitionDuration, SUI, useKeyOnly } from '../../lib'
 import TransitionGroup from './TransitionGroup'
 
-const debug = makeDebugger('transition')
+const debug=makeDebugger('transition')
 
-const TRANSITION_TYPE = {
+const TRANSITION_TYPE={
   ENTERING: 'show',
   EXITING: 'hide',
 }
@@ -17,7 +17,7 @@ const TRANSITION_TYPE = {
  * A transition is an animation usually used to move content in or out of view.
  */
 export default class Transition extends Component {
-  static propTypes = {
+  static propTypes={
     /** Named animation event to used. Must be defined in CSS. */
     animation: PropTypes.oneOfType([PropTypes.oneOf(SUI.TRANSITIONS), PropTypes.string]),
 
@@ -85,7 +85,7 @@ export default class Transition extends Component {
     unmountOnHide: PropTypes.bool,
   }
 
-  static defaultProps = {
+  static defaultProps={
     animation: 'fade',
     duration: 500,
     visible: true,
@@ -94,20 +94,20 @@ export default class Transition extends Component {
     unmountOnHide: false,
   }
 
-  static ENTERED = 'ENTERED'
-  static ENTERING = 'ENTERING'
-  static EXITED = 'EXITED'
-  static EXITING = 'EXITING'
-  static UNMOUNTED = 'UNMOUNTED'
+  static ENTERED='ENTERED'
+  static ENTERING='ENTERING'
+  static EXITED='EXITED'
+  static EXITING='EXITING'
+  static UNMOUNTED='UNMOUNTED'
 
-  static Group = TransitionGroup
+  static Group=TransitionGroup
 
   constructor(...args) {
     super(...args)
 
-    const { initial: status, next } = this.computeInitialStatuses()
-    this.nextStatus = next
-    this.state = { status }
+    const { initial: status, next }=this.computeInitialStatuses()
+    this.nextStatus=next
+    this.state={ status }
   }
 
   // ----------------------------------------
@@ -124,9 +124,9 @@ export default class Transition extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     debug('componentWillReceiveProps()')
 
-    const { current: status, next } = this.computeStatuses(nextProps)
+    const { current: status, next }=this.computeStatuses(nextProps)
 
-    this.nextStatus = next
+    this.nextStatus=next
     if (status) this.setState({ status })
   }
 
@@ -146,43 +146,43 @@ export default class Transition extends Component {
   // Callback handling
   // ----------------------------------------
 
-  handleStart = () => {
-    const { duration } = this.props
-    const status = this.nextStatus
+  handleStart=() => {
+    const { duration }=this.props
+    const status=this.nextStatus
 
-    this.nextStatus = null
+    this.nextStatus=null
     this.setState({ status, animating: true }, () => {
-      const durationType = TRANSITION_TYPE[status]
-      const durationValue = normalizeTransitionDuration(duration, durationType)
+      const durationType=TRANSITION_TYPE[status]
+      const durationValue=normalizeTransitionDuration(duration, durationType)
 
-      _.invoke(this.props, 'onStart', null, { ...this.props, status })
-      this.timeoutId = setTimeout(this.handleComplete, durationValue)
+      this.props.onStart?.call(null, null, { ...this.props, status })
+      this.timeoutId=setTimeout(this.handleComplete, durationValue)
     })
   }
 
-  handleComplete = () => {
-    const { status: current } = this.state
+  handleComplete=() => {
+    const { status: current }=this.state
 
-    _.invoke(this.props, 'onComplete', null, { ...this.props, status: current })
+    this.props.onComplete?.call(null, null, { ...this.props, status: current })
 
     if (this.nextStatus) {
       this.handleStart()
       return
     }
 
-    const status = this.computeCompletedStatus()
-    const callback = current === Transition.ENTERING ? 'onShow' : 'onHide'
+    const status=this.computeCompletedStatus()
+    const callback=current===Transition.ENTERING? 'onShow':'onHide'
 
     this.setState({ status, animating: false }, () => {
       _.invoke(this.props, callback, null, { ...this.props, status })
     })
   }
 
-  updateStatus = () => {
-    const { animating } = this.state
+  updateStatus=() => {
+    const { animating }=this.state
 
     if (this.nextStatus) {
-      this.nextStatus = this.computeNextStatus()
+      this.nextStatus=this.computeNextStatus()
       if (!animating) this.handleStart()
     }
   }
@@ -191,24 +191,24 @@ export default class Transition extends Component {
   // Helpers
   // ----------------------------------------
 
-  computeClasses = () => {
-    const { animation, directional, children } = this.props
-    const { animating, status } = this.state
+  computeClasses=() => {
+    const { animation, directional, children }=this.props
+    const { animating, status }=this.state
 
-    const childClasses = _.get(children, 'props.className')
-    const isDirectional = _.isNil(directional)
+    const childClasses=_.get(children, 'props.className')
+    const isDirectional=_.isNil(directional)
       ? _.includes(SUI.DIRECTIONAL_TRANSITIONS, animation)
-      : directional
+      :directional
 
     if (isDirectional) {
       return cx(
         animation,
         childClasses,
         useKeyOnly(animating, 'animating'),
-        useKeyOnly(status === Transition.ENTERING, 'in'),
-        useKeyOnly(status === Transition.EXITING, 'out'),
-        useKeyOnly(status === Transition.EXITED, 'hidden'),
-        useKeyOnly(status !== Transition.EXITED, 'visible'),
+        useKeyOnly(status===Transition.ENTERING, 'in'),
+        useKeyOnly(status===Transition.EXITING, 'out'),
+        useKeyOnly(status===Transition.EXITED, 'hidden'),
+        useKeyOnly(status!==Transition.EXITED, 'visible'),
         'transition',
       )
     }
@@ -216,16 +216,16 @@ export default class Transition extends Component {
     return cx(animation, childClasses, useKeyOnly(animating, 'animating transition'))
   }
 
-  computeCompletedStatus = () => {
-    const { unmountOnHide } = this.props
-    const { status } = this.state
+  computeCompletedStatus=() => {
+    const { unmountOnHide }=this.props
+    const { status }=this.state
 
-    if (status === Transition.ENTERING) return Transition.ENTERED
-    return unmountOnHide ? Transition.UNMOUNTED : Transition.EXITED
+    if (status===Transition.ENTERING) return Transition.ENTERED
+    return unmountOnHide? Transition.UNMOUNTED:Transition.EXITED
   }
 
-  computeInitialStatuses = () => {
-    const { visible, mountOnShow, transitionOnMount, unmountOnHide } = this.props
+  computeInitialStatuses=() => {
+    const { visible, mountOnShow, transitionOnMount, unmountOnHide }=this.props
 
     if (visible) {
       if (transitionOnMount) {
@@ -237,41 +237,41 @@ export default class Transition extends Component {
       return { initial: Transition.ENTERED }
     }
 
-    if (mountOnShow || unmountOnHide) return { initial: Transition.UNMOUNTED }
+    if (mountOnShow||unmountOnHide) return { initial: Transition.UNMOUNTED }
     return { initial: Transition.EXITED }
   }
 
-  computeNextStatus = () => {
-    const { animating, status } = this.state
+  computeNextStatus=() => {
+    const { animating, status }=this.state
 
-    if (animating) return status === Transition.ENTERING ? Transition.EXITING : Transition.ENTERING
-    return status === Transition.ENTERED ? Transition.EXITING : Transition.ENTERING
+    if (animating) return status===Transition.ENTERING? Transition.EXITING:Transition.ENTERING
+    return status===Transition.ENTERED? Transition.EXITING:Transition.ENTERING
   }
 
-  computeStatuses = (props) => {
-    const { status } = this.state
-    const { visible } = props
+  computeStatuses=(props) => {
+    const { status }=this.state
+    const { visible }=props
 
     if (visible) {
       return {
-        current: status === Transition.UNMOUNTED && Transition.EXITED,
+        current: status===Transition.UNMOUNTED&&Transition.EXITED,
         next:
-          status !== Transition.ENTERING && status !== Transition.ENTERED && Transition.ENTERING,
+          status!==Transition.ENTERING&&status!==Transition.ENTERED&&Transition.ENTERING,
       }
     }
 
     return {
-      next: (status === Transition.ENTERING || status === Transition.ENTERED) && Transition.EXITING,
+      next: (status===Transition.ENTERING||status===Transition.ENTERED)&&Transition.EXITING,
     }
   }
 
-  computeStyle = () => {
-    const { children, duration } = this.props
-    const { status } = this.state
+  computeStyle=() => {
+    const { children, duration }=this.props
+    const { status }=this.state
 
-    const childStyle = _.get(children, 'props.style')
-    const type = TRANSITION_TYPE[status]
-    const animationDuration = type && `${normalizeTransitionDuration(duration, type)}ms`
+    const childStyle=_.get(children, 'props.style')
+    const type=TRANSITION_TYPE[status]
+    const animationDuration=type&&`${normalizeTransitionDuration(duration, type)}ms`
 
     return { ...childStyle, animationDuration }
   }
@@ -285,10 +285,10 @@ export default class Transition extends Component {
     debug('props', this.props)
     debug('state', this.state)
 
-    const { children } = this.props
-    const { status } = this.state
+    const { children }=this.props
+    const { status }=this.state
 
-    if (status === Transition.UNMOUNTED) return null
+    if (status===Transition.UNMOUNTED) return null
     return cloneElement(children, {
       className: this.computeClasses(),
       style: this.computeStyle(),

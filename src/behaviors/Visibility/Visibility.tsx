@@ -368,7 +368,7 @@ export class Visibility extends Component<VisibilityProps> {
       topVisible: { callback: onTopVisibleReverse, name: 'onTopVisibleReverse' },
     };
 
-    _.invoke(this.props, 'onUpdate', null, { ...this.props, calculations: this.calculations });
+    this.props.onUpdate?.call(null, null, { ...this.props, calculations: this.calculations });
     this.fireOnPassed();
 
     // Heads up! Reverse callbacks should be fired first

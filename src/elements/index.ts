@@ -41,3 +41,4 @@ export * from './Dimmer';
 export * from './Search';
 export * from './Tab';
 export * from './Embed';
+export * from './Modal';

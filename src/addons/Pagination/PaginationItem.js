@@ -10,7 +10,7 @@ import MenuItem from '../../collections/Menu/MenuItem'
  * An item of a pagination.
  */
 class PaginationItem extends Component {
-  static propTypes = {
+  static propTypes={
     /** A pagination item can be active. */
     active: PropTypes.bool,
 
@@ -44,23 +44,23 @@ class PaginationItem extends Component {
     ]),
   }
 
-  handleClick = (e) => {
-    _.invoke(this.props, 'onClick', e, this.props)
+  handleClick=(e) => {
+    this.props.onClick?.call(null, e, this.props)
   }
 
-  handleKeyDown = (e) => {
-    _.invoke(this.props, 'onKeyDown', e, this.props)
-    if (keyboardKey.getCode(e) === keyboardKey.Enter) _.invoke(this.props, 'onClick', e, this.props)
+  handleKeyDown=(e) => {
+    this.props.onKeyDown?.call(null, e, this.props)
+    if (keyboardKey.getCode(e)===keyboardKey.Enter) this.props.onClick?.call(null, e, this.props)
   }
 
-  handleOverrides = () => ({
+  handleOverrides=() => ({
     onClick: this.handleClick,
     onKeyDown: this.handleKeyDown,
   })
 
   render() {
-    const { active, type } = this.props
-    const disabled = this.props.disabled || type === 'ellipsisItem'
+    const { active, type }=this.props
+    const disabled=this.props.disabled||type==='ellipsisItem'
 
     return MenuItem.create(this.props, {
       defaultProps: {
@@ -70,13 +70,13 @@ class PaginationItem extends Component {
         disabled,
         onClick: this.handleClick,
         onKeyDown: this.handleKeyDown,
-        tabIndex: disabled ? -1 : 0,
+        tabIndex: disabled? -1:0,
       },
       overrideProps: this.handleOverrides,
     })
   }
 }
 
-PaginationItem.create = createShorthandFactory(PaginationItem, (content) => ({ content }))
+PaginationItem.create=createShorthandFactory(PaginationItem, (content) => ({ content }))
 
 export default PaginationItem

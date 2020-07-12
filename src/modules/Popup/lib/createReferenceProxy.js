@@ -3,11 +3,11 @@ import _ from 'lodash'
 
 class ReferenceProxy {
   constructor(refObject) {
-    this.ref = refObject
+    this.ref=refObject
   }
 
   getBoundingClientRect() {
-    return _.invoke(this.ref.current, 'getBoundingClientRect', {})
+    return this.ref.current.getBoundingClientRect?.call(null, {})
   }
 
   get clientWidth() {
@@ -19,7 +19,7 @@ class ReferenceProxy {
   }
 
   get parentNode() {
-    return this.ref.current ? this.ref.current.parentNode : undefined
+    return this.ref.current? this.ref.current.parentNode:undefined
   }
 }
 
@@ -30,8 +30,8 @@ class ReferenceProxy {
  *
  * @see https://popper.js.org/popper-documentation.html#referenceObject
  */
-const createReferenceProxy = _.memoize(
-  (reference) => new ReferenceProxy(isRefObject(reference) ? reference : toRefObject(reference)),
+const createReferenceProxy=_.memoize(
+  (reference) => new ReferenceProxy(isRefObject(reference)? reference:toRefObject(reference)),
 )
 
 export default createReferenceProxy
