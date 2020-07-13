@@ -9,7 +9,7 @@ import {
   MenuMenu, MenuHeader, MenuItem, Menu,
   GridRow, GridColumn, Grid,
   FormTextArea, FormSelect, FormRadio, FormInput, FormGroup, FormField, FormDropdown, FormCheckbox, FormButton, Form,
-  BreadcrumbSection, BreadcrumbDivider, Breadcrumb, TextArea, Rail, Checkbox, Dimmer, DimmerDimmable, DimmerInner, DropdownMenu, DropdownItem, DropdownHeader, DropdownSearchInput, DropdownDivider, SearchResults, SearchResult, SearchCategoryLayout, SearchCategory, Tab, TabPane, Embed, Modal, ModalActions, ModalContent, ModalDescription, ModalHeader, Progress, Rating, RatingIcon,
+  BreadcrumbSection, BreadcrumbDivider, Breadcrumb, TextArea, Rail, Checkbox, Dimmer, DimmerDimmable, DimmerInner, DropdownMenu, DropdownItem, DropdownHeader, DropdownSearchInput, DropdownDivider, SearchResults, SearchResult, SearchCategoryLayout, SearchCategory, Tab, TabPane, Embed, Modal, ModalActions, ModalContent, ModalDescription, ModalHeader, Progress, Rating, RatingIcon, SidebarPusher, SidebarPushable, Sidebar,
 } from './elements';
 import { Visibility } from './behaviors/Visibility';
 import Search from './elements/Search/Search';
@@ -2652,4 +2652,103 @@ Rating.propTypes = {
 
   /** A progress bar can vary in size. */
   size: PropTypes.oneOf(_without(SUI.SIZES, 'medium', 'big')) as any,
+};
+
+SidebarPusher.propTypes = {
+  /** An element type to render as (string or function). */
+  as: PropTypes.elementType,
+
+  /** Primary content. */
+  children: PropTypes.node,
+
+  /** Additional classes. */
+  className: PropTypes.string,
+
+  /** Shorthand for primary content. */
+  content: customPropTypes.contentShorthand,
+
+  /** Controls whether or not the dim is displayed. */
+  dimmed: PropTypes.bool,
+};
+
+SidebarPushable.propTypes = {
+  /** An element type to render as (string or function). */
+  as: PropTypes.elementType,
+
+  /** Primary content. */
+  children: PropTypes.node,
+
+  /** Additional classes. */
+  className: PropTypes.string,
+
+  /** Shorthand for primary content. */
+  content: customPropTypes.contentShorthand,
+};
+
+Sidebar.propTypes = {
+  /** An element type to render as (string or function). */
+  as: PropTypes.elementType,
+
+  /** Animation style. */
+  animation: PropTypes.oneOf([
+    'overlay',
+    'push',
+    'scale down',
+    'uncover',
+    'slide out',
+    'slide along',
+  ]),
+
+  /** Primary content. */
+  children: PropTypes.node,
+
+  /** Additional classes. */
+  className: PropTypes.string,
+
+  /** Shorthand for primary content. */
+  content: customPropTypes.contentShorthand,
+
+  /** Direction the sidebar should appear on. */
+  direction: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+
+  /**
+   * Called before a sidebar begins to animate out.
+   *
+   * @param {SyntheticEvent} event - React's original SyntheticEvent.
+   * @param {object} data - All props.
+   */
+  onHide: PropTypes.func,
+
+  /**
+   * Called after a sidebar has finished animating out.
+   *
+   * @param {null}
+   * @param {object} data - All props.
+   */
+  onHidden: PropTypes.func,
+
+  /**
+   * Called when a sidebar has finished animating in.
+   *
+   * @param {null}
+   * @param {object} data - All props.
+   */
+  onShow: PropTypes.func,
+
+  /**
+   * Called when a sidebar begins animating in.
+   *
+   * @param {null}
+   * @param {object} data - All props.
+   */
+  onVisible: PropTypes.func,
+
+  /** A sidebar can handle clicks on the passed element. */
+  target: PropTypes.oneOfType([customPropTypes.domNode, customPropTypes.refObject]),
+
+  /** Controls whether or not the sidebar is visible on the page. */
+  visible: PropTypes.bool,
+
+  /** Sidebar width. */
+  width: PropTypes.oneOf(['very thin', 'thin', 'wide', 'very wide']),
 };

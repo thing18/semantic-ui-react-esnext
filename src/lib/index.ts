@@ -61,3 +61,5 @@ export const isEqualObj = (a: undefined | Record<string, any>, b: undefined | Re
 
     return a_keys.every(k => a[k] === b[k]);
 };
+
+export const simpleReducer = <T extends object>(prev: T, next: Partial<T>): T => ({ ...prev, ...next });
