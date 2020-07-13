@@ -43,3 +43,4 @@ export * from './Tab';
 export * from './Embed';
 export * from './Modal';
 export * from './Progress';
+export * from './Rating';

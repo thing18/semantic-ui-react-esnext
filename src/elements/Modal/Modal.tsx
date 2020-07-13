@@ -135,7 +135,10 @@ const reducer = (prev: ModalState, value: Partial<ModalState>) => ({ ...prev, ..
 const Modal: CModal = props => {
 
   // static autoControlledProps = ['open']
-  const { as: ElementType = 'div', open, actions, basic, children, className, closeIcon, content, header, size, style, mountNode, closeOnDocumentClick, trigger, eventPool, centered, dimmer, onOpen, onClose, closeOnDimmerClick, onActionClick, onMount, onUnmount } = props;
+  const {
+    as: ElementType = 'div', open, actions, basic, children, className, closeIcon, content, header, size, style, mountNode,
+    closeOnDocumentClick, trigger, eventPool, centered, dimmer, onOpen, onClose, closeOnDimmerClick, onActionClick, onMount, onUnmount,
+  } = { ...Modal.defaultProps, ...props };
 
   const ref = useRef<any>();
   const dimmerRef = useRef<any>();
