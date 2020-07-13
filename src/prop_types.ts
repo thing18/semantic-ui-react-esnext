@@ -9,7 +9,7 @@ import {
   MenuMenu, MenuHeader, MenuItem, Menu,
   GridRow, GridColumn, Grid,
   FormTextArea, FormSelect, FormRadio, FormInput, FormGroup, FormField, FormDropdown, FormCheckbox, FormButton, Form,
-  BreadcrumbSection, BreadcrumbDivider, Breadcrumb, TextArea, Rail, Checkbox, Dimmer, DimmerDimmable, DimmerInner, DropdownMenu, DropdownItem, DropdownHeader, DropdownSearchInput, DropdownDivider, SearchResults, SearchResult, SearchCategoryLayout, SearchCategory, Tab, TabPane, Embed, Modal, ModalActions, ModalContent, ModalDescription, ModalHeader, Progress, Rating, RatingIcon, SidebarPusher, SidebarPushable, Sidebar,
+  BreadcrumbSection, BreadcrumbDivider, Breadcrumb, TextArea, Rail, Checkbox, Dimmer, DimmerDimmable, DimmerInner, DropdownMenu, DropdownItem, DropdownHeader, DropdownSearchInput, DropdownDivider, SearchResults, SearchResult, SearchCategoryLayout, SearchCategory, Tab, TabPane, Embed, Modal, ModalActions, ModalContent, ModalDescription, ModalHeader, Progress, Rating, RatingIcon, SidebarPusher, SidebarPushable, Sidebar, Sticky,
 } from './elements';
 import { Visibility } from './behaviors/Visibility';
 import Search from './elements/Search/Search';
@@ -2751,4 +2751,68 @@ Sidebar.propTypes = {
 
   /** Sidebar width. */
   width: PropTypes.oneOf(['very thin', 'thin', 'wide', 'very wide']),
+};
+
+Sticky.propTypes = {
+  /** An element type to render as (string or function). */
+  as: PropTypes.elementType,
+
+  /** A Sticky can be active. */
+  active: PropTypes.bool,
+
+  /** Offset in pixels from the bottom of the screen when fixing element to viewport. */
+  bottomOffset: PropTypes.number,
+
+  /** Primary content. */
+  children: PropTypes.node,
+
+  /** Additional classes. */
+  className: PropTypes.string,
+
+  /** Context which sticky element should stick to. */
+  context: PropTypes.oneOfType([customPropTypes.domNode, customPropTypes.refObject]),
+
+  /** Offset in pixels from the top of the screen when fixing element to viewport. */
+  offset: PropTypes.number,
+
+  /**
+   * Callback when element is bound to bottom of parent container.
+   *
+   * @param {SyntheticEvent} event - React's original SyntheticEvent.
+   * @param {object} data - All props.
+   */
+  onBottom: PropTypes.func,
+
+  /**
+   * Callback when element is fixed to page.
+   *
+   * @param {SyntheticEvent} event - React's original SyntheticEvent.
+   * @param {object} data - All props.
+   */
+  onStick: PropTypes.func,
+
+  /**
+   * Callback when element is bound to top of parent container.
+   *
+   * @param {SyntheticEvent} event - React's original SyntheticEvent.
+   * @param {object} data - All props.
+   */
+  onTop: PropTypes.func,
+
+  /**
+   * Callback when element is unfixed from page.
+   *
+   * @param {SyntheticEvent} event - React's original SyntheticEvent.
+   * @param {object} data - All props.
+   */
+  onUnstick: PropTypes.func,
+
+  /** Whether element should be "pushed" by the viewport, attaching to the bottom of the screen when scrolling up. */
+  pushing: PropTypes.bool,
+
+  /** Context which sticky should attach onscroll events. */
+  scrollContext: PropTypes.oneOfType([customPropTypes.domNode, customPropTypes.refObject]),
+
+  /** Custom style for sticky element. */
+  styleElement: PropTypes.object,
 };

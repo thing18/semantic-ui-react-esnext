@@ -45,3 +45,4 @@ export * from './Modal';
 export * from './Progress';
 export * from './Rating';
 export * from './Sidebar';
+export * from './Sticky';
