@@ -10,7 +10,6 @@ export createPaginationItems from './createPaginationItems';
 export * as SUI from './SUI';
 
 export { numberToWordMap, numberToWord } from './numberToWord';
-export normalizeTransitionDuration from './normalizeTransitionDuration';
 
 // Heads up! We import/export for this module to safely remove it with "babel-plugin-filter-imports"
 export { makeDebugger };
@@ -28,6 +27,7 @@ export { default as normalizeOffset } from './normalizeOffset';
 export * from './doesNodeContainClick';
 export { default as AutoControlledComponent } from './AutoControlledComponent';
 export { default as ModernAutoControlledComponent } from './ModernAutoControlledComponent';
+export * from './normalizeTransitionDuration';
 
 //
 export * from './useClasses';

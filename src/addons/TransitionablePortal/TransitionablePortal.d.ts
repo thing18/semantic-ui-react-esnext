@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { TransitionEventData, TransitionProps } from '../../modules/Transition/Transition'
+import { TransitionEventData, TransitionProps } from '../../elements/Transition/Transition'
 import { PortalProps } from '../Portal/Portal'
 
 export interface TransitionablePortalProps extends StrictTransitionablePortalProps {

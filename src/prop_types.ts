@@ -9,7 +9,7 @@ import {
   MenuMenu, MenuHeader, MenuItem, Menu,
   GridRow, GridColumn, Grid,
   FormTextArea, FormSelect, FormRadio, FormInput, FormGroup, FormField, FormDropdown, FormCheckbox, FormButton, Form,
-  BreadcrumbSection, BreadcrumbDivider, Breadcrumb, TextArea, Rail, Checkbox, Dimmer, DimmerDimmable, DimmerInner, DropdownMenu, DropdownItem, DropdownHeader, DropdownSearchInput, DropdownDivider, SearchResults, SearchResult, SearchCategoryLayout, SearchCategory, Tab, TabPane, Embed, Modal, ModalActions, ModalContent, ModalDescription, ModalHeader, Progress, Rating, RatingIcon, SidebarPusher, SidebarPushable, Sidebar, Sticky,
+  BreadcrumbSection, BreadcrumbDivider, Breadcrumb, TextArea, Rail, Checkbox, Dimmer, DimmerDimmable, DimmerInner, DropdownMenu, DropdownItem, DropdownHeader, DropdownSearchInput, DropdownDivider, SearchResults, SearchResult, SearchCategoryLayout, SearchCategory, Tab, TabPane, Embed, Modal, ModalActions, ModalContent, ModalDescription, ModalHeader, Progress, Rating, RatingIcon, SidebarPusher, SidebarPushable, Sidebar, Sticky, Transition, TransitionGroup,
 } from './elements';
 import { Visibility } from './behaviors/Visibility';
 import Search from './elements/Search/Search';
@@ -2815,4 +2815,96 @@ Sticky.propTypes = {
 
   /** Custom style for sticky element. */
   styleElement: PropTypes.object,
+};
+
+TransitionGroup.propTypes = {
+  /** An element type to render as (string or function). */
+  as: PropTypes.elementType,
+
+  /** Named animation event to used. Must be defined in CSS. */
+  animation: PropTypes.oneOfType([PropTypes.oneOf(SUI.TRANSITIONS), PropTypes.string]),
+
+  /** Primary content. */
+  children: PropTypes.node,
+
+  /** Whether it is directional animation event or not. Use it only for custom transitions. */
+  directional: PropTypes.bool,
+
+  /** Duration of the CSS transition animation in milliseconds. */
+  duration: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.shape({
+      hide: PropTypes.number.isRequired,
+      show: PropTypes.number.isRequired,
+    }),
+    PropTypes.string,
+  ]),
+};
+
+Transition.propTypes = {
+  /** Named animation event to used. Must be defined in CSS. */
+  animation: PropTypes.oneOfType([PropTypes.oneOf(SUI.TRANSITIONS), PropTypes.string]),
+
+  /** Primary content. */
+  children: PropTypes.element.isRequired,
+
+  /** Whether it is directional animation event or not. Use it only for custom transitions. */
+  directional: PropTypes.bool,
+
+  /** Duration of the CSS transition animation in milliseconds. */
+  duration: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.shape({
+      hide: PropTypes.number,
+      show: PropTypes.number,
+    }),
+    PropTypes.string,
+  ]),
+
+  /** Show the component; triggers the enter or exit animation. */
+  visible: PropTypes.bool,
+
+  /** Wait until the first "enter" transition to mount the component (add it to the DOM). */
+  mountOnShow: PropTypes.bool,
+
+  /**
+   * Callback on each transition that changes visibility to shown.
+   *
+   * @param {null}
+   * @param {object} data - All props with status.
+   */
+  onComplete: PropTypes.func,
+
+  /**
+   * Callback on each transition that changes visibility to hidden.
+   *
+   * @param {null}
+   * @param {object} data - All props with status.
+   */
+  onHide: PropTypes.func,
+
+  /**
+   * Callback on each transition that changes visibility to shown.
+   *
+   * @param {null}
+   * @param {object} data - All props with status.
+   */
+  onShow: PropTypes.func,
+
+  /**
+   * Callback on animation start.
+   *
+   * @param {null}
+   * @param {object} data - All props with status.
+   */
+  onStart: PropTypes.func,
+
+  /** React's key of the element. */
+  reactKey: PropTypes.string,
+
+  /** Run the enter animation when the component mounts, if it is initially shown. */
+  transitionOnMount: PropTypes.bool,
+
+  /** Unmount the component (remove it from the DOM) when it is not shown. */
+  unmountOnHide: PropTypes.bool,
 };

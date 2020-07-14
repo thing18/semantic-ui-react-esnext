@@ -1,5 +1,5 @@
-import React from 'react'
-import Transition from '../Transition'
+import React, { ReactElement } from 'react';
+import { Transition, TransitionPropDuration } from '../Transition';
 
 /**
  * Wraps a React element with a Transition component.
@@ -13,22 +13,31 @@ import Transition from '../Transition'
  * @param {Boolean} [options.transitionOnMount=false]
  * @param {Boolean} [options.visible=true]
  */
-export default function wrapChild(child, onHide, options = {}) {
-  const { key } = child
-  const { animation, directional, duration, transitionOnMount = false, visible = true } = options
+interface Options {
+  animation?: string;
+  duration?: number | string | TransitionPropDuration;
+  directional?: boolean;
+  transitionOnMount?: boolean;
+  visible?: boolean;
+}
+
+export const wrapChild = (child: ReactElement, onHide: any, options: Options = {}) => {
+
+  const { key } = child;
+  const { animation, directional, duration, transitionOnMount = false, visible = true } = options;
 
   return (
     <Transition
       animation={animation}
       directional={directional}
       duration={duration}
-      key={key}
+      key={key as any}
       onHide={onHide}
-      reactKey={key}
+      reactKey={key as any}
       transitionOnMount={transitionOnMount}
       visible={visible}
     >
       {child}
     </Transition>
-  )
-}
+  );
+};
