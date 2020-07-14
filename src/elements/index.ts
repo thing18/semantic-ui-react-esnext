@@ -50,3 +50,4 @@ export * from './Transition';
 // addons
 export * from './TransitionablePortal';
 export * from './Select';
+export * from './Responsive';

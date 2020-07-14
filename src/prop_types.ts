@@ -9,7 +9,7 @@ import {
   MenuMenu, MenuHeader, MenuItem, Menu,
   GridRow, GridColumn, Grid,
   FormTextArea, FormSelect, FormRadio, FormInput, FormGroup, FormField, FormDropdown, FormCheckbox, FormButton, Form,
-  BreadcrumbSection, BreadcrumbDivider, Breadcrumb, TextArea, Rail, Checkbox, Dimmer, DimmerDimmable, DimmerInner, DropdownMenu, DropdownItem, DropdownHeader, DropdownSearchInput, DropdownDivider, SearchResults, SearchResult, SearchCategoryLayout, SearchCategory, Tab, TabPane, Embed, Modal, ModalActions, ModalContent, ModalDescription, ModalHeader, Progress, Rating, RatingIcon, SidebarPusher, SidebarPushable, Sidebar, Sticky, Transition, TransitionGroup, TransitionablePortal, Select,
+  BreadcrumbSection, BreadcrumbDivider, Breadcrumb, TextArea, Rail, Checkbox, Dimmer, DimmerDimmable, DimmerInner, DropdownMenu, DropdownItem, DropdownHeader, DropdownSearchInput, DropdownDivider, SearchResults, SearchResult, SearchCategoryLayout, SearchCategory, Tab, TabPane, Embed, Modal, ModalActions, ModalContent, ModalDescription, ModalHeader, Progress, Rating, RatingIcon, SidebarPusher, SidebarPushable, Sidebar, Sticky, Transition, TransitionGroup, TransitionablePortal, Select, Responsive,
 } from './elements';
 import { Visibility } from './behaviors/Visibility';
 import Search from './elements/Search/Search';
@@ -2955,4 +2955,35 @@ TransitionablePortal.propTypes = {
 Select.propTypes = {
   /** Array of Dropdown.Item props e.g. `{ text: '', value: '' }` */
   options: PropTypes.arrayOf(PropTypes.shape(DropdownItem.propTypes)).isRequired as any,
+};
+
+Responsive.propTypes = {
+  /** An element type to render as (string or function). */
+  as: PropTypes.elementType,
+
+  /** Primary content. */
+  children: PropTypes.node,
+
+  /** Fires callbacks immediately after mount. */
+  fireOnMount: PropTypes.bool,
+
+  /**
+   * Called to get width of screen. Defaults to using `window.innerWidth` when in a browser;
+   * otherwise, assumes a width of 0.
+   */
+  getWidth: PropTypes.func,
+
+  /** The maximum width at which content will be displayed. */
+  maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+  /** The minimum width at which content will be displayed. */
+  minWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+  /**
+   * Called on update.
+   *
+   * @param {SyntheticEvent} event - The React SyntheticEvent object
+   * @param {object} data - All props and the event value.
+   */
+  onUpdate: PropTypes.func,
 };
