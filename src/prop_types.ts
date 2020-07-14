@@ -9,7 +9,7 @@ import {
   MenuMenu, MenuHeader, MenuItem, Menu,
   GridRow, GridColumn, Grid,
   FormTextArea, FormSelect, FormRadio, FormInput, FormGroup, FormField, FormDropdown, FormCheckbox, FormButton, Form,
-  BreadcrumbSection, BreadcrumbDivider, Breadcrumb, TextArea, Rail, Checkbox, Dimmer, DimmerDimmable, DimmerInner, DropdownMenu, DropdownItem, DropdownHeader, DropdownSearchInput, DropdownDivider, SearchResults, SearchResult, SearchCategoryLayout, SearchCategory, Tab, TabPane, Embed, Modal, ModalActions, ModalContent, ModalDescription, ModalHeader, Progress, Rating, RatingIcon, SidebarPusher, SidebarPushable, Sidebar, Sticky, Transition, TransitionGroup, TransitionablePortal,
+  BreadcrumbSection, BreadcrumbDivider, Breadcrumb, TextArea, Rail, Checkbox, Dimmer, DimmerDimmable, DimmerInner, DropdownMenu, DropdownItem, DropdownHeader, DropdownSearchInput, DropdownDivider, SearchResults, SearchResult, SearchCategoryLayout, SearchCategory, Tab, TabPane, Embed, Modal, ModalActions, ModalContent, ModalDescription, ModalHeader, Progress, Rating, RatingIcon, SidebarPusher, SidebarPushable, Sidebar, Sticky, Transition, TransitionGroup, TransitionablePortal, Select,
 } from './elements';
 import { Visibility } from './behaviors/Visibility';
 import Search from './elements/Search/Search';
@@ -2950,4 +2950,9 @@ TransitionablePortal.propTypes = {
 
   /** Transition props. */
   transition: PropTypes.object,
+};
+
+Select.propTypes = {
+  /** Array of Dropdown.Item props e.g. `{ text: '', value: '' }` */
+  options: PropTypes.arrayOf(PropTypes.shape(DropdownItem.propTypes)).isRequired as any,
 };

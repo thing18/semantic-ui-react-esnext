@@ -16,7 +16,6 @@ export * from './Segment';
 export * from './Step';
 
 export { default as Radio, RadioProps, StrictRadioProps } from '../addons/Radio';
-export { default as Select, SelectProps, StrictSelectProps } from '../addons/Select';
 
 export * from './TextArea';
 export * from './Table';
@@ -50,3 +49,4 @@ export * from './Transition';
 
 // addons
 export * from './TransitionablePortal';
+export * from './Select';
