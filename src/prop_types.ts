@@ -9,7 +9,7 @@ import {
   MenuMenu, MenuHeader, MenuItem, Menu,
   GridRow, GridColumn, Grid,
   FormTextArea, FormSelect, FormRadio, FormInput, FormGroup, FormField, FormDropdown, FormCheckbox, FormButton, Form,
-  BreadcrumbSection, BreadcrumbDivider, Breadcrumb, TextArea, Rail, Checkbox, Dimmer, DimmerDimmable, DimmerInner, DropdownMenu, DropdownItem, DropdownHeader, DropdownSearchInput, DropdownDivider, SearchResults, SearchResult, SearchCategoryLayout, SearchCategory, Tab, TabPane, Embed, Modal, ModalActions, ModalContent, ModalDescription, ModalHeader, Progress, Rating, RatingIcon, SidebarPusher, SidebarPushable, Sidebar, Sticky, Transition, TransitionGroup, TransitionablePortal, Select, Responsive,
+  BreadcrumbSection, BreadcrumbDivider, Breadcrumb, TextArea, Rail, Checkbox, Dimmer, DimmerDimmable, DimmerInner, DropdownMenu, DropdownItem, DropdownHeader, DropdownSearchInput, DropdownDivider, SearchResults, SearchResult, SearchCategoryLayout, SearchCategory, Tab, TabPane, Embed, Modal, ModalActions, ModalContent, ModalDescription, ModalHeader, Progress, Rating, RatingIcon, SidebarPusher, SidebarPushable, Sidebar, Sticky, Transition, TransitionGroup, TransitionablePortal, Select, Responsive, Radio,
 } from './elements';
 import { Visibility } from './behaviors/Visibility';
 import Search from './elements/Search/Search';
@@ -2986,4 +2986,15 @@ Responsive.propTypes = {
    * @param {object} data - All props and the event value.
    */
   onUpdate: PropTypes.func,
+};
+
+Radio.propTypes = {
+  /** Format to emphasize the current selection state. */
+  slider: Checkbox.propTypes.slider,
+
+  /** Format to show an on or off choice. */
+  toggle: Checkbox.propTypes.toggle,
+
+  /** HTML input type, either checkbox or radio. */
+  type: Checkbox.propTypes.type,
 };

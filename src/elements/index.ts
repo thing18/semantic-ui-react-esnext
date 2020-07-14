@@ -15,7 +15,6 @@ export * from './Reveal';
 export * from './Segment';
 export * from './Step';
 
-export { default as Radio, RadioProps, StrictRadioProps } from '../addons/Radio';
 
 export * from './TextArea';
 export * from './Table';
@@ -51,3 +50,4 @@ export * from './Transition';
 export * from './TransitionablePortal';
 export * from './Select';
 export * from './Responsive';
+export * from './Radio';
