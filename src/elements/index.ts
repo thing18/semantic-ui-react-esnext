@@ -47,3 +47,6 @@ export * from './Rating';
 export * from './Sidebar';
 export * from './Sticky';
 export * from './Transition';
+
+// addons
+export * from './TransitionablePortal';
