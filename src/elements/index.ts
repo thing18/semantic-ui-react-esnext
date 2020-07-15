@@ -15,6 +15,7 @@ export * from './Reveal';
 export * from './Segment';
 export * from './Step';
 
+//
 
 export * from './TextArea';
 export * from './Table';
@@ -54,3 +55,4 @@ export * from './Responsive';
 export * from './Radio';
 export * from './Pagination';
 export * from './Portal';
+export * from './Confirm';
