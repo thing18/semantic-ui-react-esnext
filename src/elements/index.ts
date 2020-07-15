@@ -56,3 +56,4 @@ export * from './Radio';
 export * from './Pagination';
 export * from './Portal';
 export * from './Confirm';
+export * from './MountNode';

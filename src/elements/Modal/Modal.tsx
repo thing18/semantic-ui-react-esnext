@@ -1,7 +1,6 @@
 import React, { createRef, Fragment, isValidElement, useRef, useState, useEffect, Children, useReducer } from 'react';
 
-import { Icon, Portal, StrictPortalProps } from '..';
-import MountNode from '../../addons/MountNode';
+import { Icon, Portal, StrictPortalProps, MountNode } from '..';
 import { SemanticShorthandItem, isBrowser, doesNodeContainClick, eventStack, getClassName } from '../../lib';
 import { ModalHeader, ModalHeaderProps } from './ModalHeader';
 import { ModalContent, ModalContentProps } from './ModalContent';

@@ -31,7 +31,7 @@ import {
   PaginationItem,
   Pagination,
   Portal, PortalInner,
-  Accordion, AccordionAccordion, AccordionContent, AccordionPanel, AccordionTitle, Confirm,
+  Accordion, AccordionAccordion, AccordionContent, AccordionPanel, AccordionTitle, Confirm, MountNode,
 } from './elements';
 import { Visibility } from './behaviors/Visibility';
 
@@ -3255,4 +3255,12 @@ Confirm.propTypes = {
 
   /** A Confirm can vary in size */
   size: PropTypes.oneOf(['mini', 'tiny', 'small', 'large', 'fullscreen']),
+};
+
+MountNode.propTypes = {
+  /** Additional classes. */
+  className: PropTypes.string,
+
+  /** The DOM node where we will apply class names. Defaults to document.body. */
+  node: PropTypes.oneOfType([customPropTypes.domNode, customPropTypes.refObject]),
 };
