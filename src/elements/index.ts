@@ -45,6 +45,7 @@ export * from './Rating';
 export * from './Sidebar';
 export * from './Sticky';
 export * from './Transition';
+export * from './Accordion';
 
 // addons
 export * from './TransitionablePortal';
@@ -52,3 +53,4 @@ export * from './Select';
 export * from './Responsive';
 export * from './Radio';
 export * from './Pagination';
+export * from './Portal';

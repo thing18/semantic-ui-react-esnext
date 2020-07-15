@@ -191,7 +191,7 @@ interface State {
 /**
  * A search module allows a user to query for results from a selection of data
  */
-export default class Search extends PureComponent<SearchProps, State> {
+export class Search extends PureComponent<SearchProps, State> {
 
   static propTypes: any;
 

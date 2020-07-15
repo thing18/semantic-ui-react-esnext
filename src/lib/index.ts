@@ -1,5 +1,4 @@
 import makeDebugger from './makeDebugger';
-import { Primitive } from 'lodash';
 
 export * as customPropTypes from './customPropTypes';
 
@@ -8,7 +7,7 @@ export getUnhandledProps from './getUnhandledProps';
 
 export * as SUI from './SUI';
 
-export { numberToWordMap, numberToWord } from './numberToWord';
+export * from './numberToWord';
 
 // Heads up! We import/export for this module to safely remove it with "babel-plugin-filter-imports"
 export { makeDebugger };
@@ -24,8 +23,8 @@ export * from './htmlPropsUtils';
 export { default as eventStack } from './eventStack';
 export { default as normalizeOffset } from './normalizeOffset';
 export * from './doesNodeContainClick';
-export { default as AutoControlledComponent } from './AutoControlledComponent';
-export { default as ModernAutoControlledComponent } from './ModernAutoControlledComponent';
+export * from './AutoControlledComponent';
+export * from './ModernAutoControlledComponent';
 export * from './normalizeTransitionDuration';
 
 //

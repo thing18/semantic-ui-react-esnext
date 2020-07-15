@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FCX, createShorthandFactory, isBrowser } from '../../lib';
-import Portal from '../../addons/Portal';
+import { Portal } from '..';
 import { DimmerDimmable } from './DimmerDimmable';
 import { DimmerInner } from './DimmerInner';
 

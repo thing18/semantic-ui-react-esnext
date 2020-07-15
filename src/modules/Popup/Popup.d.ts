@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { SemanticShorthandItem } from '../../generic'
-import { StrictPortalProps } from '../../addons/Portal'
+import { StrictPortalProps } from '../../elements/Portal'
 import { default as PopupContent, PopupContentProps } from './PopupContent'
 import { default as PopupHeader, PopupHeaderProps } from './PopupHeader'
 
@@ -98,14 +98,14 @@ export interface StrictPopupProps extends StrictPortalProps {
 
   /** Position for the popover. */
   position?:
-    | 'top left'
-    | 'top right'
-    | 'bottom right'
-    | 'bottom left'
-    | 'right center'
-    | 'left center'
-    | 'top center'
-    | 'bottom center'
+  | 'top left'
+  | 'top right'
+  | 'bottom right'
+  | 'bottom left'
+  | 'right center'
+  | 'left center'
+  | 'top center'
+  | 'bottom center'
 
   /** Tells `Popper.js` to use the `position: fixed` strategy to position the popover. */
   positionFixed?: boolean
