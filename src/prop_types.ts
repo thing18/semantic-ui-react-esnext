@@ -9,7 +9,7 @@ import {
   MenuMenu, MenuHeader, MenuItem, Menu,
   GridRow, GridColumn, Grid,
   FormTextArea, FormSelect, FormRadio, FormInput, FormGroup, FormField, FormDropdown, FormCheckbox, FormButton, Form,
-  BreadcrumbSection, BreadcrumbDivider, Breadcrumb, TextArea, Rail, Checkbox, Dimmer, DimmerDimmable, DimmerInner, DropdownMenu, DropdownItem, DropdownHeader, DropdownSearchInput, DropdownDivider, SearchResults, SearchResult, SearchCategoryLayout, SearchCategory, Tab, TabPane, Embed, Modal, ModalActions, ModalContent, ModalDescription, ModalHeader, Progress, Rating, RatingIcon, SidebarPusher, SidebarPushable, Sidebar, Sticky, Transition, TransitionGroup, TransitionablePortal, Select, Responsive, Radio,
+  BreadcrumbSection, BreadcrumbDivider, Breadcrumb, TextArea, Rail, Checkbox, Dimmer, DimmerDimmable, DimmerInner, DropdownMenu, DropdownItem, DropdownHeader, DropdownSearchInput, DropdownDivider, SearchResults, SearchResult, SearchCategoryLayout, SearchCategory, Tab, TabPane, Embed, Modal, ModalActions, ModalContent, ModalDescription, ModalHeader, Progress, Rating, RatingIcon, SidebarPusher, SidebarPushable, Sidebar, Sticky, Transition, TransitionGroup, TransitionablePortal, Select, Responsive, Radio, PaginationItem, Pagination,
 } from './elements';
 import { Visibility } from './behaviors/Visibility';
 import Search from './elements/Search/Search';
@@ -2997,4 +2997,87 @@ Radio.propTypes = {
 
   /** HTML input type, either checkbox or radio. */
   type: Checkbox.propTypes.type,
+};
+
+PaginationItem.propTypes = {
+  /** A pagination item can be active. */
+  active: PropTypes.bool,
+
+  /** A pagination item can be disabled. */
+  disabled: PropTypes.bool,
+
+  /**
+   * Called on click.
+   *
+   * @param {SyntheticEvent} event - React's original SyntheticEvent.
+   * @param {object} data - All props.
+   */
+  onClick: PropTypes.func,
+
+  /**
+   * Called on key down.
+   *
+   * @param {SyntheticEvent} event - React's original SyntheticEvent.
+   * @param {object} data - All props.
+   */
+  onKeyDown: PropTypes.func,
+
+  /** A pagination should have a type. */
+  type: PropTypes.oneOf([
+    'ellipsisItem',
+    'firstItem',
+    'prevItem',
+    'pageItem',
+    'nextItem',
+    'lastItem',
+  ]),
+};
+
+Pagination.propTypes = {
+  /** A pagination item can have an aria label. */
+  'aria-label': PropTypes.string,
+
+  /** Initial activePage value. */
+  defaultActivePage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+  /** Index of the currently active page. */
+  activePage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+  /** Number of always visible pages at the beginning and end. */
+  boundaryRange: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+  /** A pagination can be disabled. */
+  disabled: PropTypes.bool,
+
+  /** A shorthand for PaginationItem. */
+  ellipsisItem: customPropTypes.itemShorthand,
+
+  /** A shorthand for PaginationItem. */
+  firstItem: customPropTypes.itemShorthand,
+
+  /** A shorthand for PaginationItem. */
+  lastItem: customPropTypes.itemShorthand,
+
+  /** A shorthand for PaginationItem. */
+  nextItem: customPropTypes.itemShorthand,
+
+  /** A shorthand for PaginationItem. */
+  pageItem: customPropTypes.itemShorthand,
+
+  /** A shorthand for PaginationItem. */
+  prevItem: customPropTypes.itemShorthand,
+
+  /**
+   * Called on change of an active page.
+   *
+   * @param {SyntheticEvent} event - React's original SyntheticEvent.
+   * @param {object} data - All props.
+   */
+  onPageChange: PropTypes.func,
+
+  /** Number of always visible pages before and after the current one. */
+  siblingRange: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+  /** Total number of pages. */
+  totalPages: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 };

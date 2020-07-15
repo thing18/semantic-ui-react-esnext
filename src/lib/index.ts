@@ -6,7 +6,6 @@ export * as customPropTypes from './customPropTypes';
 export getUnhandledProps from './getUnhandledProps';
 
 
-export createPaginationItems from './createPaginationItems';
 export * as SUI from './SUI';
 
 export { numberToWordMap, numberToWord } from './numberToWord';

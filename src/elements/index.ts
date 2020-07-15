@@ -51,3 +51,4 @@ export * from './TransitionablePortal';
 export * from './Select';
 export * from './Responsive';
 export * from './Radio';
+export * from './Pagination';
