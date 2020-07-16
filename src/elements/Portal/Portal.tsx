@@ -1,5 +1,4 @@
-import EventStack from '@semantic-ui-react/event-stack';
-import { handleRef, Ref } from '@stardust-ui/react-component-ref';
+import { EventStack, handleRef, Ref } from '..';
 import keyboardKey from 'keyboard-key';
 import React, { cloneElement, createRef, Fragment } from 'react';
 

@@ -1,4 +1,4 @@
-import { isRefObject, toRefObject } from '@stardust-ui/react-component-ref';
+import { isRefObject, toRefObject } from '../../';
 
 import { isBrowser } from '../../../lib';
 

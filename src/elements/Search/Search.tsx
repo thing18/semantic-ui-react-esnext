@@ -1,11 +1,12 @@
 import keyboardKey from 'keyboard-key';
 import React, { PureComponent } from 'react';
 
-import { SemanticShorthandItem, eventStack, isBrowser, partitionHTMLProps, htmlInputAttrs, getClassName, Use } from '../../lib';
+import { SemanticShorthandItem, eventStack, isBrowser, partitionHTMLProps, htmlInputAttrs, getClassName, Use, ModernAutoControlledComponent, ModernAutoControlledComponentState } from '../../lib';
 import { InputProps, Input } from '..';
 import { SearchCategory, SearchCategoryProps } from './SearchCategory';
 import { SearchResult, SearchResultProps } from './SearchResult';
 import { SearchResults } from './SearchResults';
+import shallowEqual from 'shallowequal';
 
 export interface SearchProps extends StrictSearchProps {
   [key: string]: any;
@@ -178,7 +179,7 @@ export interface SearchResultData extends SearchProps {
 //   Results: typeof SearchResults;
 // }
 
-interface State {
+interface SearchState extends ModernAutoControlledComponentState {
 
   open: boolean;
   value: any;
@@ -191,7 +192,7 @@ interface State {
 /**
  * A search module allows a user to query for results from a selection of data
  */
-export class Search extends PureComponent<SearchProps, State> {
+export class Search extends ModernAutoControlledComponent<SearchProps, SearchState> {
 
   static propTypes: any;
 
@@ -203,66 +204,50 @@ export class Search extends PureComponent<SearchProps, State> {
     showNoResults: true,
   };
 
-  // static autoControlledProps = ['open', 'value'];
+  static autoControlledProps = ['open', 'value'];
 
   static Category = SearchCategory;
   static Result = SearchResult;
   static Results = SearchResults;
 
-  isMouseDown: boolean;
+  isMouseDown!: boolean;
 
-  constructor(props: SearchProps) {
-    super(props);
+  static getAutoControlledStateFromProps(props: any, state: any) {
 
-    this.state = {
-      open: props.open ?? props.defaultOpen ?? false,
-      value: props.value ?? props.defaultValue ?? '',
-      focus: false,
-      selectedIndex: props.selectFirstResult ? 0 : -1,
-      searchClasses: '',
-      prevValue: props.value ?? props.defaultValue ?? '',
-    };
+    // We need to store a `prevValue` to compare as in `getDerivedStateFromProps` we don't have
+    // prevState
+    if (typeof state.prevValue !== 'undefined' && shallowEqual(state.prevValue, state.value)) {
+      return { prevValue: state.value };
+    }
 
-    this.isMouseDown = false;
+    const selectedIndex = props.selectFirstResult ? 0 : -1;
+
+    return { selectedIndex, prevValue: state.value };
   }
 
-  // static getAutoControlledStateFromProps(props: SearchProps, state: State) {
-
-  //   // We need to store a `prevValue` to compare as in `getDerivedStateFromProps` we don't have
-  //   // prevState
-  //   if (typeof state.prevValue !== 'undefined' && (state.prevValue === state.value)) {
-  //     return { prevValue: state.value };
-  //   }
-
-  //   const selectedIndex = props.selectFirstResult ? 0 : -1;
-
-  //   // tslint:disable-next-line: object-shorthand-properties-first
-  //   return { prevValue: state.value, selectedIndex };
-  // }
-
-  static getDerivedStateFromProps(props: SearchProps, state: State) {
-
-    // Solve the next state for autoControlledProps
-    const newState = { ...state };
-    if (props.open !== undefined) newState.open = props.open;
-    if (props.value !== undefined) newState.value = props.value;
-
-    // Due to the inheritance of the AutoControlledComponent we should call its
-    // getAutoControlledStateFromProps() and merge it with the existing state
-
-    const computedState = (typeof newState.prevValue !== 'undefined' && (newState.prevValue === newState.value))
-      ? { prevValue: newState.value }
-      : { prevValue: newState.value, selectedIndex: props.selectFirstResult ? 0 : -1 };
-
-    // We should follow the idea of getDerivedStateFromProps() and return only modified state
-    return { ...newState, ...computedState };
+  shouldComponentUpdate(nextProps: any, nextState: any) {
+    return !shallowEqual(nextProps, this.props) || !shallowEqual(nextState, this.state);
   }
 
-  // shouldComponentUpdate(nextProps: SearchProps, nextState: State) {
-  //   return !shallowEqual(nextProps, this.props) || !shallowEqual(nextState, this.state);
+  // static getDerivedStateFromProps(props: SearchProps, state: SearchState) {
+
+  //   // Solve the next state for autoControlledProps
+  //   const newState = { ...state };
+  //   if (props.open !== undefined) newState.open = props.open;
+  //   if (props.value !== undefined) newState.value = props.value;
+
+  //   // Due to the inheritance of the AutoControlledComponent we should call its
+  //   // getAutoControlledStateFromProps() and merge it with the existing state
+
+  //   const computedState = (typeof newState.prevValue !== 'undefined' && (newState.prevValue === newState.value))
+  //     ? { prevValue: newState.value }
+  //     : { prevValue: newState.value, selectedIndex: props.selectFirstResult ? 0 : -1 };
+
+  //   // We should follow the idea of getDerivedStateFromProps() and return only modified state
+  //   return { ...newState, ...computedState };
   // }
 
-  componentDidUpdate(prevProps: SearchProps, prevState: State) {
+  componentDidUpdate(prevProps: SearchProps, prevState: SearchState) {
 
     // focused / blurred
     if (!prevState.focus && this.state.focus) {

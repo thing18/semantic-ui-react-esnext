@@ -70,6 +70,7 @@ export interface StrictStickyProps {
 }
 
 interface StickyState {
+  active: boolean;
   sticky: boolean;
   pushing: boolean;
   bound: boolean;
@@ -92,6 +93,7 @@ export class Sticky extends Component<StickyProps, StickyState> {
   };
 
   state = {
+    active: true,
     sticky: false,
     pushing: false,
     bound: false,
@@ -109,58 +111,57 @@ export class Sticky extends Component<StickyProps, StickyState> {
 
   componentDidMount() {
     if (!isBrowser()) return;
-    const { active } = this.props;
+    const { active } = this.state;
 
     if (active) {
       this.handleUpdate();
-      this.addListeners(this.props);
+      this.addListeners(this.props.scrollContext);
     }
   }
 
-  // tslint:disable-next-line: function-name
-  UNSAFE_componentWillReceiveProps(nextProps: StickyProps) {
+  static getDerivedStateFromProps(props: StickyProps, state: StickyState) {
 
-    const { active: current, scrollContext: currentScrollContext } = this.props;
-    const { active: next, scrollContext: nextScrollContext } = nextProps;
+    if (state.active !== props.active && !props.active) {
+      return { active: props.active, sticky: false };
+    }
 
-    if (current === next) {
-      if (currentScrollContext !== nextScrollContext) {
-        this.removeListeners();
-        this.addListeners(nextProps);
+    return { active: props.active };
+  }
+
+  componentDidUpdate(prevProps: StickyProps, prevState: StickyState) {
+
+    if (prevState.active === this.state.active) {
+      if (prevProps.scrollContext !== this.props.scrollContext) {
+        this.removeListeners(prevProps.scrollContext);
+        this.addListeners(this.props.scrollContext);
       }
+
       return;
     }
 
-    if (next) {
+    if (this.state.active) {
       this.handleUpdate();
-      this.addListeners(nextProps);
+      this.addListeners(this.props.scrollContext);
       return;
     }
 
-    this.removeListeners();
-    this.setState({ sticky: false });
+    this.removeListeners(prevProps.scrollContext);
   }
 
   componentWillUnmount() {
-    if (!isBrowser()) return;
-    const { active } = this.props;
 
-    if (active) {
-      this.removeListeners();
-      cancelAnimationFrame(this.frameId);
-    }
+    if (!isBrowser() || !this.state.active) return;
+
+    this.removeListeners(this.props.scrollContext);
+    cancelAnimationFrame(this.frameId);
   }
-  // frameId(frameId: any) {
-  //   throw new Error('Method not implemented.');
-  // }
 
   // ----------------------------------------
   // Events
   // ----------------------------------------
 
-  addListeners = (props: StickyProps) => {
+  addListeners = (scrollContext: any) => {
 
-    const { scrollContext } = props;
     const scrollContextNode = isRefObject(scrollContext) ? (scrollContext as React.MutableRefObject<any>).current : scrollContext;
 
     if (scrollContextNode) {
@@ -169,9 +170,8 @@ export class Sticky extends Component<StickyProps, StickyState> {
     }
   }
 
-  removeListeners = () => {
+  removeListeners = (scrollContext: any) => {
 
-    const { scrollContext } = this.props;
     const scrollContextNode = isRefObject(scrollContext) ? (scrollContext as React.MutableRefObject<any>).current : scrollContext;
 
     if (scrollContextNode) {

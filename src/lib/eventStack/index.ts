@@ -1,3 +1,3 @@
-import { instance } from '@semantic-ui-react/event-stack';
+import { instance } from '../../elements';
 
 export default instance;

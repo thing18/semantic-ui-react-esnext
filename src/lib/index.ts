@@ -23,7 +23,7 @@ export * from './htmlPropsUtils';
 export { default as eventStack } from './eventStack';
 export { default as normalizeOffset } from './normalizeOffset';
 export * from './doesNodeContainClick';
-export * from './AutoControlledComponent';
+// export * from './AutoControlledComponent';
 export * from './ModernAutoControlledComponent';
 export * from './normalizeTransitionDuration';
 

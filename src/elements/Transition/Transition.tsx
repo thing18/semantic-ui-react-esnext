@@ -2,8 +2,9 @@ import React, { cloneElement, Component } from 'react';
 
 import { SemanticTRANSITIONS, normalizeTransitionDuration, getClassName } from '../../lib';
 import { TransitionGroup } from './TransitionGroup';
+import { computeStatuses } from './utils/computeStatuses';
 
-export type TRANSITION_STATUSES = 'ENTERED' | 'ENTERING' | 'EXITED' | 'EXITING' | 'UNMOUNTED';
+export type TRANSITION_STATUSES = 'INITIAL' | 'ENTERED' | 'ENTERING' | 'EXITED' | 'EXITING' | 'UNMOUNTED';
 
 export interface TransitionProps extends StrictTransitionProps {
   [key: string]: any;
@@ -83,10 +84,11 @@ export interface TransitionEventData extends TransitionProps {
 //   Group: typeof TransitionGroup;
 // }
 
-const TRANSITION_TYPE: Record<TRANSITION_STATUSES, string> = { ENTERING: 'show', EXITING: 'hide' } as any;
+const TRANSITION_CALLBACK_TYPE: Record<TRANSITION_STATUSES, string> = { ENTERING: 'show', EXITING: 'hide' } as any;
 
 interface TransitionState {
   status: TRANSITION_STATUSES;
+  nextStatus: TRANSITION_STATUSES;
   animating: boolean;
 }
 
@@ -108,52 +110,30 @@ export class Transition extends Component<TransitionProps, TransitionState> {
 
   static Group = TransitionGroup;
 
-  nextStatus: TRANSITION_STATUSES | null;
+  state = { status: 'INITIAL' } as any;
+  nextStatus!: TRANSITION_STATUSES | null;
   timeoutId: any;
-
-  constructor(props: TransitionProps) {
-    super(props);
-
-    const { visible, mountOnShow, transitionOnMount, unmountOnHide } = this.props;
-
-    if (visible) {
-
-      this.nextStatus = transitionOnMount ? 'ENTERING' : null;
-      this.state = { status: transitionOnMount ? 'EXITED' : 'ENTERED', animating: false };
-      return;
-    }
-
-    this.nextStatus = null;
-    this.setState({ status: (mountOnShow || unmountOnHide) ? 'UNMOUNTED' : 'EXITED', animating: false });
-  }
 
   // ----------------------------------------
   // Lifecycle
   // ----------------------------------------
+  static getDerivedStateFromProps(props: TransitionProps, state: TransitionState) {
+
+    return computeStatuses({
+      mountOnShow: props.mountOnShow,
+      status: state.status,
+      transitionOnMount: props.transitionOnMount,
+      visible: props.visible,
+      unmountOnHide: props.unmountOnHide,
+    }) as any;
+  }
+
   componentDidMount() {
     this.updateStatus();
   }
 
-  // tslint:disable-next-line: function-name
-  UNSAFE_componentWillReceiveProps(nextProps: TransitionProps) {
-
-    const { status } = this.state;
-    const { visible } = nextProps;
-
-    const newStatus = visible
-      ? (status === 'UNMOUNTED' && 'EXITED')
-      : undefined;
-
-    const newNext = visible
-      ? (status !== 'ENTERING' && status !== 'ENTERED' && 'ENTERING')
-      : ((status === 'ENTERING' || status === 'ENTERED') && 'EXITING');
-
-    this.nextStatus = newNext as any;
-    if (newStatus) this.setState({ status: newStatus });
-  }
-
-  componentDidUpdate() {
-    this.updateStatus();
+  componentDidUpdate(_prevProps: TransitionProps, prevState: TransitionState) {
+    this.updateStatus(prevState);
   }
 
   componentWillUnmount() {
@@ -163,45 +143,36 @@ export class Transition extends Component<TransitionProps, TransitionState> {
   // ----------------------------------------
   // Callback handling
   // ----------------------------------------
-  handleStart = () => {
+  handleStart = (nextStatus: TRANSITION_STATUSES) => {
+
     const { duration } = this.props;
-    const status = this.nextStatus!;
 
-    this.nextStatus = null;
-    this.setState({ status, animating: true }, () => {
-      const durationType = TRANSITION_TYPE[status];
-      const durationValue = normalizeTransitionDuration(duration as any, durationType);
+    const durationType = TRANSITION_CALLBACK_TYPE[nextStatus];
+    const durationValue = normalizeTransitionDuration(duration as any, durationType) as any;
 
-      this.props.onStart?.call(null, null, { ...this.props, status });
-      this.timeoutId = setTimeout(this.handleComplete, durationValue as any);
-    });
+    clearTimeout(this.timeoutId);
+    this.timeoutId = setTimeout(
+      () => this.setState((state) => ({ status: state.nextStatus })),
+      durationValue,
+    );
+
   }
 
-  handleComplete = () => {
+  updateStatus(prevState: TransitionState) {
 
-    const { status: current } = this.state;
-
-    this.props.onComplete?.call(null, null, { ...this.props, status: current });
-
-    if (this.nextStatus) {
-      this.handleStart();
-      return;
+    if (this.state.status !== this.state.nextStatus && this.state.nextStatus) {
+      this.handleStart(this.state.nextStatus);
     }
 
-    const { onShow, onHide, unmountOnHide } = this.props;
-    const status = (current === 'ENTERING') ? 'ENTERED' : (unmountOnHide ? 'UNMOUNTED' : 'EXITED');
+    if (!prevState.animating && this.state.animating) {
+      this.props.onStart?.call(null, null, { ...this.props, status: this.state.status });
+    }
 
-    this.setState({ status, animating: false }, () => (current === 'ENTERING' ? onShow : onHide)?.call(null, null, { ...this.props, status }));
-  }
+    if (prevState.animating && !this.state.animating) {
 
-  updateStatus() {
-
-    if (!this.nextStatus) return;
-
-    const { animating, status } = this.state;
-
-    this.nextStatus = (animating) ? (status === 'ENTERING' ? 'EXITING' : 'ENTERING') : (status === 'ENTERED' ? 'EXITING' : 'ENTERING');
-    if (!animating) this.handleStart();
+      this.props.onComplete?.call(null, null, { ...this.props, status: this.state.status });
+      (this.state.status === 'ENTERED' ? this.props.onShow : this.props.onHide)?.call(null, null, { ...this.props, status: this.state.status })
+    }
   }
 
   // ----------------------------------------
@@ -213,10 +184,10 @@ export class Transition extends Component<TransitionProps, TransitionState> {
   render() {
 
     const { children, duration, animation, directional } = this.props;
-    const { status, animating } = this.state;
+    const { status, animating } = this.state as TransitionState;
 
     if (status === 'UNMOUNTED') return null;
-    const type = TRANSITION_TYPE[status];
+    const type = TRANSITION_CALLBACK_TYPE[status];
     const childClasses = (children as any).props?.className;
 
     const className = (directional ?? !Transition._ANIM.includes(animation as any))

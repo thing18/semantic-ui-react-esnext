@@ -57,3 +57,7 @@ export * from './Pagination';
 export * from './Portal';
 export * from './Confirm';
 export * from './MountNode';
+
+// extra
+export * from './Ref';
+export * from './EventStack';

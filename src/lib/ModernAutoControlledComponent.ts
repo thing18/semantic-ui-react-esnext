@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /**
  * Why choose inheritance over a HOC?  Multiple advantages for this particular use case.
  * In short, we need identical functionality to setState(), unless there is a prop defined
@@ -24,7 +23,33 @@
  *    hoisted and exposed by the HOC.
  */
 import React, { Component } from 'react';
-import { getAutoControlledStateValue, getDefaultPropName } from './AutoControlledComponent';
+
+const getDefaultPropName = (prop: string) => `default${prop[0].toUpperCase() + prop.slice(1)}`;
+
+const getAutoControlledStateValue = (propName: string, props: any, state: any, includeDefaults = false) => {
+  // regular props
+  const propValue = props[propName];
+  if (propValue !== undefined) return propValue;
+
+  if (includeDefaults) {
+    // defaultProps
+    const defaultProp = props[getDefaultPropName(propName)];
+    if (defaultProp !== undefined) return defaultProp;
+
+    // initial state - state may be null or undefined
+    if (state) {
+      const initialState = state[propName];
+      if (initialState !== undefined) return initialState;
+    }
+  }
+
+  // React doesn't allow changing from uncontrolled to controlled components,
+  // default checked/value if they were not present.
+  if (propName === 'checked') return false;
+  if (propName === 'value') return props.multiple ? [] : '';
+
+  // otherwise, undefined
+};
 
 export interface ModernAutoControlledComponentState {
 
@@ -34,8 +59,8 @@ export interface ModernAutoControlledComponentState {
 
 export abstract class ModernAutoControlledComponent<P extends object = any, S extends ModernAutoControlledComponentState = any> extends Component<P, S> {
 
-  constructor(props: P) {
-    super(props);
+  constructor(props: P, context?: any) {
+    super(props, context);
 
     const { autoControlledProps, getAutoControlledStateFromProps } = this.constructor as any;
     const state = this.getInitialAutoControlledState(this.props) ?? {};
@@ -143,10 +168,7 @@ export abstract class ModernAutoControlledComponent<P extends object = any, S ex
     // Due to the inheritance of the AutoControlledComponent we should call its
     // getAutoControlledStateFromProps() and merge it with the existing state
     if (getAutoControlledStateFromProps) {
-      const computedState = getAutoControlledStateFromProps(props, {
-        ...state,
-        ...newStateFromProps,
-      });
+      const computedState = getAutoControlledStateFromProps(props, { ...state, ...newStateFromProps }, state);
 
       // We should follow the idea of getDerivedStateFromProps() and return only modified state
       return { ...newStateFromProps, ...computedState };
@@ -158,7 +180,7 @@ export abstract class ModernAutoControlledComponent<P extends object = any, S ex
   /**
    * Override this method to use getDerivedStateFromProps() in child components.
    */
-  static getAutoControlledStateFromProps() {
+  static getAutoControlledStateFromProps(_nextProps: any, _computedState: any, _prevState: any) {
     return null;
   }
 

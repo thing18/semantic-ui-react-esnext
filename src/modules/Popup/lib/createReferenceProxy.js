@@ -1,4 +1,4 @@
-import { isRefObject, toRefObject } from '@stardust-ui/react-component-ref'
+import { isRefObject, toRefObject } from '../../../elements'
 import _ from 'lodash'
 
 class ReferenceProxy {

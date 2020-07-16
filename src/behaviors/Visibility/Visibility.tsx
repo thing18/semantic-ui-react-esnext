@@ -1,4 +1,4 @@
-import { Ref } from '@stardust-ui/react-component-ref';
+import { Ref } from '../../elements';
 import React, { Component, createRef } from 'react';
 import { eventStack, getElementType, getUnhandledProps, normalizeOffset, isBrowser } from '../../lib';
 
@@ -198,33 +198,12 @@ export class Visibility extends Component<VisibilityProps> {
     topPassed: false,
     topVisible: false,
   };
-
   firedCallbacks = [];
   ref = createRef();
-  mounted = false;
-  pageYOffset = 0;
-  frameId = 0;
 
   // ----------------------------------------
   // Lifecycle
   // ----------------------------------------
-
-  // eslint-disable-next-line camelcase
-  // tslint:disable-next-line: function-name
-  UNSAFE_componentWillReceiveProps({ continuous, once, context, updateOn }: VisibilityProps) {
-    const cleanHappened =
-      continuous !== this.props.continuous ||
-      once !== this.props.once ||
-      updateOn !== this.props.updateOn;
-
-    // Heads up! We should clean up array of happened callbacks, if values of these props are changed
-    if (cleanHappened) this.firedCallbacks = [];
-
-    if (context !== this.props.context || updateOn !== this.props.updateOn) {
-      this.unattachHandlers(this.props.context);
-      this.attachHandlers(context, updateOn);
-    }
-  }
 
   componentDidMount() {
     this.mounted = true;
@@ -238,6 +217,21 @@ export class Visibility extends Component<VisibilityProps> {
     if (fireOnMount) this.update();
   }
 
+  componentDidUpdate(prevProps) {
+    const cleanHappened =
+      prevProps.continuous !== this.props.continuous ||
+      prevProps.once !== this.props.once ||
+      prevProps.updateOn !== this.props.updateOn;
+
+    // Heads up! We should clean up array of happened callbacks, if values of these props are changed
+    if (cleanHappened) this.firedCallbacks = [];
+
+    if (prevProps.context !== this.props.context || prevProps.updateOn !== this.props.updateOn) {
+      this.unattachHandlers(prevProps.context);
+      this.attachHandlers(this.props.context, this.props.updateOn);
+    }
+  }
+
   componentWillUnmount() {
     const { context } = this.props;
 
@@ -245,7 +239,7 @@ export class Visibility extends Component<VisibilityProps> {
     this.mounted = false;
   }
 
-  attachHandlers(context: any, updateOn: string) {
+  attachHandlers(context, updateOn) {
     if (updateOn === 'events') {
       if (context) {
         eventStack.sub('resize', this.handleUpdate, { target: context });
@@ -260,7 +254,7 @@ export class Visibility extends Component<VisibilityProps> {
     this.handleUpdate();
   }
 
-  unattachHandlers(context: any) {
+  unattachHandlers(context) {
     if (context) {
       eventStack.unsub('resize', this.handleUpdate, { target: context });
       eventStack.unsub('scroll', this.handleUpdate, { target: context });
@@ -273,7 +267,7 @@ export class Visibility extends Component<VisibilityProps> {
   // Callback handling
   // ----------------------------------------
 
-  execute(callback: any, name: string) {
+  execute(callback, name) {
     const { continuous } = this.props;
     if (!callback) return;
 
@@ -368,7 +362,7 @@ export class Visibility extends Component<VisibilityProps> {
       topVisible: { callback: onTopVisibleReverse, name: 'onTopVisibleReverse' },
     };
 
-    this.props.onUpdate?.call(null, null, { ...this.props, calculations: this.calculations });
+    _.invoke(this.props, 'onUpdate', null, { ...this.props, calculations: this.calculations });
     this.fireOnPassed();
 
     // Heads up! Reverse callbacks should be fired first
@@ -437,9 +431,8 @@ export class Visibility extends Component<VisibilityProps> {
   // ----------------------------------------
 
   render() {
-
-    const { as: ElementType = 'div', children } = this.props;
-
+    const { children } = this.props;
+    const ElementType = getElementType(Visibility, this.props);
     const rest = getUnhandledProps(Visibility, this.props);
 
     return (

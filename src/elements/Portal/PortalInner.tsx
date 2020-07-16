@@ -1,4 +1,4 @@
-import { handleRef, Ref } from '@stardust-ui/react-component-ref';
+import { handleRef, Ref } from '..';
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { isBrowser } from '../../lib';
