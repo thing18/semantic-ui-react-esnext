@@ -31,9 +31,11 @@ import {
   PaginationItem,
   Pagination,
   Portal, PortalInner,
-  Accordion, AccordionAccordion, AccordionContent, AccordionPanel, AccordionTitle, Confirm, MountNode,
+  Accordion, AccordionAccordion, AccordionContent, AccordionPanel, AccordionTitle,
+  Confirm,
+  MountNode,
+  Visibility,
 } from './elements';
-import { Visibility } from './behaviors/Visibility';
 
 const _without = (array: string[], ...args: string[]) => array.filter(v => !args.includes(v));
 

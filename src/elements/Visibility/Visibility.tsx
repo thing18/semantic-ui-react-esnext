@@ -1,6 +1,6 @@
-import { Ref } from '../../elements';
 import React, { Component, createRef } from 'react';
-import { eventStack, getElementType, getUnhandledProps, normalizeOffset, isBrowser } from '../../lib';
+import { eventStack, getElementType, normalizeOffset, isBrowser } from '../../lib';
+import { Ref } from '..';
 
 export interface VisibilityProps extends StrictVisibilityProps {
   [key: string]: any;
@@ -188,7 +188,7 @@ export class Visibility extends Component<VisibilityProps> {
     updateOn: 'events',
   };
 
-  calculations = {
+  calculations: VisibilityCalculations = {
     bottomPassed: false,
     bottomVisible: false,
     fits: false,
@@ -197,9 +197,16 @@ export class Visibility extends Component<VisibilityProps> {
     onScreen: false,
     topPassed: false,
     topVisible: false,
-  };
-  firedCallbacks = [];
-  ref = createRef();
+  } as any;
+
+  oldCalculations: VisibilityCalculations = {} as any;
+
+  mounted!: boolean;
+  firedCallbacks: string[] = [];
+  ref = createRef<HTMLElement>();
+  pageYOffset!: number;
+  frameId: any;
+  ticking!: boolean;
 
   // ----------------------------------------
   // Lifecycle
@@ -217,7 +224,8 @@ export class Visibility extends Component<VisibilityProps> {
     if (fireOnMount) this.update();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: VisibilityProps) {
+
     const cleanHappened =
       prevProps.continuous !== this.props.continuous ||
       prevProps.once !== this.props.once ||
@@ -233,13 +241,13 @@ export class Visibility extends Component<VisibilityProps> {
   }
 
   componentWillUnmount() {
-    const { context } = this.props;
 
-    this.unattachHandlers(context);
+    this.unattachHandlers(this.props.context);
     this.mounted = false;
   }
 
-  attachHandlers(context, updateOn) {
+  attachHandlers(context: any, updateOn: any) {
+
     if (updateOn === 'events') {
       if (context) {
         eventStack.sub('resize', this.handleUpdate, { target: context });
@@ -254,7 +262,7 @@ export class Visibility extends Component<VisibilityProps> {
     this.handleUpdate();
   }
 
-  unattachHandlers(context) {
+  unattachHandlers(context: any) {
     if (context) {
       eventStack.unsub('resize', this.handleUpdate, { target: context });
       eventStack.unsub('scroll', this.handleUpdate, { target: context });
@@ -267,18 +275,19 @@ export class Visibility extends Component<VisibilityProps> {
   // Callback handling
   // ----------------------------------------
 
-  execute(callback, name) {
+  execute(callback: any, name: string) {
     const { continuous } = this.props;
     if (!callback) return;
 
     // Heads up! When `continuous` is true, callback will be fired always
-    if (!continuous && _.includes(this.firedCallbacks, name)) return;
+    if (!continuous && this.firedCallbacks.includes(name)) return;
 
     callback(null, { ...this.props, calculations: this.calculations });
     this.firedCallbacks.push(name);
   }
 
-  fire = ({ callback, name }, value, reverse = false) => {
+  fire = ({ callback, name }: any, value: keyof VisibilityCalculations, reverse = false) => {
+
     const { continuous, once } = this.props;
 
     // Heads up! For the execution is required:
@@ -290,14 +299,15 @@ export class Visibility extends Component<VisibilityProps> {
     if (matchesDirection && executionPossible) this.execute(callback, name);
 
     // Heads up! We should remove callback from the happened when it's not `once`
-    if (!once) this.firedCallbacks = _.without(this.firedCallbacks, name);
+    if (!once) this.firedCallbacks = this.firedCallbacks.filter(x => x !== name);
   }
 
   fireOnPassed() {
+
     const { percentagePassed, pixelsPassed } = this.calculations;
     const { onPassed } = this.props;
 
-    _.forEach(onPassed, (callback, passed) => {
+    onPassed && Object.entries(onPassed).forEach(([passed, callback]) => {
       const pixelsValue = Number(passed);
 
       if (pixelsValue && pixelsPassed >= pixelsValue) {
@@ -326,7 +336,7 @@ export class Visibility extends Component<VisibilityProps> {
     this.ticking = false;
 
     this.oldCalculations = this.calculations;
-    this.calculations = this.computeCalculations();
+    this.calculations = this.computeCalculations() as any;
     this.pageYOffset = this.getPageYOffset();
 
     const {
@@ -362,12 +372,12 @@ export class Visibility extends Component<VisibilityProps> {
       topVisible: { callback: onTopVisibleReverse, name: 'onTopVisibleReverse' },
     };
 
-    _.invoke(this.props, 'onUpdate', null, { ...this.props, calculations: this.calculations });
+    this.props.onUpdate?.call(null, null, { ...this.props, calculations: this.calculations });
     this.fireOnPassed();
 
     // Heads up! Reverse callbacks should be fired first
-    _.forEach(reverse, (data, value) => this.fire(data, value, true));
-    _.forEach(forward, (data, value) => this.fire(data, value));
+    Object.entries(reverse).forEach(([value, data]) => this.fire(data, value as any, true));
+    Object.entries(forward).forEach(([value, data]) => this.fire(data, value as any));
 
     if (updateOn === 'repaint') this.handleUpdate();
   }
@@ -378,8 +388,8 @@ export class Visibility extends Component<VisibilityProps> {
 
   computeCalculations() {
     const { offset } = this.props;
-    const { bottom, height, top, width } = this.ref.current.getBoundingClientRect();
-    const [topOffset, bottomOffset] = normalizeOffset(offset);
+    const { bottom, height, top, width } = (this.ref.current as any).getBoundingClientRect();
+    const [topOffset, bottomOffset] = normalizeOffset(offset as any);
 
     const newOffset = this.getPageYOffset();
     const direction = newOffset > this.pageYOffset ? 'down' : 'up';
@@ -420,7 +430,7 @@ export class Visibility extends Component<VisibilityProps> {
 
     if (context) {
       // Heads up! `window` doesn't have `pageYOffset` property
-      return context === window ? window.pageYOffset : context.scrollTop;
+      return context === window ? window.pageYOffset : (context as any).scrollTop;
     }
 
     return 0;
@@ -431,9 +441,8 @@ export class Visibility extends Component<VisibilityProps> {
   // ----------------------------------------
 
   render() {
-    const { children } = this.props;
-    const ElementType = getElementType(Visibility, this.props);
-    const rest = getUnhandledProps(Visibility, this.props);
+
+    const { children, ElementType, rest } = renderProps(this.props);
 
     return (
       <Ref innerRef={this.ref}>
@@ -442,3 +451,16 @@ export class Visibility extends Component<VisibilityProps> {
     );
   }
 }
+
+const renderProps = (props: VisibilityProps) => {
+
+  const {
+    as, children, context, continuous, fireOnMount, offset, once, updateOn,
+    onBottomPassed, onBottomPassedReverse, onBottomVisible, onBottomVisibleReverse,
+    onTopPassed, onTopPassedReverse, onTopVisible, onTopVisibleReverse,
+    onPassed, onPassing, onPassingReverse,
+    onOnScreen, onOffScreen, onUpdate, ...rest
+  } = props;
+
+  return { children, rest, ElementType: as ?? 'div' };
+};

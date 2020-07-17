@@ -57,6 +57,7 @@ export * from './Pagination';
 export * from './Portal';
 export * from './Confirm';
 export * from './MountNode';
+export * from './Visibility';
 
 // extra
 export * from './Ref';
