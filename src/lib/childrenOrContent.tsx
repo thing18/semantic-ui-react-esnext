@@ -1,5 +1,6 @@
 import React, { Children } from 'react';
-import { SemanticShorthandContent, getClassName } from '.';
+import { SemanticShorthandContent } from './types';
+import { getClassName } from './classNameBuilders';
 
 interface Props {
   /** An element type to render as (string or function). */
@@ -17,8 +18,13 @@ interface Props {
   [key: string]: any;
 }
 
-export const ChildrenOrContent = ({ as: ElementType = 'div', children, className, content, ...rest }: Props, ...classNameArgs: any[]) => (
-  <ElementType {...rest} className={getClassName(...classNameArgs, className)}>
-    {Children.count(children) ? children : content}
-  </ElementType>
-);
+export const ChildrenOrContent = ({ as, children, className, content, ...rest }: Props, ...classNameArgs: any[]) => {
+
+  const ElementType = (rest.href ? 'a' : as) ?? 'div';
+
+  return (
+    <ElementType {...rest} className={getClassName(...classNameArgs, className)}>
+      {Children.count(children) ? children : content}
+    </ElementType>
+  );
+};

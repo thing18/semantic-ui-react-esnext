@@ -1,4 +1,25 @@
-// import _without from 'lodash/without';
+// import _ from 'lodash/fp';
+import _memoize from 'lodash/fp/memoize';
+import _flow from 'lodash/fp/flow';
+import _map from 'lodash/fp/map';
+import _min from 'lodash/fp/min';
+import _sum from 'lodash/fp/sum';
+import _sortBy from 'lodash/fp/sortBy';
+import _take from 'lodash/fp/take';
+import _compact from 'lodash/fp/compact';
+import _keys from 'lodash/fp/keys';
+import _isNil from 'lodash/fp/isNil';
+import _isFunction from 'lodash/fp/isFunction';
+import _pick from 'lodash/fp/pick';
+import _trim from 'lodash/fp/trim';
+import _difference from 'lodash/fp/difference';
+import _isObject from 'lodash/fp/isObject';
+import _isPlainObject from 'lodash/fp/isPlainObject';
+
+import _without from 'lodash/without';
+import _uniq from 'lodash/uniq';
+
+import leven from './lib/leven';
 import PropTypes from 'prop-types';
 
 import { numberToWordMap } from './lib';
@@ -62,9 +83,6 @@ import {
 } from './components';
 import { positions } from './components/Popup/lib/positions';
 
-import _ from 'lodash/fp';
-import leven from './lib/leven';
-
 const typeOf = (v: any) => Object.prototype.toString.call(v);
 
 /**
@@ -93,29 +111,29 @@ const suggest = (suggestions: string[]) => {
   }
 
   /* eslint-disable max-nested-callbacks */
-  const findBestSuggestions = _.memoize((str) => {
+  const findBestSuggestions = _memoize((str) => {
     const propValueWords = str.split(' ');
 
-    return _.flow(
-      _.map((suggestion: string) => {
+    return _flow(
+      _map((suggestion: string) => {
         const suggestionWords = suggestion.split(' ');
 
-        const propValueScore = _.flow(
-          _.map((x: string) => _.map((y) => leven(x, y), suggestionWords)),
-          _.map(_.min),
-          _.sum,
+        const propValueScore = _flow(
+          _map((x: string) => _map((y) => leven(x, y), suggestionWords)),
+          _map(_min),
+          _sum,
         )(propValueWords);
 
-        const suggestionScore = _.flow(
-          _.map((x: string) => _.map((y) => leven(x, y), propValueWords)),
-          _.map(_.min),
-          _.sum,
+        const suggestionScore = _flow(
+          _map((x: string) => _map((y) => leven(x, y), propValueWords)),
+          _map(_min),
+          _sum,
         )(suggestionWords);
 
         return { suggestion, score: propValueScore + suggestionScore };
       }),
-      _.sortBy(['score', 'suggestion']),
-      _.take(3),
+      _sortBy(['score', 'suggestion']),
+      _take(3),
     )(suggestions);
   });
   /* eslint-enable max-nested-callbacks */
@@ -181,11 +199,11 @@ const disallow = (disallowedProps: string[]) => (props: any, propName: string, c
   }
 
   // skip if prop is undefined
-  if (_.isNil(props[propName]) || props[propName] === false) return;
+  if (_isNil(props[propName]) || props[propName] === false) return;
 
   // find disallowed props with values
   const disallowed = disallowedProps.reduce((acc, disallowedProp) => {
-    if (!_.isNil(props[disallowedProp]) && props[disallowedProp] !== false) {
+    if (!_isNil(props[disallowedProp]) && props[disallowedProp] !== false) {
       return [...acc, disallowedProp];
     }
     return acc;
@@ -217,8 +235,8 @@ const every = (validators: any[]) => (props: any, propName: any, componentName: 
     );
   }
 
-  const errors = _.flow(
-    _.map((validator) => {
+  const errors = _flow(
+    _map((validator) => {
       if (typeof validator !== 'function') {
         throw new Error(
           `every() argument "validators" should contain functions, found: ${typeOf(validator)}.`,
@@ -226,7 +244,7 @@ const every = (validators: any[]) => (props: any, propName: any, componentName: 
       }
       return validator(props, propName, componentName, ...rest);
     }),
-    _.compact,
+    _compact,
   )(validators);
 
   // we can only return one error at a time
@@ -247,8 +265,8 @@ const some = (validators: any[]) => (props: any, propName: any, componentName: a
     );
   }
 
-  const errors = _.compact<any>(_.map<any>(validators, (validator: any) => {
-    if (!_.isFunction(validator)) {
+  const errors = _compact<any>(_map<any>(validators, (validator: any) => {
+    if (!_isFunction(validator)) {
       throw new Error(`some() argument "validators" should contain functions, found: ${typeOf(validator)}.`);
     }
     return validator(props, propName, componentName, ...rest) as any;
@@ -257,7 +275,7 @@ const some = (validators: any[]) => (props: any, propName: any, componentName: a
   // fail only if all validators failed
   if (errors.length === validators.length) {
     const error = new Error('One of these validators must pass:');
-    error.message += `\n${(_.map(errors, (err: any, i: number) => `[${i + 1}]: ${err.message}`) as any).join('\n')}`;
+    error.message += `\n${(_map(errors, (err: any, i: number) => `[${i + 1}]: ${err.message}`) as any).join('\n')}`;
     return error;
   }
 };
@@ -268,7 +286,7 @@ const some = (validators: any[]) => (props: any, propName: any, componentName: a
  * @param {function} validator A propType function.
  */
 const givenProps = (propsShape: any, validator: Function) => (props: any, propName: any, componentName: any, ...rest: any) => {
-  if (!_.isPlainObject(propsShape)) {
+  if (!_isPlainObject(propsShape)) {
     throw new Error(
       [
         'Invalid argument supplied to givenProps, expected an object.',
@@ -286,7 +304,7 @@ const givenProps = (propsShape: any, validator: Function) => (props: any, propNa
     );
   }
 
-  const shouldValidate = _.keys(propsShape).every((key: any) => {
+  const shouldValidate = _keys(propsShape).every((key: any) => {
     const val = propsShape[key];
     // require propShape validators to pass or prop values to match
     return typeof val === 'function'
@@ -300,13 +318,13 @@ const givenProps = (propsShape: any, validator: Function) => (props: any, propNa
 
   if (error) {
     // poor mans shallow pretty print, prevents JSON circular reference errors
-    const prettyProps = `{ ${_.keys(_.pick(_.keys(propsShape), props))
+    const prettyProps = `{ ${_keys(_pick(_keys(propsShape), props))
       .map((key) => {
         const val = props[key];
         let renderedValue = val;
         if (typeof val === 'string') renderedValue = `"${val}"`;
         else if (Array.isArray(val)) renderedValue = `[${val.join(', ')}]`;
-        else if (_.isObject(val)) renderedValue = '{...}';
+        else if (_isObject(val)) renderedValue = '{...}';
 
         return `${key}: ${renderedValue}`;
       })
@@ -361,14 +379,14 @@ const multipleProp = (possible: string[]) => (props: any, propName: any, compone
   const propValue = props[propName];
 
   // skip if prop is undefined
-  if (_.isNil(propValue) || propValue === false) return;
+  if (_isNil(propValue) || propValue === false) return;
 
   const values = propValue
     .replace('large screen', 'large-screen')
     .replace(/ vertically/g, '-vertically')
     .split(' ')
-    .map((val: any) => _.trim(val).replace('-', ' '));
-  const invalid = _.difference(values, possible) as any;
+    .map((val: any) => _trim(val).replace('-', ' '));
+  const invalid = _difference(values, possible) as any;
 
   // fail only if there are invalid values
   if (invalid.length > 0) {
@@ -454,9 +472,6 @@ const refObject = PropTypes.shape({
 
 /** A checker that matches the React.Ref type. */
 const ref = PropTypes.oneOfType([PropTypes.func, refObject]);
-
-const _without = (array: string[], ...args: string[]) => array.filter(v => !args.includes(v));
-const _uniq = (args: string[]) => Array.from(new Set(args));
 
 const COLORS = [
   'red',

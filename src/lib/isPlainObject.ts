@@ -1,7 +1,7 @@
 // tslint:disable: triple-equals
-const isObjectObject = value => value != null && typeof value == 'object' && Object.prototype.toString.call(value) == '[object Object]';
+const isObjectObject = (value: any) => value != null && typeof value == 'object' && Object.prototype.toString.call(value) == '[object Object]';
 
-export const isPlainObject = (value) => {
+export const isPlainObject = (value: any) => {
 
   if (!isObjectObject(value)) return false;
 

@@ -158,7 +158,7 @@ export class Transition extends Component<TransitionProps, TransitionState> {
 
   }
 
-  updateStatus(prevState: TransitionState) {
+  updateStatus(prevState: TransitionState = {} as any) {
 
     if (this.state.status !== this.state.nextStatus && this.state.nextStatus) {
       this.handleStart(this.state.nextStatus);
@@ -171,7 +171,7 @@ export class Transition extends Component<TransitionProps, TransitionState> {
     if (prevState.animating && !this.state.animating) {
 
       this.props.onComplete?.call(null, null, { ...this.props, status: this.state.status });
-      (this.state.status === 'ENTERED' ? this.props.onShow : this.props.onHide)?.call(null, null, { ...this.props, status: this.state.status })
+      (this.state.status === 'ENTERED' ? this.props.onShow : this.props.onHide)?.call(null, null, { ...this.props, status: this.state.status });
     }
   }
 

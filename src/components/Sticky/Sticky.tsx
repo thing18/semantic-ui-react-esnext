@@ -1,5 +1,6 @@
 import React, { Component, createRef } from 'react';
 import { isBrowser, eventStack, getClassName } from '../../lib';
+import { isRefObject } from '../..';
 
 export interface StickyProps extends StrictStickyProps {
   [key: string]: any;
@@ -340,7 +341,7 @@ export class Sticky extends Component<StickyProps, StickyState> {
 }
 
 // tslint:disable-next-line: triple-equals
-const isRefObject = (v: any) => v != null && typeof v == 'object' && Object.prototype.hasOwnProperty.call(v, 'current');
+// const isRefObject = (v: any) => v != null && typeof v == 'object' && Object.prototype.hasOwnProperty.call(v, 'current');
 
 const getProps = (props: StickyProps) => {
 

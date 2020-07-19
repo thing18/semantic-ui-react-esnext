@@ -1,4 +1,4 @@
-import { EventListener, documentRef } from '@stardust-ui/react-component-event-listener';
+import { EventListener, documentRef } from '..';
 import React, { useRef, useReducer, useEffect, Children } from 'react';
 
 import { SemanticShorthandContent, doesNodeContainClick, getClassName } from '../../lib';

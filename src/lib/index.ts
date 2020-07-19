@@ -9,12 +9,10 @@ export * from './htmlPropsUtils';
 export { default as eventStack } from './eventStack';
 export { normalizeOffset } from './normalizeOffset';
 export * from './doesNodeContainClick';
-// export * from './AutoControlledComponent';
 export * from './ModernAutoControlledComponent';
 export * from './normalizeTransitionDuration';
 
 //
-export * from './useClasses';
 export * from './isPlainObject';
 export * from './types';
 export * from './childrenOrContent';

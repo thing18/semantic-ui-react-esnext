@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { customPropTypes, SemanticShorthandItem } from '../../lib';
+import { SemanticShorthandItem } from '../../lib';
 import { StrictModalProps, ButtonProps, ModalContentProps, ModalHeaderProps, Modal, ModalHeader, ModalContent, ModalActions, Button } from '..';
 export interface ConfirmProps extends StrictConfirmProps {
   [key: string]: any;

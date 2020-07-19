@@ -63,3 +63,4 @@ export * from './Visibility';
 // extra
 export * from './Ref';
 export * from './EventStack';
+export * from './EventListener';

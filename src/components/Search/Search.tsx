@@ -211,18 +211,23 @@ export class Search extends ModernAutoControlledComponent<SearchProps, SearchSta
   static Results = SearchResults;
 
   isMouseDown!: boolean;
+  state = {} as any;
+
+  getInitialAutoControlledState(_props: any) {
+    return {} as any;
+  }
 
   static getAutoControlledStateFromProps(props: any, state: any) {
 
     // We need to store a `prevValue` to compare as in `getDerivedStateFromProps` we don't have
     // prevState
     if (typeof state.prevValue !== 'undefined' && shallowEqual(state.prevValue, state.value)) {
-      return { prevValue: state.value };
+      return { prevValue: state.value } as any;
     }
 
     const selectedIndex = props.selectFirstResult ? 0 : -1;
 
-    return { selectedIndex, prevValue: state.value };
+    return { selectedIndex, prevValue: state.value } as any;
   }
 
   shouldComponentUpdate(nextProps: any, nextState: any) {

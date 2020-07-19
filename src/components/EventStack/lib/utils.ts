@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { InputEventListener, GenericMap, InputTargetElement, TargetElement, EventListeners } from '../types';
+import { isRefObject } from '../..';
 
 /**
  * An IE11-compatible function.
@@ -15,7 +16,7 @@ export const normalizeHandlers = (handlers: InputEventListener): EventListeners 
  *
  * @see https://github.com/facebook/react/blob/v16.8.2/packages/react-reconciler/src/ReactFiberCommitWork.js#L665
  */
-export const isRefObject = <T>(ref: any): ref is React.RefObject<T> => ref !== null && typeof ref === 'object' && ref.hasOwnProperty('current');
+// export const isRefObject = <T>(ref: any): ref is React.RefObject<T> => ref !== null && typeof ref === 'object' && ref.hasOwnProperty('current');
 
 /**
  * Normalizes `target` for EventStack, because `target` can be passed as `boolean` or `string`.
