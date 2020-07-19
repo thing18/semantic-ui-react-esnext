@@ -73,42 +73,42 @@ interface CIcon extends FCX<IconProps> {
  */
 export const Icon: CIcon = props => {
 
-  const { as: ElementType = 'i', bordered, circular, className, color, corner, disabled, fitted, flipped, inverted, link, loading, name, rotated, size, onClick, 'aria-label': ariaLabel, 'aria-hidden': ariaHidden, ...rest } = props;
+  const {
+    as: ElementType = 'i', bordered, circular, className, color, corner, disabled,
+    fitted, flipped, inverted, link, loading, name, rotated, size, 'aria-label': ariaLabel,
+    'aria-hidden': ariaHidden, children, onClick, ...rest } = props;
 
   const classes = getClassName(
     color, name, size,
-    [Use.Key, { bordered, circular, disabled, fitted, inverted, link, loading }],
+    { bordered, circular, disabled, fitted, inverted, link, loading },
     [Use.KeyOrValueKey, { corner }],
     [Use.ValueKey, { flipped, rotated }],
     'icon', className,
   );
 
-  const handleClick = useCallback((e) => disabled ? e.preventDefault() : (onClick?.call(null, e, props)), [disabled, onClick]);
+  const handleClick = (e: any) => disabled ? e.preventDefault() : onClick?.call(null, e, props);
 
-  const ariaOptions = {
-    'aria-hidden': !!ariaHidden ? ariaHidden : ariaLabel == null ? 'true' : undefined,
-    'aria-label': ariaLabel,
-  };
+  const ariaOptions = getIconAriaOptions(ariaLabel, ariaHidden);
 
   return <ElementType {...rest} {...ariaOptions} className={classes} onClick={handleClick} />;
 };
 
-// const getIconAriaOptions = ({ 'aria-label': ariaLabel, 'aria-hidden': ariaHidden }: IconProps) => {
+const getIconAriaOptions = (ariaLabel: any, ariaHidden: any) => {
 
-//   const ariaOptions: Partial<Record<'aria-label' | 'aria-hidden', any>> = {};
+  const ariaOptions = {} as Record<string, any>;
 
-//   if (ariaLabel == null) {
-//     ariaOptions['aria-hidden'] = 'true';
-//   } else {
-//     ariaOptions['aria-label'] = ariaLabel;
-//   }
+  if (ariaLabel == null) {
+    ariaOptions['aria-hidden'] = 'true';
+  } else {
+    ariaOptions['aria-label'] = ariaLabel;
+  }
 
-//   if (ariaHidden != null) {
-//     ariaOptions['aria-hidden'] = ariaHidden;
-//   }
+  if (ariaHidden != null) {
+    ariaOptions['aria-hidden'] = ariaHidden;
+  }
 
-//   return ariaOptions;
-// };
+  return ariaOptions;
+};
 
 Icon.defaultProps = { as: 'i' };
 Icon.Group = IconGroup;

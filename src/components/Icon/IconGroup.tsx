@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SemanticShorthandContent, getClassName, ChildrenOrContent } from '../../lib';
+import { SemanticShorthandContent, ChildrenOrContent } from '../../lib';
 import { IconSizeProp } from './Icon';
 
 export interface IconGroupProps extends StrictIconGroupProps {
@@ -27,6 +27,7 @@ export interface StrictIconGroupProps {
 /**
  * Several icons can be used together as a group.
  */
-export const IconGroup: React.FC<IconGroupProps> = ({ as = 'i', size, ...rest }) => ChildrenOrContent([size, 'icons'], { as, ...rest });
+export const IconGroup: React.FC<IconGroupProps> = ({ as = 'i', size, ...props }) =>
+  ChildrenOrContent({ as, ...props }, size, 'icons');
 
 IconGroup.defaultProps = { as: 'i' };

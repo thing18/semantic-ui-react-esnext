@@ -14,3 +14,5 @@ docs/src/exampleMenus
 docs/dist/
 node_modules/
 tmp/
+dist.0/
+dist.1/
