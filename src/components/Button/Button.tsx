@@ -98,7 +98,7 @@ export interface StrictButtonProps {
   size?: SemanticSIZES;
 
   /** A button can receive focus. */
-  tabIndex?: number; // | string
+  tabIndex?: number | string;
 
   /** A button can be formatted to toggle on and off. */
   toggle?: boolean;
@@ -115,9 +115,21 @@ interface CButton extends FCX<ButtonProps> {
 }
 
 // tslint:disable: triple-equals
-const getElementType = ({ as, label, attached }: ButtonProps) => as != 'button' ? as : ((attached != null) || (label != null)) ? 'div' : 'button';
+const getElementType = ({ as, label, attached }: ButtonProps) =>
+  as && as != 'button'
+    ? as
+    : ((attached != null) || (label != null))
+      ? 'div'
+      : 'button';
 
-const getTabIndex = (elementType: string, { tabIndex, disabled }: ButtonProps) => tabIndex != null ? tabIndex : disabled ? -1 : elementType == 'div' ? 0 : undefined;
+const getTabIndex = (elementType: string, { tabIndex, disabled }: ButtonProps) =>
+  tabIndex != null
+    ? +tabIndex
+    : disabled
+      ? -1
+      : elementType == 'div'
+        ? 0
+        : undefined;
 // tslint:enable: triple-equals
 
 /**
@@ -126,32 +138,37 @@ const getTabIndex = (elementType: string, { tabIndex, disabled }: ButtonProps) =
  * @see Icon
  * @see Label
  */
-export const Button: CButton = forwardRef<any, ButtonProps>((props, ref) => {
+export const Button: CButton = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
 
-  const { onClick, as, active, animated, attached, basic, children, circular, className, color, compact, content, disabled, floated, fluid, icon, inverted, label, labelPosition, loading, negative, positive, primary, secondary, size, toggle, ...rest } = props;
+  const {
+    onClick,
+    as, active, animated, attached, basic, children, circular, className, color, compact, content, disabled,
+    floated, fluid, icon, inverted, label, labelPosition, loading, negative, positive, primary, secondary,
+    size, toggle, role, tabIndex, ...rest } = { ...Button.defaultProps, ...props };
 
-  const handleClick = useCallback(
-    (e) => {
+  const handleClick = (e: any) => {
 
-      if (disabled) {
-        return e.preventDefault();
-      }
+    if (disabled) return e.preventDefault();
+    onClick?.call(null, e, props);
+  };
 
-      onClick?.call(null, e, props);
-    },
-    [disabled, onClick],
-  );
-
+  // tslint:disable: object-shorthand-properties-first
   const baseClasses = getClassName(
     color, size,
-    // tslint:disable-next-line: object-shorthand-properties-first
-    [Use.Key, { active, basic, circular, compact, fluid, icon: (icon === true ? true : !!icon && (labelPosition || (!Children.count(children) && (content == null)))), inverted, loading, negative, positive, primary, secondary, toggle }],
-    [Use.KeyOrValueKey, { animated, attached }]);
+    {
+      active, basic, circular, compact, fluid,
+      icon: (icon === true ? true : icon && (labelPosition || (!Children.count(children) && (content == null)))),
+      inverted, loading, negative, positive, primary, secondary, toggle,
+    },
+    [Use.KeyOrValueKey, { animated, attached }],
+  );
 
   const labeledClasses = getClassName([Use.KeyOrValueKey, { labeled: labelPosition || !!label }]);
-  const wrapperClasses = getClassName([Use.Key, { disabled }], [Use.ValueKey, { floated }]);
+
+  const wrapperClasses = getClassName({ disabled }, [Use.ValueKey, { floated }]);
+
+  // tslint:enable: object-shorthand-properties-first
   const ElementType = getElementType(props);
-  const tabIndex = getTabIndex(ElementType, props);
 
   if (label != null) {
 
@@ -162,8 +179,9 @@ export const Button: CButton = forwardRef<any, ButtonProps>((props, ref) => {
     return (
       <ElementType {...rest} className={containerClasses} onClick={handleClick} >
         {labelPosition === 'left' && labelElement}
-        <button ref={ref} className={buttonClasses} aria-pressed={toggle ? !!active : undefined} disabled={disabled} tabIndex={tabIndex} >
-          {Icon.create(icon, { autoGenerateKey: false })} {content}
+        <button ref={ref} className={buttonClasses} aria-pressed={toggle ? !!active : undefined} disabled={disabled} tabIndex={getTabIndex(ElementType, props)} >
+          {Icon.create(icon, { autoGenerateKey: false })}
+          {content}
         </button>
         {(labelPosition === 'right' || !labelPosition) && labelElement}
       </ElementType>
@@ -172,9 +190,8 @@ export const Button: CButton = forwardRef<any, ButtonProps>((props, ref) => {
 
   const classes = getClassName('ui', baseClasses, wrapperClasses, labeledClasses, 'button', className);
   const hasChildren = !!Children.count(children);
-  // tslint:disable-next-line: triple-equals
-  const role = rest.role != null ? rest.role : ElementType != 'button' ? 'button' : undefined;
 
+  // tslint:disable: triple-equals
   return (
     <ElementType
       {...rest}
@@ -182,14 +199,15 @@ export const Button: CButton = forwardRef<any, ButtonProps>((props, ref) => {
       aria-pressed={toggle ? !!active : undefined}
       disabled={(disabled && ElementType === 'button') || undefined}
       onClick={handleClick}
-      role={role}
-      tabIndex={tabIndex}
+      role={role != null ? role : ElementType != 'button' ? 'button' : undefined}
+      tabIndex={getTabIndex(ElementType, props)}
       ref={ref}
     >
       {hasChildren && children}
       {!hasChildren && Icon.create(icon, { autoGenerateKey: false })}
       {!hasChildren && content}
     </ElementType>
+    // tslint:enable: triple-equals
   );
 }) as any;
 

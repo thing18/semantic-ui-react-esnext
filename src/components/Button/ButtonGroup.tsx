@@ -81,7 +81,7 @@ export interface ButtonGroupProps extends StrictButtonGroupProps {
 export const ButtonGroup: React.FC<ButtonGroupProps> = ({ as: ElementType = 'div', attached, basic, buttons, children, className, color, compact, content, floated, fluid, icon, inverted, labeled, negative, positive, primary, secondary, size, toggle, vertical, widths, ...rest }) => {
 
   const classes = getClassName('ui', color, size,
-    [Use.Key, { basic, compact, fluid, icon, inverted, labeled, negative, positive, primary, secondary, toggle, vertical }],
+    { basic, compact, fluid, icon, inverted, labeled, negative, positive, primary, secondary, toggle, vertical },
     [Use.KeyOrValueKey, { attached }],
     [Use.ValueKey, { floated }],
     [Use.Width, widths],

@@ -1,6 +1,6 @@
 import React, { Children } from 'react';
 
-import { SemanticShorthandContent, Use, getClassName } from '../../lib';
+import { SemanticShorthandContent, Use, getClassName, ChildrenOrContent } from '../../lib';
 
 export interface StrictButtonContentProps {
   /** An element type to render as (string or function). */
@@ -29,13 +29,5 @@ export interface ButtonContentProps extends StrictButtonContentProps {
 /**
  * Used in some Button types, such as `animated`.
  */
-export const ButtonContent: React.FC<ButtonContentProps> = ({ as: ElementType = 'div', children, className, content, hidden, visible, ...rest }) => {
-
-  const classes = getClassName([Use.Key, { visible, hidden }], 'content', className);
-
-  return (
-    <ElementType {...rest} className={classes}>
-      {Children.count(children) ? children : content}
-    </ElementType>
-  );
-};
+export const ButtonContent: React.FC<ButtonContentProps> = ({ hidden, visible, ...props }) =>
+  ChildrenOrContent(props, { visible, hidden }, 'content');

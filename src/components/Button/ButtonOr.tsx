@@ -19,4 +19,5 @@ export interface ButtonOrProps extends StrictButtonOrProps {
 /**
  * Button groups can contain conditionals.
  */
-export const ButtonOr: React.FC<ButtonOrProps> = ({ as: ElementType = 'div', className, text, ...rest }) => <ElementType {...rest} className={getClassName('or', className)} data-text={text} />;
+export const ButtonOr: React.FC<ButtonOrProps> = ({ as: ElementType = 'div', className, text, ...rest }) =>
+  <ElementType {...rest} className={getClassName('or', className)} data-text={text} />;
