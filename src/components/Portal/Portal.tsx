@@ -1,8 +1,8 @@
-import { EventStack, handleRef, Ref } from '..';
 import keyboardKey from 'keyboard-key';
 import React, { cloneElement, createRef, Fragment } from 'react';
 
 import { ModernAutoControlledComponent as Component, doesNodeContainClick, ModernAutoControlledComponentState } from '../../lib';
+import { EventStack, handleRef, Ref } from '..';
 import { PortalInner } from './PortalInner';
 
 export interface PortalProps extends StrictPortalProps {
@@ -333,18 +333,8 @@ export class Portal extends Component<PortalProps, PortalState> {
               {children}
             </PortalInner>
 
-            <EventStack
-              name='mouseleave'
-              on={this.handlePortalMouseLeave}
-              pool={eventPool}
-              target={this.contentRef}
-            />
-            <EventStack
-              name='mouseenter'
-              on={this.handlePortalMouseEnter}
-              pool={eventPool}
-              target={this.contentRef}
-            />
+            <EventStack name='mouseleave' on={this.handlePortalMouseLeave} pool={eventPool} target={this.contentRef} />
+            <EventStack name='mouseenter' on={this.handlePortalMouseEnter} pool={eventPool} target={this.contentRef} />
             <EventStack name='mousedown' on={this.handleDocumentMouseDown} pool={eventPool} />
             <EventStack name='click' on={this.handleDocumentClick} pool={eventPool} />
             <EventStack name='keydown' on={this.handleEscape} pool={eventPool} />

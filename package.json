@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Semantic-Org/Semantic-UI-React#readme",
   "dependencies": {
+    "@popperjs/core": "^2.4.4",
     "@semantic-ui-react/event-stack": "^3.1.1",
     "@stardust-ui/react-component-event-listener": "~0.40.0",
     "@stardust-ui/react-component-ref": "^0.40.0",

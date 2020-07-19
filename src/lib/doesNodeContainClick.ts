@@ -9,6 +9,7 @@
  * @returns {boolean}
  */
 export const doesNodeContainClick = (node: HTMLElement, e: any) => {
+
   if (node == null || e == null) return false;
 
   // if there is an e.target and it is in the document, use a simple node.contains() check

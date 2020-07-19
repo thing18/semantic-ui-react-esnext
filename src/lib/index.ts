@@ -1,18 +1,4 @@
-import makeDebugger from './makeDebugger';
-
-export * as customPropTypes from './customPropTypes';
-
-export getUnhandledProps from './getUnhandledProps';
-
-
-export * as SUI from './SUI';
-
 export * from './numberToWord';
-
-// Heads up! We import/export for this module to safely remove it with "babel-plugin-filter-imports"
-export { makeDebugger };
-export { default as leven } from './leven';
-
 export * from './classNameBuilders';
 export * from './getElementType';
 export * from './isBrowser';
@@ -21,7 +7,7 @@ export * from './factories';
 export * from './objectDiff';
 export * from './htmlPropsUtils';
 export { default as eventStack } from './eventStack';
-export { default as normalizeOffset } from './normalizeOffset';
+export { normalizeOffset } from './normalizeOffset';
 export * from './doesNodeContainClick';
 // export * from './AutoControlledComponent';
 export * from './ModernAutoControlledComponent';
@@ -31,7 +17,7 @@ export * from './normalizeTransitionDuration';
 export * from './useClasses';
 export * from './isPlainObject';
 export * from './types';
-export * from './_childrenOrContent';
+export * from './childrenOrContent';
 
 // tslint:disable-next-line: triple-equals
 export const isEmptyPrimitive = (value: string | number | boolean | (string | number | boolean)[]) => ((Array.isArray(value) || typeof value == 'string') && !value.length) || value == null;

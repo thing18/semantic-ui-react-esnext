@@ -47,6 +47,7 @@ export * from './Sidebar';
 export * from './Sticky';
 export * from './Transition';
 export * from './Accordion';
+export * from './Popup';
 
 // addons
 export * from './TransitionablePortal';

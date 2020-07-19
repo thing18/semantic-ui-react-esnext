@@ -1,3 +1,3 @@
-import { instance } from '../../elements';
+import { instance } from '../../components';
 
 export default instance;

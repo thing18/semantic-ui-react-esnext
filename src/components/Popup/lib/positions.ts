@@ -1,4 +1,3 @@
-import _ from 'lodash'
 
 export const positionsMapping = {
   'top center': 'top',
@@ -11,8 +10,8 @@ export const positionsMapping = {
 
   'right center': 'right',
   'left center': 'left',
-}
+};
 
-export const positions = _.keys(positionsMapping)
+export const positions = Object.keys(positionsMapping);
 
-export const placementMapping = _.invert(positionsMapping)
+export const placementMapping = Object.entries(positionsMapping).reduce((acc, [k, v]) => { acc[v] = k; return acc; }, {} as Record<string, string>);

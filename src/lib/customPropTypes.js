@@ -2,16 +2,16 @@ import _ from 'lodash/fp'
 import PropTypes from 'prop-types'
 import leven from './leven'
 
-const typeOf = (...args) => Object.prototype.toString.call(...args)
+const typeOf=(...args) => Object.prototype.toString.call(...args)
 
 /**
  * Ensure a prop is a valid DOM node.
  */
-export const domNode = (props, propName) => {
+export const domNode=(props, propName) => {
   // skip if prop is undefined
-  if (props[propName] === undefined) return
+  if (props[propName]===undefined) return
   // short circle for SSR env
-  if (typeof Element === 'undefined') return
+  if (typeof Element==='undefined') return
   // skip if prop is valid
   if (props[propName] instanceof Element) return
 
@@ -24,32 +24,32 @@ export const domNode = (props, propName) => {
  * Useful for very large lists of options (e.g. Icon name, Flag name, etc.)
  * @param {string[]} suggestions An array of allowed values.
  */
-export const suggest = (suggestions) => {
+export const suggest=(suggestions) => {
   if (!Array.isArray(suggestions)) {
     throw new Error('Invalid argument supplied to suggest, expected an instance of array.')
   }
 
   /* eslint-disable max-nested-callbacks */
-  const findBestSuggestions = _.memoize((str) => {
-    const propValueWords = str.split(' ')
+  const findBestSuggestions=_.memoize((str) => {
+    const propValueWords=str.split(' ')
 
     return _.flow(
       _.map((suggestion) => {
-        const suggestionWords = suggestion.split(' ')
+        const suggestionWords=suggestion.split(' ')
 
-        const propValueScore = _.flow(
+        const propValueScore=_.flow(
           _.map((x) => _.map((y) => leven(x, y), suggestionWords)),
           _.map(_.min),
           _.sum,
         )(propValueWords)
 
-        const suggestionScore = _.flow(
+        const suggestionScore=_.flow(
           _.map((x) => _.map((y) => leven(x, y), propValueWords)),
           _.map(_.min),
           _.sum,
         )(suggestionWords)
 
-        return { suggestion, score: propValueScore + suggestionScore }
+        return { suggestion, score: propValueScore+suggestionScore }
       }),
       _.sortBy(['score', 'suggestion']),
       _.take(3),
@@ -61,36 +61,36 @@ export const suggest = (suggestions) => {
   // the words in each key are sorted alphabetically so that we have a consistent
   // way of looking up a value in the map, i.e. we can sort the words in the
   // incoming propValue and look that up without having to check all permutations.
-  const suggestionsLookup = suggestions.reduce((acc, key) => {
+  const suggestionsLookup=suggestions.reduce((acc, key) => {
     acc[
       key
         .split(' ')
         .sort()
         .join(' ')
-    ] = true
+    ]=true
     return acc
   }, {})
 
   return (props, propName, componentName) => {
-    const propValue = props[propName]
+    const propValue=props[propName]
 
     // skip if prop is undefined or is included in the suggestions
-    if (!propValue || suggestionsLookup[propValue]) return
+    if (!propValue||suggestionsLookup[propValue]) return
 
     // check if the words were correct but ordered differently.
     // Since we're matching for classNames we need to allow any word order
     // to pass validation, e.g. `left chevron` vs `chevron left`.
-    const propValueSorted = propValue
+    const propValueSorted=propValue
       .split(' ')
       .sort()
       .join(' ')
     if (suggestionsLookup[propValueSorted]) return
 
     // find best suggestions
-    const bestMatches = findBestSuggestions(propValue)
+    const bestMatches=findBestSuggestions(propValue)
 
     // skip if a match scored 0
-    if (bestMatches.some((x) => x.score === 0)) return
+    if (bestMatches.some((x) => x.score===0)) return
 
     return new Error(
       [
@@ -107,7 +107,7 @@ export const suggest = (suggestions) => {
  * Disallow other props from being defined with this prop.
  * @param {string[]} disallowedProps An array of props that cannot be used with this prop.
  */
-export const disallow = (disallowedProps) => (props, propName, componentName) => {
+export const disallow=(disallowedProps) => (props, propName, componentName) => {
   if (!Array.isArray(disallowedProps)) {
     throw new Error(
       [
@@ -118,17 +118,17 @@ export const disallow = (disallowedProps) => (props, propName, componentName) =>
   }
 
   // skip if prop is undefined
-  if (_.isNil(props[propName]) || props[propName] === false) return
+  if (_.isNil(props[propName])||props[propName]===false) return
 
   // find disallowed props with values
-  const disallowed = disallowedProps.reduce((acc, disallowedProp) => {
-    if (!_.isNil(props[disallowedProp]) && props[disallowedProp] !== false) {
+  const disallowed=disallowedProps.reduce((acc, disallowedProp) => {
+    if (!_.isNil(props[disallowedProp])&&props[disallowedProp]!==false) {
       return [...acc, disallowedProp]
     }
     return acc
   }, [])
 
-  if (disallowed.length > 0) {
+  if (disallowed.length>0) {
     return new Error(
       [
         `Prop \`${propName}\` in \`${componentName}\` conflicts with props: \`${disallowed.join(
@@ -144,7 +144,7 @@ export const disallow = (disallowedProps) => (props, propName, componentName) =>
  * Ensure a prop adherers to multiple prop type validators.
  * @param {function[]} validators An array of propType functions.
  */
-export const every = (validators) => (props, propName, componentName, ...rest) => {
+export const every=(validators) => (props, propName, componentName, ...rest) => {
   if (!Array.isArray(validators)) {
     throw new Error(
       [
@@ -154,9 +154,9 @@ export const every = (validators) => (props, propName, componentName, ...rest) =
     )
   }
 
-  const errors = _.flow(
+  const errors=_.flow(
     _.map((validator) => {
-      if (typeof validator !== 'function') {
+      if (typeof validator!=='function') {
         throw new Error(
           `every() argument "validators" should contain functions, found: ${typeOf(validator)}.`,
         )
@@ -174,7 +174,7 @@ export const every = (validators) => (props, propName, componentName, ...rest) =
  * Ensure a prop adherers to at least one of the given prop type validators.
  * @param {function[]} validators An array of propType functions.
  */
-export const some = (validators) => (props, propName, componentName, ...rest) => {
+export const some=(validators) => (props, propName, componentName, ...rest) => {
   if (!Array.isArray(validators)) {
     throw new Error(
       [
@@ -184,7 +184,7 @@ export const some = (validators) => (props, propName, componentName, ...rest) =>
     )
   }
 
-  const errors = _.compact(
+  const errors=_.compact(
     _.map(validators, (validator) => {
       if (!_.isFunction(validator)) {
         throw new Error(
@@ -196,9 +196,9 @@ export const some = (validators) => (props, propName, componentName, ...rest) =>
   )
 
   // fail only if all validators failed
-  if (errors.length === validators.length) {
-    const error = new Error('One of these validators must pass:')
-    error.message += `\n${_.map(errors, (err, i) => `[${i + 1}]: ${err.message}`).join('\n')}`
+  if (errors.length===validators.length) {
+    const error=new Error('One of these validators must pass:')
+    error.message+=`\n${_.map(errors, (err, i) => `[${i+1}]: ${err.message}`).join('\n')}`
     return error
   }
 }
@@ -208,7 +208,7 @@ export const some = (validators) => (props, propName, componentName, ...rest) =>
  * @param {object} propsShape An object describing the prop shape.
  * @param {function} validator A propType function.
  */
-export const givenProps = (propsShape, validator) => (props, propName, componentName, ...rest) => {
+export const givenProps=(propsShape, validator) => (props, propName, componentName, ...rest) => {
   if (!_.isPlainObject(propsShape)) {
     throw new Error(
       [
@@ -218,7 +218,7 @@ export const givenProps = (propsShape, validator) => (props, propName, component
     )
   }
 
-  if (typeof validator !== 'function') {
+  if (typeof validator!=='function') {
     throw new Error(
       [
         'Invalid argument supplied to givenProps, expected a function.',
@@ -227,33 +227,33 @@ export const givenProps = (propsShape, validator) => (props, propName, component
     )
   }
 
-  const shouldValidate = _.keys(propsShape).every((key) => {
-    const val = propsShape[key]
+  const shouldValidate=_.keys(propsShape).every((key) => {
+    const val=propsShape[key]
     // require propShape validators to pass or prop values to match
-    return typeof val === 'function'
+    return typeof val==='function'
       ? !val(props, key, componentName, ...rest)
-      : val === props[propName]
+      :val===props[propName]
   })
 
   if (!shouldValidate) return
 
-  const error = validator(props, propName, componentName, ...rest)
+  const error=validator(props, propName, componentName, ...rest)
 
   if (error) {
     // poor mans shallow pretty print, prevents JSON circular reference errors
-    const prettyProps = `{ ${_.keys(_.pick(_.keys(propsShape), props))
+    const prettyProps=`{ ${_.keys(_.pick(_.keys(propsShape), props))
       .map((key) => {
-        const val = props[key]
-        let renderedValue = val
-        if (typeof val === 'string') renderedValue = `"${val}"`
-        else if (Array.isArray(val)) renderedValue = `[${val.join(', ')}]`
-        else if (_.isObject(val)) renderedValue = '{...}'
+        const val=props[key]
+        let renderedValue=val
+        if (typeof val==='string') renderedValue=`"${val}"`
+        else if (Array.isArray(val)) renderedValue=`[${val.join(', ')}]`
+        else if (_.isObject(val)) renderedValue='{...}'
 
         return `${key}: ${renderedValue}`
       })
       .join(', ')} }`
 
-    error.message = `Given props ${prettyProps}: ${error.message}`
+    error.message=`Given props ${prettyProps}: ${error.message}`
     return error
   }
 }
@@ -262,7 +262,7 @@ export const givenProps = (propsShape, validator) => (props, propName, component
  * Define prop dependencies by requiring other props.
  * @param {string[]} requiredProps An array of required prop names.
  */
-export const demand = (requiredProps) => (props, propName, componentName) => {
+export const demand=(requiredProps) => (props, propName, componentName) => {
   if (!Array.isArray(requiredProps)) {
     throw new Error(
       [
@@ -273,10 +273,10 @@ export const demand = (requiredProps) => (props, propName, componentName) => {
   }
 
   // skip if prop is undefined
-  if (props[propName] === undefined) return
+  if (props[propName]===undefined) return
 
-  const missingRequired = requiredProps.filter((requiredProp) => props[requiredProp] === undefined)
-  if (missingRequired.length > 0) {
+  const missingRequired=requiredProps.filter((requiredProp) => props[requiredProp]===undefined)
+  if (missingRequired.length>0) {
     return new Error(
       `\`${propName}\` prop in \`${componentName}\` requires props: \`${missingRequired.join(
         '`, `',
@@ -289,7 +289,7 @@ export const demand = (requiredProps) => (props, propName, componentName) => {
  * Ensure an multiple prop contains a string with only possible values.
  * @param {string[]} possible An array of possible values to prop.
  */
-export const multipleProp = (possible) => (props, propName, componentName) => {
+export const multipleProp=(possible) => (props, propName, componentName) => {
   if (!Array.isArray(possible)) {
     throw new Error(
       [
@@ -299,20 +299,20 @@ export const multipleProp = (possible) => (props, propName, componentName) => {
     )
   }
 
-  const propValue = props[propName]
+  const propValue=props[propName]
 
   // skip if prop is undefined
-  if (_.isNil(propValue) || propValue === false) return
+  if (_.isNil(propValue)||propValue===false) return
 
-  const values = propValue
+  const values=propValue
     .replace('large screen', 'large-screen')
     .replace(/ vertically/g, '-vertically')
     .split(' ')
     .map((val) => _.trim(val).replace('-', ' '))
-  const invalid = _.difference(values, possible)
+  const invalid=_.difference(values, possible)
 
   // fail only if there are invalid values
-  if (invalid.length > 0) {
+  if (invalid.length>0) {
     return new Error(
       `\`${propName}\` prop in \`${componentName}\` has invalid values: \`${invalid.join(
         '`, `',
@@ -324,14 +324,14 @@ export const multipleProp = (possible) => (props, propName, componentName) => {
 /**
  * Ensure a component can render as a node passed as a prop value in place of children.
  */
-export const contentShorthand = (...args) =>
+export const contentShorthand=(...args) =>
   every([disallow(['children']), PropTypes.node])(...args)
 
 /**
  * Item shorthand is a description of a component that can be a literal,
  * a props object, or an element.
  */
-export const itemShorthand = (...args) =>
+export const itemShorthand=(...args) =>
   every([
     disallow(['children']),
     PropTypes.oneOfType([
@@ -345,7 +345,7 @@ export const itemShorthand = (...args) =>
 /**
  * Collection shorthand ensures a prop is an array of item shorthand.
  */
-export const collectionShorthand = (...args) =>
+export const collectionShorthand=(...args) =>
   every([disallow(['children']), PropTypes.arrayOf(itemShorthand)])(...args)
 
 /**
@@ -353,8 +353,8 @@ export const collectionShorthand = (...args) =>
  * @param {string} help A help message to display with the deprecation warning.
  * @param {function} [validator] A propType function.
  */
-export const deprecate = (help, validator) => (props, propName, componentName, ...args) => {
-  if (typeof help !== 'string') {
+export const deprecate=(help, validator) => (props, propName, componentName, ...args) => {
+  if (typeof help!=='string') {
     throw new Error(
       [
         'Invalid `help` argument supplied to deprecate, expected a string.',
@@ -364,18 +364,18 @@ export const deprecate = (help, validator) => (props, propName, componentName, .
   }
 
   // skip if prop is undefined
-  if (props[propName] === undefined) return
+  if (props[propName]===undefined) return
 
   // deprecation error and help
-  const error = new Error(`The \`${propName}\` prop in \`${componentName}\` is deprecated.`)
-  if (help) error.message += ` ${help}`
+  const error=new Error(`The \`${propName}\` prop in \`${componentName}\` is deprecated.`)
+  if (help) error.message+=` ${help}`
 
   // add optional validation error message
   if (validator) {
-    if (typeof validator === 'function') {
-      const validationError = validator(props, propName, componentName, ...args)
+    if (typeof validator==='function') {
+      const validationError=validator(props, propName, componentName, ...args)
       if (validationError) {
-        error.message = `${error.message} ${validationError.message}`
+        error.message=`${error.message} ${validationError.message}`
       }
     } else {
       throw new Error(
@@ -391,9 +391,9 @@ export const deprecate = (help, validator) => (props, propName, componentName, .
 }
 
 /** A checker that matches the React.RefObject type. */
-export const refObject = PropTypes.shape({
+export const refObject=PropTypes.shape({
   current: PropTypes.object,
 })
 
 /** A checker that matches the React.Ref type. */
-export const ref = PropTypes.oneOfType([PropTypes.func, refObject])
+export const ref=PropTypes.oneOfType([PropTypes.func, refObject])

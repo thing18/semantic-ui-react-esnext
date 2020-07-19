@@ -28,8 +28,7 @@ type MapValueToProps<T> = (val: any) => T;
 
 export const createShorthand = <T extends any = any>(Component: string | React.FC<T>, mapValueToProps: MapValueToProps<T> | null, val: any, options: Options = {}) => {
 
-  // tslint:disable-next-line: triple-equals
-  if (process.env.NODE_ENV != 'production') {
+  if (process.env.NODE_ENV !== 'production') {
 
     if (typeof Component !== 'function' && typeof Component !== 'string') {
       throw new Error('createShorthand() Component must be a string or function.');
@@ -38,21 +37,21 @@ export const createShorthand = <T extends any = any>(Component: string | React.F
 
   // short circuit noop values
   // tslint:disable: triple-equals
-  if (val == null || typeof val == 'boolean') return null;
+  const typeofVal = typeof val;
+  if (val == null || typeofVal == 'boolean') return null;
 
-  const valIsString = typeof val == 'string' || val instanceof String;
-  const valIsNumber = typeof val == 'number' || val instanceof Number;
-  const valIsFunction = typeof val == 'function' || val instanceof Function;
+  const valIsString = typeofVal == 'string' || val instanceof String;
+  const valIsNumber = typeofVal == 'number' || val instanceof Number;
+  const valIsFunction = typeofVal == 'function' || val instanceof Function;
   const valIsReactElement = isValidElement(val);
   const valIsPropsObject = isPlainObject(val);
   const valIsPrimitiveValue = valIsString || valIsNumber || Array.isArray(val);
   // tslint:enable: triple-equals
 
   // unhandled type return null
-  /* eslint-disable no-console */
   if (!valIsFunction && !valIsReactElement && !valIsPropsObject && !valIsPrimitiveValue) {
-    // tslint:disable-next-line: triple-equals
-    if (process.env.NODE_ENV != 'production') {
+
+    if (process.env.NODE_ENV !== 'production') {
       console.error(
         [
           'Shorthand value must be a string|number|array|object|ReactElement|function.',
@@ -63,7 +62,6 @@ export const createShorthand = <T extends any = any>(Component: string | React.F
     }
     return null;
   }
-  /* eslint-enable no-console */
 
   // ----------------------------------------
   // Build up props
@@ -81,7 +79,6 @@ export const createShorthand = <T extends any = any>(Component: string | React.F
     : overrideProps;
 
   // Merge props
-  /* eslint-disable react/prop-types */
   const props = { ...defaultProps, ...usersProps, ...overrideProps };
 
   // Merge className
@@ -127,7 +124,6 @@ export const createShorthand = <T extends any = any>(Component: string | React.F
 
   // Call functions with args similar to createElement()
   if (valIsFunction) return val(Component, props, props.children);
-  /* eslint-enable react/prop-types */
 };
 
 // ============================================================
@@ -143,12 +139,12 @@ export const createShorthand = <T extends any = any>(Component: string | React.F
  */
 export const createShorthandFactory = <T extends any = any>(Component: string | React.FC<T>, mapValueToProps: MapValueToProps<T> | null) => {
 
-  // tslint:disable-next-line: triple-equals
-  if (process.env.NODE_ENV != 'production') {
+  if (process.env.NODE_ENV !== 'production') {
     if (typeof Component !== 'function' && typeof Component !== 'string') {
       throw new Error('createShorthandFactory() Component must be a string or function.');
     }
   }
+
   return (val: any, options?: any) => createShorthand(Component, mapValueToProps, val, options);
 };
 

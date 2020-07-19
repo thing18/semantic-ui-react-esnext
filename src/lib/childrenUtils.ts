@@ -1,4 +1,4 @@
-import { Children, ReactChildren, ElementType } from 'react';
+import React, { Children } from 'react';
 
 /**
  * Determine if child by type exists in children.
@@ -7,7 +7,7 @@ import { Children, ReactChildren, ElementType } from 'react';
  * @returns {Boolean}
  */
 // tslint:disable-next-line: triple-equals
-export const someByType = (children: ReactChildren, type: ElementType) => Children.toArray(children).some((c: any) => c.type === type);
+export const someByType = (children: React.ReactChildren, type: React.ElementType) => Children.toArray(children).some((c: any) => c.type === type);
 
 /**
  * Find child by type.
@@ -16,7 +16,7 @@ export const someByType = (children: ReactChildren, type: ElementType) => Childr
  * @returns {undefined|Object}
  */
 // tslint:disable-next-line: triple-equals
-export const findByType = (children: ReactChildren, type: ElementType) => Children.toArray(children).find((c: any) => c.type === type);
+export const findByType = (children: React.ReactChildren, type: React.ElementType) => Children.toArray(children).find((c: any) => c.type === type);
 
 /**
  * Tests if children are nil in React and Preact.
