@@ -1,7 +1,7 @@
-import { handleRef, Ref } from '..';
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { isBrowser } from '../../lib';
+import { handleRef, Ref } from '../Ref';
 
 export interface PortalInnerProps extends StrictPortalInnerProps {
   [key: string]: any;

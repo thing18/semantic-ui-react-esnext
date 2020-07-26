@@ -51,7 +51,14 @@ export interface StrictGridRowProps {
  */
 export const GridRow: React.FC<GridRowProps> = ({ as: ElementType = 'div', centered, children, className, color, columns, divided, only, reversed, stretched, textAlign, verticalAlign, ...rest }) => {
 
-  const classes = getClassName(color, [Use.Key, { centered, divided, stretched }], [Use.Multiple, { only, reversed }], [Use.TextAlign, textAlign], [Use.VerticalAlign, verticalAlign], [Use.Width, columns, 'column', true], 'row', className);
+  const classes = getClassName(
+    color,
+    { centered, divided, stretched },
+    [Use.Multiple, { only, reversed }],
+    [Use.TextAlign, textAlign],
+    [Use.VerticalAlign, verticalAlign],
+    [Use.Width, columns, 'column', true],
+    'row', className);
 
   return (
     <ElementType {...rest} className={classes}>

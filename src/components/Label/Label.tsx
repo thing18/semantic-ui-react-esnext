@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { Children } from 'react';
 
 import { SemanticCOLORS, SemanticShorthandContent, SemanticShorthandItem, SemanticSIZES, childrenUtils, createShorthandFactory, FCX, Use, getClassName } from '../../lib';
-import { Image, IconProps, Icon } from '..';
+import { Image } from '../Image';
+import { IconProps, Icon } from '../Icon';
 import { LabelDetail, LabelDetailProps } from './LabelDetail';
 import { LabelGroup } from './LabelGroup';
 
@@ -105,33 +106,33 @@ export const Label: CLabel = (props) => {
 
   const { onClick, as, active, attached, basic, children, circular, className, color, content, corner, detail, empty, floating, horizontal, icon, image, onRemove, pointing, prompt, removeIcon, ribbon, size, tag, ...rest } = props;
 
+  const ElementType = as && as !== 'div' ? as : rest.href ? 'a' : 'div';
+
   const pointingClass = (pointing === true && 'pointing') || ((pointing === 'left' || pointing === 'right') && `${pointing} pointing`) || ((pointing === 'above' || pointing === 'below') && `pointing ${pointing}`) as any;
 
   const classes = getClassName('ui', color, pointingClass, size,
     // tslint:disable-next-line: object-shorthand-properties-first
-    [Use.Key, { active, basic, circular, empty, floating, horizontal, image: image === true, prompt, tag }],
+    { active, basic, circular, empty, floating, horizontal, image: image === true, prompt, tag },
     [Use.KeyOrValueKey, { corner, ribbon }],
     [Use.ValueKey, { attached }],
     'label', className);
 
-  const handleClick = useCallback((e) => { onClick?.call(null, e, props); }, []);
+  const handleClick = (e: any) => onClick?.call(null, e, props);
 
-  const handleIconOverrides = useCallback((predefinedProps) => ({
-    onClick: (e: any) => {
-      predefinedProps.onClick && predefinedProps.onClick(e);
-      onRemove?.call(null, e, props);
-    },
-  }), []);
-
-  const ElementType = !!rest.href ? 'a' : (as || 'div');
-
-  if (!childrenUtils.isNil(children)) {
+  if (Children.count(children)) {
     return (
       <ElementType {...rest} className={classes} onClick={handleClick}>
         {children}
       </ElementType>
     );
   }
+
+  const handleIconOverrides = (pp: IconProps) => ({
+    onClick: (e: any) => {
+      pp.onClick?.call(null, e);
+      onRemove?.call(null, e, props);
+    },
+  });
 
   const removeIconShorthand = removeIcon === undefined ? 'delete' : removeIcon;
 

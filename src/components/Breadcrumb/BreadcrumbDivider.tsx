@@ -1,7 +1,7 @@
 import React, { Children } from 'react';
 
 import { SemanticShorthandContent, SemanticShorthandItem, FCX, getClassName, createShorthandFactory } from '../../lib';
-import { Icon, IconProps } from '..';
+import { Icon, IconProps } from '../Icon';
 
 export interface BreadcrumbDividerProps extends StrictBreadcrumbDividerProps {
   [key: string]: any;

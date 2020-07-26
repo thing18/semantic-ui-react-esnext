@@ -1,6 +1,6 @@
-import React, { Children } from 'react';
+import React from 'react';
 
-import { SemanticShorthandContent, createShorthandFactory, FCX, getClassName } from '../../lib';
+import { SemanticShorthandContent, createShorthandFactory, FCX, getClassName, ChildrenOrContent } from '../../lib';
 
 interface ListDescriptionProps extends StrictListDescriptionProps {
   [key: string]: any;
@@ -23,17 +23,8 @@ interface StrictListDescriptionProps {
 /**
  * A list item can contain a description.
  */
-const ListDescription: FCX<ListDescriptionProps> = ({ as = 'div', children, className, content, ...rest }) => {
-
-  const classes = getClassName(className, 'description');
-  const ElementType = !!rest.href ? 'a' : as;
-
-  return (
-    <ElementType {...rest} className={classes}>
-      {Children.count(children) ? children : content}
-    </ElementType>
-  );
-};
+const ListDescription: FCX<ListDescriptionProps> = ({ className, ...props }) =>
+  ChildrenOrContent({ ...props, className: getClassName(className, 'description') });
 
 ListDescription.create = createShorthandFactory(ListDescription, (content) => ({ content }));
 

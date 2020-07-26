@@ -29,4 +29,5 @@ export interface StrictDimmerDimmableProps {
 /**
  * A dimmable sub-component for Dimmer.
  */
-export const DimmerDimmable: React.FC<DimmerDimmableProps> = ({ blurring, dimmed, ...rest }) => ChildrenOrContent(rest, { blurring, dimmed }, 'dimmable');
+export const DimmerDimmable: React.FC<DimmerDimmableProps> = ({ blurring, dimmed, ...props }) =>
+  ChildrenOrContent(props, { blurring, dimmed }, 'dimmable');

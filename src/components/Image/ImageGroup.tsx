@@ -26,4 +26,4 @@ export interface ImageGroupProps extends StrictImageGroupProps {
 /**
  * A group of images.
  */
-export const ImageGroup: React.FC<ImageGroupProps> = ({ className, size, ...rest }) => ChildrenOrContent(rest, 'ui', size, className, 'images');
+export const ImageGroup: React.FC<ImageGroupProps> = ({ className, size, ...props }) => ChildrenOrContent(props, 'ui', size, className, 'images');

@@ -1,6 +1,6 @@
 import React, { Children } from 'react';
 
-import { SemanticShorthandContent, getClassName, Use } from '../../lib';
+import { SemanticShorthandContent, getClassName, Use, ChildrenOrContent } from '../../lib';
 
 export interface TableHeaderProps extends StrictTableHeaderProps {
   [key: string]: any;
@@ -26,10 +26,7 @@ export interface StrictTableHeaderProps {
 /**
  * A table can have a header.
  */
-export const TableHeader: React.FC<TableHeaderProps> = ({ as: ElementType = 'thead', children, className, content, fullWidth, ...rest }) => (
-  <ElementType {...rest} className={getClassName([Use.Key, { 'full-width': fullWidth }], className)}>
-    {Children.count(children) ? children : content}
-  </ElementType>
-);
+export const TableHeader: React.FC<TableHeaderProps> = ({ as = 'thead', fullWidth, ...props }) =>
+  ChildrenOrContent({ as, ...props }, { 'full-width': fullWidth });
 
 TableHeader.defaultProps = { as: 'thead' };

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, Children } from 'react';
-
 import { SemanticShorthandContent, doesNodeContainClick, getClassName, Use } from '../../lib';
+import { Ref } from '../Ref';
 
 export interface DimmerInnerProps extends StrictDimmerInnerProps {
   [key: string]: any;
@@ -61,15 +61,15 @@ export const DimmerInner: React.FC<DimmerInnerProps> = props => {
 
   const { as: ElementType = 'div', active, children, className, content, disabled, inverted, page, simple, verticalAlign, onClick, onClickOutside, ...rest } = props;
 
-  const containerRef = useRef<any>();
-  const contentRef = useRef<any>();
+  const containerRef = useRef<HTMLElement>() as React.RefObject<HTMLElement>;
+  const contentRef = useRef<HTMLElement>() as React.RefObject<HTMLDivElement>;
 
   useEffect(
     () => {
 
       const c = containerRef.current;
-
       if (!c || !c.style) return;
+
       if (active) {
         c.style.setProperty('display', 'flex', 'important');
       } else {
@@ -83,7 +83,7 @@ export const DimmerInner: React.FC<DimmerInnerProps> = props => {
 
     onClick?.call(null, e, props);
 
-    const c = contentRef.current;
+    const c = contentRef!.current;
     if (c && (c !== e.target && doesNodeContainClick(c, e))) return;
 
     onClickOutside?.call(null, e, props);
@@ -95,12 +95,14 @@ export const DimmerInner: React.FC<DimmerInnerProps> = props => {
   const childrenContent = Children.count(children) ? children : content;
 
   return (
-    <ElementType {...rest} className={classes} onClick={handleClick} ref={containerRef}>
-      {childrenContent && (
-        <div className='content' ref={contentRef}>
-          {childrenContent}
-        </div>
-      )}
-    </ElementType>
+    <Ref innerRef={containerRef}>
+      <ElementType {...rest} className={classes} onClick={handleClick} >
+        {childrenContent && (
+          <div className='content' ref={contentRef}>
+            {childrenContent}
+          </div>
+        )}
+      </ElementType>
+    </Ref>
   );
 };

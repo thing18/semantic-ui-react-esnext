@@ -1,6 +1,6 @@
 import React, { Children } from 'react';
 
-import { SemanticCOLORS, SemanticFLOATS, SemanticShorthandContent, SemanticTEXTALIGNMENTS, Use, getClassName } from '../../lib';
+import { SemanticCOLORS, SemanticFLOATS, SemanticShorthandContent, SemanticTEXTALIGNMENTS, Use, getClassName, ChildrenOrContent } from '../../lib';
 import { SegmentGroup } from './SegmentGroup';
 import { SegmentInline } from './SegmentInline';
 
@@ -92,18 +92,8 @@ interface CSegment extends React.FC<SegmentProps> {
 /**
  * A segment is used to create a grouping of related content.
  */
-const Segment: CSegment = ({ as = 'div', attached, basic, children, circular, className, clearing, color, compact, content, disabled, floated, inverted, loading, placeholder, padded, piled, raised, secondary, size, stacked, tertiary, textAlign, vertical, ...rest }) => {
-
-  const classes = getClassName('ui', color, size, { basic, circular, clearing, compact, disabled, inverted, loading, placeholder, piled, raised, secondary, stacked, tertiary, vertical }, [Use.KeyOrValueKey, { attached, padded }], [Use.TextAlign, textAlign], [Use.ValueKey, { floated }], 'segment', className);
-
-  const ElementType = !!rest.href ? 'a' : as;
-
-  return (
-    <ElementType {...rest} className={classes}>
-      {Children.count(children) ? children : content}
-    </ElementType>
-  );
-};
+const Segment: CSegment = ({ attached, basic, circular, clearing, color, compact, disabled, floated, inverted, loading, placeholder, padded, piled, raised, secondary, size, stacked, tertiary, textAlign, vertical, ...props }) =>
+  ChildrenOrContent(props, 'ui', color, size, { basic, circular, clearing, compact, disabled, inverted, loading, placeholder, piled, raised, secondary, stacked, tertiary, vertical }, [Use.KeyOrValueKey, { attached, padded }], [Use.TextAlign, textAlign], [Use.ValueKey, { floated }], 'segment');
 
 Segment.Group = SegmentGroup;
 Segment.Inline = SegmentInline;

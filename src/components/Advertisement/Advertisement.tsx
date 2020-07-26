@@ -1,6 +1,6 @@
-import React, { Children } from 'react';
+import React from 'react';
 
-import { SemanticShorthandContent, getClassName } from '../../lib';
+import { SemanticShorthandContent, ChildrenOrContent } from '../../lib';
 
 export interface AdvertisementProps extends StrictAdvertisementProps {
   [key: string]: any;
@@ -34,8 +34,5 @@ export interface StrictAdvertisementProps {
 /**
  * An ad displays third-party promotional content.
  */
-export const Advertisement: React.FC<AdvertisementProps> = ({ as: ElementType = 'div', centered, children, className, content, test, unit, ...rest }) => (
-  <ElementType {...rest} className={getClassName('ui', unit, { centered, test } as any, 'ad', className)} data-text={test}>
-    {Children.count(children) ? children : content}
-  </ElementType>
-);
+export const Advertisement: React.FC<AdvertisementProps> = ({ centered, children, test, unit, ...props }) =>
+  ChildrenOrContent({ ...props, 'data-text': test }, 'ui', unit, { centered, test }, 'ad');

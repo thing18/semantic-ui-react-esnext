@@ -2,7 +2,7 @@ import React from 'react';
 
 import { SemanticShorthandContent, ChildrenOrContent } from '../../lib';
 
-interface StrictPlaceholderParagraphProps {
+export interface StrictPlaceholderParagraphProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -16,13 +16,12 @@ interface StrictPlaceholderParagraphProps {
   content?: SemanticShorthandContent;
 }
 
-interface PlaceholderParagraphProps extends StrictPlaceholderParagraphProps {
+export interface PlaceholderParagraphProps extends StrictPlaceholderParagraphProps {
   [key: string]: any;
 }
 
 /**
  * A placeholder can contain a paragraph.
  */
-const PlaceholderParagraph: React.FC<PlaceholderParagraphProps> = props => ChildrenOrContent(props, 'paragraph');
-
-export { PlaceholderParagraph, PlaceholderParagraphProps, StrictPlaceholderParagraphProps };
+export const PlaceholderParagraph: React.FC<PlaceholderParagraphProps> = props =>
+  ChildrenOrContent(props, 'paragraph');

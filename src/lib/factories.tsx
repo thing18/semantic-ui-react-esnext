@@ -28,12 +28,12 @@ type MapValueToProps<T> = (val: any) => T;
 
 export const createShorthand = <T extends any = any>(Component: string | React.FC<T>, mapValueToProps: MapValueToProps<T> | null, val: any, options: Options = {}) => {
 
-  if (process.env.NODE_ENV !== 'production') {
+  // if (process.env.NODE_ENV !== 'production') {
 
-    if (typeof Component !== 'function' && typeof Component !== 'string') {
-      throw new Error('createShorthand() Component must be a string or function.');
-    }
-  }
+  //   if (typeof Component !== 'function' && typeof Component !== 'string') {
+  //     throw new Error('createShorthand() Component must be a string or function.');
+  //   }
+  // }
 
   // short circuit noop values
   // tslint:disable: triple-equals
@@ -139,11 +139,11 @@ export const createShorthand = <T extends any = any>(Component: string | React.F
  */
 export const createShorthandFactory = <T extends any = any>(Component: string | React.FC<T>, mapValueToProps: MapValueToProps<T> | null) => {
 
-  if (process.env.NODE_ENV !== 'production') {
-    if (typeof Component !== 'function' && typeof Component !== 'string') {
-      throw new Error('createShorthandFactory() Component must be a string or function.');
-    }
-  }
+  // if (process.env.NODE_ENV !== 'production') {
+  //   if (typeof Component !== 'function' && typeof Component !== 'string') {
+  //     throw new Error('createShorthandFactory() Component must be a string or function.');
+  //   }
+  // }
 
   return (val: any, options?: any) => createShorthand(Component, mapValueToProps, val, options);
 };

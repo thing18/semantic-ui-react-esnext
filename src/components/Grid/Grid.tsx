@@ -73,7 +73,15 @@ interface CGrid extends React.FC<GridProps> {
  */
 export const Grid: CGrid = ({ as: ElementType = 'div', celled, centered, children, className, columns, container, divided, doubling, inverted, padded, relaxed, reversed, stackable, stretched, textAlign, verticalAlign, ...rest }) => {
 
-  const classes = getClassName('ui', [Use.Key, { centered, container, doubling, inverted, stackable, stretched }], [Use.KeyOrValueKey, { celled, divided, padded, relaxed }], [Use.Multiple, { reversed }], [Use.TextAlign, textAlign], [Use.VerticalAlign, verticalAlign], [Use.Width, columns, 'column', true], 'grid', className);
+  const classes = getClassName(
+    'ui',
+    { centered, container, doubling, inverted, stackable, stretched },
+    [Use.KeyOrValueKey, { celled, divided, padded, relaxed }],
+    [Use.Multiple, { reversed }],
+    [Use.TextAlign, textAlign],
+    [Use.VerticalAlign, verticalAlign],
+    [Use.Width, columns, 'column', true],
+    'grid', className);
 
   return (
     <ElementType {...rest} className={classes}>

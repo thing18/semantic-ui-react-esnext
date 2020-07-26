@@ -1,9 +1,9 @@
 import React, { Children } from 'react';
 
-import { SemanticShorthandContent, Use, getClassName } from '../../lib';
+import { SemanticShorthandContent, Use, getClassName, ChildrenOrContent } from '../../lib';
 import { SegmentSizeProp } from './Segment';
 
-interface StrictSegmentGroupProps {
+export interface StrictSegmentGroupProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -35,24 +35,12 @@ interface StrictSegmentGroupProps {
   stacked?: boolean;
 }
 
-interface SegmentGroupProps extends StrictSegmentGroupProps {
+export interface SegmentGroupProps extends StrictSegmentGroupProps {
   [key: string]: any;
 }
 
 /**
  * A group of segments can be formatted to appear together.
  */
-const SegmentGroup: React.FC<SegmentGroupProps> = ({ as, children, className, compact, content, horizontal, piled, raised, size, stacked, ...rest }) => {
-
-  const classes = getClassName('ui', size, { compact, horizontal, piled, raised, stacked }, 'segments', className);
-
-  const ElementType = as || ' div';
-
-  return (
-    <ElementType {...rest} className={classes}>
-      {Children.count(children) ? children : content}
-    </ElementType>
-  );
-};
-
-export { SegmentGroup, SegmentGroupProps, StrictSegmentGroupProps };
+export const SegmentGroup: React.FC<SegmentGroupProps> = ({ compact, horizontal, piled, raised, size, stacked, ...props }) =>
+  ChildrenOrContent(props, 'ui', size, { compact, horizontal, piled, raised, stacked }, 'segments');

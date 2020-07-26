@@ -65,7 +65,13 @@ export interface StrictTableCellProps {
  */
 export const TableCell: FCX<TableCellProps> = ({ as: ElementType = 'td', active, children, className, collapsing, content, disabled, error, icon, negative, positive, selectable, singleLine, textAlign, verticalAlign, warning, width, ...rest }) => {
 
-  const classes = getClassName([Use.Key, { active, collapsing, disabled, error, negative, positive, selectable, singleLine, warning }], [Use.TextAlign, textAlign], [Use.VerticalAlign, verticalAlign], [Use.Width, width, 'wide'], className);
+  const classes = getClassName(
+    { active, collapsing, disabled, error, negative, positive, selectable, singleLine, warning },
+    [Use.TextAlign, textAlign],
+    [Use.VerticalAlign, verticalAlign],
+    [Use.Width, width, 'wide'],
+    className,
+  );
 
   if (Children.count(children)) {
     return (

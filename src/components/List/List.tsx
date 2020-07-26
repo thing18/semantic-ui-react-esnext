@@ -1,6 +1,6 @@
-import React, { useCallback, Children } from 'react';
+import React, { Children } from 'react';
 
-import { SemanticFLOATS, SemanticShorthandCollection, SemanticShorthandContent, SemanticSIZES, SemanticVERTICALALIGNMENTS, Use, getClassName, SemanticProps } from '../../lib';
+import { SemanticFLOATS, SemanticShorthandCollection, SemanticShorthandContent, SemanticSIZES, SemanticVERTICALALIGNMENTS, Use, getClassName } from '../../lib';
 import { ListItem, ListItemProps } from './ListItem';
 import { ListContent } from './ListContent';
 import { ListDescription } from './ListDescription';
@@ -72,7 +72,9 @@ interface StrictListProps {
   verticalAlign?: SemanticVERTICALALIGNMENTS;
 }
 
-type ListProps = SemanticProps<StrictListProps>;
+interface ListProps extends StrictListProps {
+  [key: string]: any;
+}
 
 interface CList extends React.FC<ListProps> {
   Content: typeof ListContent;
@@ -86,27 +88,25 @@ interface CList extends React.FC<ListProps> {
 /**
  * A list groups related content.
  */
-const List: CList = ({ as = 'div', animated, bulleted, celled, children, className, content, divided, floated, horizontal, inverted, items, link, onItemClick, ordered, relaxed, selection, size, verticalAlign, ...rest }) => {
+const List: CList = ({ as, animated, bulleted, celled, children, className, content, divided, floated, horizontal, inverted, items, link, onItemClick, ordered, relaxed, selection, size, verticalAlign, ...rest }) => {
 
   const classes = getClassName(
     'ui', size,
-    [Use.Key, { animated, bulleted, celled, divided, horizontal, inverted, link, ordered, selection }],
+    { animated, bulleted, celled, divided, horizontal, inverted, link, ordered, selection },
     [Use.KeyOrValueKey, { relaxed }],
     [Use.ValueKey, { floated }],
     [Use.VerticalAlign, verticalAlign],
     'list', className);
 
-  const handleItemOverrides = useCallback(
-    pp => ({
-      onClick: (e: React.MouseEvent<any, any>, p: ListItemProps) => {
-        pp?.onClick && pp.onClick(e, p);
-        onItemClick?.call(null, e, p);
-      },
-    }),
-    [onItemClick],
-  );
+  const handleItemOverrides = (pp: any) => ({
+    onClick: (e: React.MouseEvent<any, any>, p: ListItemProps) => {
+      pp?.onClick && pp.onClick(e, p);
+      onItemClick?.call(null, e, p);
+    },
+  });
 
-  const ElementType = !!rest.href ? 'a' : as;
+  // tslint:disable-next-line: triple-equals
+  const ElementType = as && as != 'div' ? as : !!rest.href ? 'a' : 'div';
 
   if (Children.count(children)) {
     return (

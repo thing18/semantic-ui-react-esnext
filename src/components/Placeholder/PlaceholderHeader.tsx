@@ -1,8 +1,8 @@
-import React, { Children } from 'react';
+import React from 'react';
 
-import { SemanticShorthandContent, getClassName, Use } from '../../lib';
+import { SemanticShorthandContent, ChildrenOrContent } from '../../lib';
 
-interface StrictPlaceholderHeaderProps {
+export interface StrictPlaceholderHeaderProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -19,25 +19,12 @@ interface StrictPlaceholderHeaderProps {
   image?: boolean;
 }
 
-interface PlaceholderHeaderProps extends StrictPlaceholderHeaderProps {
+export interface PlaceholderHeaderProps extends StrictPlaceholderHeaderProps {
   [key: string]: any;
 }
 
 /**
  * A placeholder can contain a header.
  */
-const PlaceholderHeader: React.FC<PlaceholderHeaderProps> = ({ as, children, className, content, image, ...rest }) => {
-
-  const classes = getClassName([Use.Key, { image }], 'header', className);
-
-  const ElementType = as || 'div';
-
-  return (
-    <ElementType {...rest} className={classes}>
-      {/* {childrenUtils.isNil(children) ? content : children} */}
-      {Children.count(children) ? children : content}
-    </ElementType>
-  );
-};
-
-export { PlaceholderHeader, PlaceholderHeaderProps, StrictPlaceholderHeaderProps };
+export const PlaceholderHeader: React.FC<PlaceholderHeaderProps> = ({ image, ...props }) =>
+  ChildrenOrContent(props, { image }, 'header');

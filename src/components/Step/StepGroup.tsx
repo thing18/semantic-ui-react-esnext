@@ -51,10 +51,9 @@ interface StepGroupProps extends StrictStepGroupProps {
 /**
  * A set of steps.
  */
-const StepGroup: React.FC<StepGroupProps> = ({ as, attached, children, className, content, fluid, items, ordered, size, stackable, unstackable, vertical, widths, ...rest }) => {
+const StepGroup: React.FC<StepGroupProps> = ({ as: ElementType = 'div', attached, children, className, content, fluid, items, ordered, size, stackable, unstackable, vertical, widths, ...rest }) => {
 
   const classes = getClassName('ui', size, { fluid, ordered, unstackable, vertical }, [Use.KeyOrValueKey, { attached }], [Use.ValueKey, { stackable }], [Use.Width, widths], 'steps', className);
-  const ElementType = as || 'div';
 
   if (Children.count(children)) {
     return (

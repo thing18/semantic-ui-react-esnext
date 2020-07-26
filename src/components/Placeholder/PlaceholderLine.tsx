@@ -1,9 +1,9 @@
 import React from 'react';
-import { getClassName } from '../../lib';
+import { ChildrenOrContent } from '../../lib';
 
 type SEMANTICLineLength = 'full' | 'very long' | 'long' | 'medium' | 'short' | 'very short';
 
-interface StrictPlaceholderLineProps {
+export interface StrictPlaceholderLineProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -14,20 +14,12 @@ interface StrictPlaceholderLineProps {
   length?: SEMANTICLineLength;
 }
 
-interface PlaceholderLineProps extends StrictPlaceholderLineProps {
+export interface PlaceholderLineProps extends StrictPlaceholderLineProps {
   [key: string]: any;
 }
 
 /**
  * A placeholder can contain have lines of text.
  */
-const PlaceholderLine: React.FC<PlaceholderLineProps> = ({ as = 'div', className, length, ...rest }) => {
-
-  const classes = getClassName('line', length, className);
-
-  const ElementType = !!rest.href ? 'a' : as;
-
-  return <ElementType {...rest} className={classes} />;
-};
-
-export { PlaceholderLine, PlaceholderLineProps, StrictPlaceholderLineProps, SEMANTICLineLength };
+export const PlaceholderLine: React.FC<PlaceholderLineProps> = ({ length, ...props }) =>
+  ChildrenOrContent(props, 'line', length);

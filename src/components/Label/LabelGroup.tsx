@@ -1,6 +1,6 @@
-import React, { Children } from 'react';
+import React from 'react';
 
-import { SemanticCOLORS, SemanticShorthandContent, SemanticSIZES, getClassName, Use } from '../../lib';
+import { SemanticCOLORS, SemanticShorthandContent, SemanticSIZES, getClassName, Use, ChildrenOrContent } from '../../lib';
 
 export interface StrictLabelGroupProps {
   /** An element type to render as (string or function). */
@@ -35,13 +35,5 @@ export interface LabelGroupProps extends StrictLabelGroupProps {
 /**
  * A label can be grouped.
  */
-export const LabelGroup: React.FC<LabelGroupProps> = ({ as: ElementType = 'div', children, circular, className, color, content, size, tag, ...rest }) => {
-
-  const classes = getClassName('ui', color, size, [Use.Key, { circular, tag }], 'labels', className);
-
-  return (
-    <ElementType {...rest} className={classes}>
-      {Children.count(children) ? children : content}
-    </ElementType>
-  );
-};
+export const LabelGroup: React.FC<LabelGroupProps> = ({ circular, color, size, tag, ...props }) =>
+  ChildrenOrContent(props, 'ui', color, size, { circular, tag }, 'labels');

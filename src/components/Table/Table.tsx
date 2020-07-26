@@ -125,7 +125,7 @@ export const Table: CTable = ({ as: ElementType = 'table', attached, basic, cell
   const classes = getClassName(
     'ui', color, size,
     // tslint:disable-next-line: object-shorthand-properties-first
-    [Use.Key, { celled, collapsing, definition, fixed, inverted, selectable, 'single line': singleLine, sortable, stackable, striped, structured, unstackable }],
+    { celled, collapsing, definition, fixed, inverted, selectable, 'single line': singleLine, sortable, stackable, striped, structured, unstackable },
     [Use.KeyOrValueKey, { attached, basic, compact, padded }],
     [Use.TextAlign, textAlign], [Use.VerticalAlign, verticalAlign],
     [Use.Width, columns, 'column'],
@@ -145,7 +145,7 @@ export const Table: CTable = ({ as: ElementType = 'table', attached, basic, cell
   const headerElement = hasHeaderRows && (
     <TableHeader>
       {TableRow.create(headerRow, headerShorthandOptions)}
-      {headerRows!.map((data) => TableRow.create(data, headerShorthandOptions))}
+      {headerRows && headerRows.map((data) => TableRow.create(data, headerShorthandOptions))}
     </TableHeader>
   );
 
@@ -153,8 +153,8 @@ export const Table: CTable = ({ as: ElementType = 'table', attached, basic, cell
     <ElementType {...rest} className={classes}>
       {headerElement}
       <TableBody>
-        {renderBodyRow &&
-          tableData!.map((data, index) => TableRow.create(renderBodyRow(data, index)))}
+        {renderBodyRow && tableData &&
+          tableData.map((data, index) => TableRow.create(renderBodyRow(data, index)))}
       </TableBody>
       {footerRow && <TableFooter>{TableRow.create(footerRow)}</TableFooter>}
     </ElementType>

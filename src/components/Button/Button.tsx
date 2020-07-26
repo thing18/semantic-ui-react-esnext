@@ -1,7 +1,8 @@
 import React, { useCallback, forwardRef, Children } from 'react';
 
 import { SemanticCOLORS, SemanticFLOATS, SemanticShorthandContent, SemanticShorthandItem, SemanticSIZES, createShorthandFactory, FCX, Use, getClassName } from '../../lib';
-import { IconProps, Icon, LabelProps, Label } from '..';
+import { IconProps, Icon } from '../Icon';
+import { LabelProps, Label } from '../Label';
 import { ButtonContent } from './ButtonContent';
 import { ButtonGroup } from './ButtonGroup';
 import { ButtonOr } from './ButtonOr';
@@ -144,13 +145,9 @@ export const Button: CButton = forwardRef<HTMLButtonElement, ButtonProps>((props
     onClick,
     as, active, animated, attached, basic, children, circular, className, color, compact, content, disabled,
     floated, fluid, icon, inverted, label, labelPosition, loading, negative, positive, primary, secondary,
-    size, toggle, role, tabIndex, ...rest } = { ...Button.defaultProps, ...props };
+    size, toggle, role, tabIndex, ...rest } = props;
 
-  const handleClick = (e: any) => {
-
-    if (disabled) return e.preventDefault();
-    onClick?.call(null, e, props);
-  };
+  const handleClick = (e: any) => (disabled) ? e.preventDefault() : onClick?.call(null, e, props);
 
   // tslint:disable: object-shorthand-properties-first
   const baseClasses = getClassName(
@@ -180,8 +177,7 @@ export const Button: CButton = forwardRef<HTMLButtonElement, ButtonProps>((props
       <ElementType {...rest} className={containerClasses} onClick={handleClick} >
         {labelPosition === 'left' && labelElement}
         <button ref={ref} className={buttonClasses} aria-pressed={toggle ? !!active : undefined} disabled={disabled} tabIndex={getTabIndex(ElementType, props)} >
-          {Icon.create(icon, { autoGenerateKey: false })}
-          {content}
+          {Icon.create(icon, { autoGenerateKey: false })} {content}
         </button>
         {(labelPosition === 'right' || !labelPosition) && labelElement}
       </ElementType>

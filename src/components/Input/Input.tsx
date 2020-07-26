@@ -1,7 +1,9 @@
 import React, { Children, cloneElement, useCallback, forwardRef } from 'react';
 
 import { HtmlInputrops, SemanticShorthandItem, SemanticSIZES, childrenUtils, createHTMLInput, createShorthandFactory, partitionHTMLProps, Use, FCX, getClassName } from '../../lib';
-import { Button, Icon, Label, LabelProps } from '..';
+import { Button } from '../Button';
+import { Icon } from '../Icon';
+import { Label, LabelProps } from '../Label';
 
 export interface StrictInputProps {
   /** An element type to render as (string or function). */
@@ -89,22 +91,24 @@ export interface InputOnChangeData extends InputProps {
  * @see Label
  */
 
-export const Input: FCX<InputProps> = forwardRef<any, InputProps>((props, ref) => {
+export const Input: FCX<InputProps> = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 
-  const { as, tabIndex, type, onChange, action, actionPosition, children, className, disabled, error, fluid, focus, icon, iconPosition, input, inverted, label, labelPosition, loading, size, transparent, ...unhandled } = props;
+  const { as: ElementType = 'div', tabIndex, type = 'text', onChange, action, actionPosition, children, className, disabled, error, fluid, focus, icon, iconPosition, input, inverted, label, labelPosition, loading, size, transparent, ...unhandled } = props;
 
-  const classes = getClassName('ui', size, [Use.Key, { disabled, error, fluid, focus, inverted, loading, transparent }], [Use.ValueKeyOrKey, { action: [actionPosition, action], icon: [iconPosition, icon || loading], labeled: [labelPosition, label] }], 'input', className);
-
-  const handleChange = useCallback((e) => !!onChange?.call(null, e, { ...props, value: e?.target?.value }), []);
-
-  const handleChildOverrides = useCallback(
-    (child, defaultProps) => ({
-      ...defaultProps,
-      ...child.props,
-      ref,
-    }),
-    [],
+  const classes = getClassName(
+    'ui', size,
+    { disabled, error, fluid, focus, inverted, loading, transparent },
+    [Use.ValueKeyOrKey, { action: [actionPosition, action], icon: [iconPosition, icon || loading], labeled: [labelPosition, label] }],
+    'input', className,
   );
+
+  const handleChange = (e: any) => unhandled.readOnly || disabled ? e.preventDefault() : onChange?.call(null, e, { ...props, value: e.target.value });
+
+  const handleChildOverrides = (child: any, defaultProps: any) => ({
+    ...defaultProps,
+    ...child.props,
+    ref,
+  });
 
   const [hprops, rest] = partitionHTMLProps(unhandled);
   const htmlInputProps = {
@@ -117,11 +121,9 @@ export const Input: FCX<InputProps> = forwardRef<any, InputProps>((props, ref) =
     ref,
   };
 
-  const ElementType = as || 'div';
-
   // Render with children
   // ----------------------------------------
-  if (!childrenUtils.isNil(children)) {
+  if (Children.count(children)) {
 
     // add htmlInputProps to the `<input />` child
     const childElements = Children.toArray(children).map((child: any) => {

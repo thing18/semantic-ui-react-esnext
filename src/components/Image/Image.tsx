@@ -1,7 +1,8 @@
 import React, { Children } from 'react';
 
 import { SemanticFLOATS, SemanticShorthandContent, SemanticShorthandItem, SemanticSIZES, SemanticVERTICALALIGNMENTS, createShorthandFactory, htmlImageProps, partitionHTMLProps, FCX, getClassName, Use } from '../../lib';
-import { Dimmer, DimmerProps, Label, LabelProps } from '..';
+import { Dimmer, DimmerProps } from '../Dimmer';
+import { Label, LabelProps } from '../Label';
 import { ImageGroup } from './ImageGroup';
 
 export interface StrictImageProps {
@@ -70,6 +71,13 @@ export interface StrictImageProps {
 
   /** An image can render wrapped in a `div.ui.image` as alternative HTML markup. */
   wrapped?: boolean;
+
+  // rest: html image props
+  src?: string;
+  srcSet?: string;
+  alt?: string;
+  height?: string;
+  width?: string;
 }
 
 export interface ImageProps extends StrictImageProps {
@@ -84,11 +92,11 @@ interface CImage extends FCX<ImageProps> {
  * An image is a graphic representation of something.
  * @see Icon
  */
-export const Image: CImage = ({ as, avatar, bordered, centered, children, circular, className, content, dimmer, disabled, floated, fluid, hidden, href, inline, label, rounded, size, spaced, verticalAlign, wrapped, ui = true, ...rest }) => {
+export const Image: CImage = ({ as = 'img', avatar, bordered, centered, children, circular, className, content, dimmer, disabled, floated, fluid, hidden, href, inline, label, rounded, size, spaced, verticalAlign, wrapped, ui = true, ...rest }) => {
 
   const classes = getClassName(
-    [Use.Key, { ui }], size,
-    [Use.Key, { avatar, bordered, circular, centered, disabled, fluid, hidden, inline, rounded }],
+    { ui }, size,
+    { avatar, bordered, circular, centered, disabled, fluid, hidden, inline, rounded },
     [Use.KeyOrValueKey, { spaced }],
     [Use.ValueKey, { floated }],
     [Use.VerticalAlign, verticalAlign],
@@ -96,8 +104,9 @@ export const Image: CImage = ({ as, avatar, bordered, centered, children, circul
   );
 
   const [imgTagProps, rootProps] = partitionHTMLProps(rest, { htmlProps: htmlImageProps });
+
   // tslint:disable-next-line: triple-equals
-  const ElementType = as != 'img'
+  const ElementType = as && as != 'img'
     ? as
     : (dimmer != null || label != null || wrapped != null || !!Children.count(children) ? 'div' : 'img');
 

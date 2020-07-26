@@ -1,7 +1,7 @@
 import React, { Children } from 'react';
 
 import { SemanticShorthandCollection, SemanticShorthandContent, SemanticShorthandItem, SemanticSIZES, getClassName } from '../../lib';
-import { IconProps } from '..';
+import { IconProps } from '../Icon';
 import { BreadcrumbDivider } from './BreadcrumbDivider';
 import { BreadcrumbSection, BreadcrumbSectionProps } from './BreadcrumbSection';
 
@@ -54,7 +54,7 @@ export const Breadcrumb: CBreadcrumb = ({ as: ElementType = 'div', children, cla
     );
   }
 
-  const childElements = !!sections
+  const childElements = sections
     ? sections.reduce<any[]>(
       (acc, section, index) => {
 

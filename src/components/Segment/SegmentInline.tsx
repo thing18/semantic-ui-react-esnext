@@ -2,7 +2,7 @@ import React from 'react';
 
 import { SemanticShorthandContent, ChildrenOrContent } from '../../lib';
 
-interface StrictSegmentInlineProps {
+export interface StrictSegmentInlineProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -16,13 +16,11 @@ interface StrictSegmentInlineProps {
   content?: SemanticShorthandContent;
 }
 
-interface SegmentInlineProps extends StrictSegmentInlineProps {
+export interface SegmentInlineProps extends StrictSegmentInlineProps {
   [key: string]: any;
 }
 
 /**
  * A placeholder segment can be inline.
  */
-const SegmentInline: React.FC<SegmentInlineProps> = props => ChildrenOrContent(props, 'inline');
-
-export { SegmentInline, SegmentInlineProps, StrictSegmentInlineProps };
+export const SegmentInline: React.FC<SegmentInlineProps> = props => ChildrenOrContent(props, 'inline');

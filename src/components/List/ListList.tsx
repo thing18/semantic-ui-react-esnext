@@ -21,9 +21,10 @@ export type ListListProps = SemanticProps<StrictListListProps>;
 /**
  * A list can contain a sub list.
  */
-export const ListList: React.FC<ListListProps> = ({ as = 'div', children, className, content, ...rest }) => {
+export const ListList: React.FC<ListListProps> = ({ as, children, className, content, ...rest }) => {
 
-  const ElementType = !!rest.href ? 'a' : as;
+  // tslint:disable-next-line: triple-equals
+  const ElementType = as && as != 'div' ? as : !!rest.href ? 'a' : 'div';
   const classes = getClassName({ list: ElementType !== 'ul' && ElementType !== 'ol' }, className);
 
   return (

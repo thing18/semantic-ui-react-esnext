@@ -22,6 +22,7 @@ export interface StrictTableHeaderCellProps extends StrictTableCellProps {
 /**
  * A table can have a header cell.
  */
-export const TableHeaderCell: React.FC<TableHeaderProps> = ({ as = 'th', className, sorted, ...rest }) => <TableCell {...rest} as={as} className={getClassName([Use.ValueKey, { sorted }], className)} />;
+export const TableHeaderCell: React.FC<TableHeaderProps> = ({ as = 'th', className, sorted, ...rest }) =>
+  <TableCell {...rest} as={as} className={getClassName([Use.ValueKey, { sorted }], className)} />;
 
 TableHeaderCell.defaultProps = { as: 'th' };

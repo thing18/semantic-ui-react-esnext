@@ -2,11 +2,11 @@ import React, { Children } from 'react';
 
 import { SemanticShorthandContent, SemanticSIZES, Use, getClassName } from '../../lib';
 
-interface LoaderProps extends StrictLoaderProps {
+export interface LoaderProps extends StrictLoaderProps {
   [key: string]: any;
 }
 
-interface StrictLoaderProps {
+export interface StrictLoaderProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -42,9 +42,9 @@ interface StrictLoaderProps {
  * A loader alerts a user to wait for an activity to complete.
  * @see Dimmer
  */
-const Loader: React.FC<LoaderProps> = ({ as: ElementType = 'div', active, children, className, content, disabled, indeterminate, inline, inverted, size, ...rest }) => {
+export const Loader: React.FC<LoaderProps> = ({ as: ElementType = 'div', active, children, className, content, disabled, indeterminate, inline, inverted, size, ...rest }) => {
 
-  const classes = getClassName('ui', size, [Use.Key, { active, disabled, indeterminate, inverted, text: children || content }], [Use.KeyOrValueKey, { inline }], 'loader', className);
+  const classes = getClassName('ui', size, { active, disabled, indeterminate, inverted, text: children || content }, [Use.KeyOrValueKey, { inline }], 'loader', className);
 
   return (
     <ElementType {...rest} className={classes}>
@@ -52,5 +52,3 @@ const Loader: React.FC<LoaderProps> = ({ as: ElementType = 'div', active, childr
     </ElementType>
   );
 };
-
-export { Loader, LoaderProps, StrictLoaderProps };

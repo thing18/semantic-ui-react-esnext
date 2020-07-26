@@ -1,6 +1,6 @@
-import React, { Children } from 'react';
+import React from 'react';
 
-import { SemanticShorthandContent, Use, getClassName } from '../../lib';
+import { SemanticShorthandContent, ChildrenOrContent } from '../../lib';
 
 export interface StrictDividerProps {
   /** An element type to render as (string or function). */
@@ -44,13 +44,5 @@ export interface DividerProps extends StrictDividerProps {
 /**
  * A divider visually segments content into groups.
  */
-export const Divider: React.FC<DividerProps> = ({ as: ElementType = 'div', children, className, clearing, content, fitted, hidden, horizontal, inverted, section, vertical, ...rest }) => {
-
-  const classes = getClassName('ui', [Use.Key, { clearing, fitted, hidden, horizontal, inverted, section, vertical }], 'divider', className);
-
-  return (
-    <ElementType {...rest} className={classes}>
-      {Children.count(children) ? children : content}
-    </ElementType>
-  );
-};
+export const Divider: React.FC<DividerProps> = ({ clearing, fitted, hidden, horizontal, inverted, section, vertical, ...props }) =>
+  ChildrenOrContent(props, 'ui', { clearing, fitted, hidden, horizontal, inverted, section, vertical }, 'divider');

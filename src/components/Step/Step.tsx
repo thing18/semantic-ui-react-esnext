@@ -1,7 +1,7 @@
 import React, { useCallback, Children } from 'react';
 
-import { SemanticShorthandContent, SemanticShorthandItem, createShorthandFactory, Use, FCX, getClassName } from '../../lib';
-import { IconProps, Icon } from '..';
+import { SemanticShorthandContent, SemanticShorthandItem, createShorthandFactory, FCX, getClassName } from '../../lib';
+import { IconProps, Icon } from '../Icon';
 import { StepContent } from './StepContent';
 import { StepGroup } from './StepGroup';
 import { StepDescription, StepDescriptionProps } from './StepDescription';
@@ -75,9 +75,9 @@ const Step: CStep = (props) => {
 
   const { as, active, children, className, completed, content, description, disabled, href, icon, link, onClick, ordered, title, ...rest } = props;
 
-  const handleClick = useCallback((e) => !disabled && !!onClick?.call(null, e, props), [disabled, onClick]);
-  const classes = getClassName({ active, completed, disabled, ordered, link }, 'step', className);
-  const ElementType = !!onClick ? 'a' : (as || 'div');
+  const handleClick = (e: any) => !disabled && !!onClick?.call(null, e, props);
+  const classes = getClassName({ active, completed, disabled, link }, 'step', className);
+  const ElementType = as && as !== 'div' ? as : !!onClick ? 'a' : 'div';
 
   if (Children.count(children)) {
     return (

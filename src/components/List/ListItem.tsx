@@ -1,7 +1,7 @@
 import React, { isValidElement, useCallback, Children } from 'react';
 
 import { createShorthandFactory, FCX, SemanticShorthandItem, isPlainObject, getClassName, Use, SemanticProps } from '../../lib';
-import { Image, ImageProps } from '..';
+import { Image, ImageProps } from '../Image';
 import { ListContent, ListContentProps } from './ListContent';
 import { ListDescription, ListDescriptionProps } from './ListDescription';
 import { ListHeader, ListHeaderProps } from './ListHeader';
@@ -57,14 +57,15 @@ export type ListItemProps = SemanticProps<StrictListItemProps>;
  */
 export const ListItem: FCX<ListItemProps> = (props) => {
 
-  const { as = 'div', active, children, className, content, description, disabled, header, icon, image, onClick, value, ...rest } = props;
+  const { as, active, children, className, content, description, disabled, header, icon, image, onClick, value, ...rest } = props;
 
-  const handleClick = useCallback((e) => !disabled && onClick?.call(null, e, props), []);
+  const handleClick = (e: any) => !disabled && onClick?.call(null, e, props);
 
-  const ElementType = !!rest.href ? 'a' : as;
+  // tslint:disable-next-line: triple-equals
+  const ElementType = as && as != 'div' ? as : !!rest.href ? 'a' : 'div';
   const valueProp = ElementType === 'li' ? { value } : { 'data-value': value };
 
-  const classes = getClassName([Use.Key, { active, disabled, item: ElementType !== 'li' }], className);
+  const classes = getClassName({ active, disabled, item: ElementType !== 'li' }, className);
 
   if (Children.count(children)) {
     return (

@@ -60,7 +60,13 @@ export interface StrictGridColumnProps {
  */
 export const GridColumn: FCX<GridColumnProps> = ({ as: ElementType = 'div', children, className, computer, color, floated, largeScreen, mobile, only, stretched, tablet, textAlign, verticalAlign, widescreen, width, ...rest }) => {
 
-  const classes = getClassName(color, [Use.Key, { stretched }], [Use.Multiple, { only }], [Use.TextAlign, textAlign], [Use.ValueKey, { floated }], [Use.VerticalAlign, verticalAlign],
+  const classes = getClassName(
+    color,
+    { stretched },
+    [Use.Multiple, { only }],
+    [Use.TextAlign, textAlign],
+    [Use.ValueKey, { floated }],
+    [Use.VerticalAlign, verticalAlign],
     [Use.Width, [[computer, 'wide computer'], [largeScreen, 'wide large screen'], [mobile, 'wide mobile'], [tablet, 'wide tablet'], [widescreen, 'wide widescreen'], [width, 'wide']]],
     'column', className,
   );

@@ -62,67 +62,67 @@ export abstract class ModernAutoControlledComponent<P extends object = any, S ex
   constructor(props: P, context?: any) {
     super(props, context);
 
-    const { autoControlledProps, getAutoControlledStateFromProps } = this.constructor as any;
-    const state = this.getInitialAutoControlledState(this.props) ?? {};
+    const { getInitialAutoControlledState, autoControlledProps, getAutoControlledStateFromProps } = this.constructor as any;
+    const state = getInitialAutoControlledState?.call(this, this.props) ?? {};
 
-    if (process.env.NODE_ENV !== 'production') {
+    // if (process.env.NODE_ENV !== 'production') {
 
-      const { defaultProps, name, propTypes, getDerivedStateFromProps } = this.constructor as any;
+    //   const { defaultProps, name, propTypes, getDerivedStateFromProps } = this.constructor as any;
 
-      // require usage of getAutoControlledStateFromProps()
-      if (getDerivedStateFromProps !== ModernAutoControlledComponent.getDerivedStateFromProps) console.error(`Auto controlled ${name} must specify a static getAutoControlledStateFromProps() instead of getDerivedStateFromProps().`);
+    //   // require usage of getAutoControlledStateFromProps()
+    //   if (getDerivedStateFromProps !== ModernAutoControlledComponent.getDerivedStateFromProps) console.error(`Auto controlled ${name} must specify a static getAutoControlledStateFromProps() instead of getDerivedStateFromProps().`);
 
-      // require propTypes
-      autoControlledProps.forEach((prop: string) => {
+    //   // require propTypes
+    //   autoControlledProps.forEach((prop: string) => {
 
-        const defaultProp = getDefaultPropName(prop);
+    //     const defaultProp = getDefaultPropName(prop);
 
-        // regular prop
-        if (propTypes.hasOwnProperty(defaultProp)) console.error(`${name} is missing "${defaultProp}" propTypes validation for auto controlled prop "${prop}".`);
+    //     // regular prop
+    //     if (propTypes.hasOwnProperty(defaultProp)) console.error(`${name} is missing "${defaultProp}" propTypes validation for auto controlled prop "${prop}".`);
 
-        // its default prop
-        if (propTypes.hasOwnProperty(prop)) console.error(`${name} is missing propTypes validation for auto controlled prop "${prop}".`);
-      });
+    //     // its default prop
+    //     if (propTypes.hasOwnProperty(prop)) console.error(`${name} is missing propTypes validation for auto controlled prop "${prop}".`);
+    //   });
 
-      // prevent autoControlledProps in defaultProps
-      //
-      // When setting state, auto controlled props values always win (so the parent can manage them).
-      // It is not reasonable to decipher the difference between props from the parent and defaultProps.
-      // Allowing defaultProps results in trySetState always deferring to the defaultProp value.
-      // Auto controlled props also listed in defaultProps can never be updated.
-      //
-      // To set defaults for an AutoControlled prop, you can set the initial state in the
-      // constructor or by using an ES7 property initializer:
-      // https://babeljs.io/blog/2015/06/07/react-on-es6-plus#property-initializers
-      const illegalDefaults = autoControlledProps.filter((x: string) => defaultProps.hasOwnProperty(x));
+    //   // prevent autoControlledProps in defaultProps
+    //   //
+    //   // When setting state, auto controlled props values always win (so the parent can manage them).
+    //   // It is not reasonable to decipher the difference between props from the parent and defaultProps.
+    //   // Allowing defaultProps results in trySetState always deferring to the defaultProp value.
+    //   // Auto controlled props also listed in defaultProps can never be updated.
+    //   //
+    //   // To set defaults for an AutoControlled prop, you can set the initial state in the
+    //   // constructor or by using an ES7 property initializer:
+    //   // https://babeljs.io/blog/2015/06/07/react-on-es6-plus#property-initializers
+    //   const illegalDefaults = autoControlledProps.filter((x: string) => defaultProps.hasOwnProperty(x));
 
-      if (illegalDefaults.length) {
-        console.error(
-          [
-            'Do not set defaultProps for autoControlledProps. You can set defaults by',
-            'setting state in the constructor or using an ES7 property initializer',
-            '(https://babeljs.io/blog/2015/06/07/react-on-es6-plus#property-initializers)',
-            `See ${name} props: "${illegalDefaults}".`,
-          ].join(' '),
-        );
-      }
+    //   if (illegalDefaults.length) {
+    //     console.error(
+    //       [
+    //         'Do not set defaultProps for autoControlledProps. You can set defaults by',
+    //         'setting state in the constructor or using an ES7 property initializer',
+    //         '(https://babeljs.io/blog/2015/06/07/react-on-es6-plus#property-initializers)',
+    //         `See ${name} props: "${illegalDefaults}".`,
+    //       ].join(' '),
+    //     );
+    //   }
 
-      // prevent listing defaultProps in autoControlledProps
-      //
-      // Default props are automatically handled.
-      // Listing defaults in autoControlledProps would result in allowing defaultDefaultValue props.
-      const illegalAutoControlled = autoControlledProps.filter((x: string) => x.startsWith('default'));
+    //   // prevent listing defaultProps in autoControlledProps
+    //   //
+    //   // Default props are automatically handled.
+    //   // Listing defaults in autoControlledProps would result in allowing defaultDefaultValue props.
+    //   const illegalAutoControlled = autoControlledProps.filter((x: string) => x.startsWith('default'));
 
-      if (illegalAutoControlled.length) {
-        console.error(
-          [
-            'Do not add default props to autoControlledProps.',
-            'Default props are automatically handled.',
-            `See ${name} autoControlledProps: "${illegalAutoControlled}".`,
-          ].join(' '),
-        );
-      }
-    }
+    //   if (illegalAutoControlled.length) {
+    //     console.error(
+    //       [
+    //         'Do not add default props to autoControlledProps.',
+    //         'Default props are automatically handled.',
+    //         `See ${name} autoControlledProps: "${illegalAutoControlled}".`,
+    //       ].join(' '),
+    //     );
+    //   }
+    // }
 
     // Auto controlled props are copied to state.
     // Set initial state by copying auto controlled props to state.
@@ -183,6 +183,4 @@ export abstract class ModernAutoControlledComponent<P extends object = any, S ex
   static getAutoControlledStateFromProps(_nextProps: any, _computedState: any, _prevState: any) {
     return null;
   }
-
-  abstract getInitialAutoControlledState(props: P): S;
 }

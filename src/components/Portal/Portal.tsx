@@ -1,8 +1,9 @@
 import keyboardKey from 'keyboard-key';
-import React, { cloneElement, createRef, Fragment } from 'react';
+import React, { cloneElement, createRef, Fragment, PureComponent } from 'react';
 
-import { ModernAutoControlledComponent as Component, doesNodeContainClick, ModernAutoControlledComponentState } from '../../lib';
-import { EventStack, handleRef, Ref } from '..';
+import { doesNodeContainClick } from '../../lib';
+import { EventStack } from '../EventStack';
+import { handleRef, Ref } from '../Ref';
 import { PortalInner } from './PortalInner';
 
 export interface PortalProps extends StrictPortalProps {
@@ -101,7 +102,7 @@ export interface StrictPortalProps {
   triggerRef?: React.Ref<any>;
 }
 
-interface PortalState extends ModernAutoControlledComponentState {
+interface PortalState {
   open: boolean;
 }
 
@@ -112,7 +113,8 @@ interface PortalState extends ModernAutoControlledComponentState {
  * @see Dimmer
  * @see Confirm
  */
-export class Portal extends Component<PortalProps, PortalState> {
+
+export class Portal extends PureComponent<PortalProps, PortalState> {
 
   static propTypes: any;
 
@@ -123,8 +125,6 @@ export class Portal extends Component<PortalProps, PortalState> {
     openOnTriggerClick: true,
   };
 
-  static autoControlledProps = ['open'];
-
   static Inner = PortalInner;
 
   contentRef = createRef<HTMLElement>();
@@ -132,9 +132,84 @@ export class Portal extends Component<PortalProps, PortalState> {
   latestDocumentMouseDownEvent = null;
   mouseEnterTimer: any;
   mouseLeaveTimer: any;
+  triggerEvents: any;
 
-  getInitialAutoControlledState(props: PortalProps) {
-    return {} as any;
+  constructor(props: PortalProps, context: any) {
+    super(props, context);
+
+    this.state = { open: props.open ?? props.defaultOpen } as any;
+
+    this.triggerEvents = {
+      onBlur: (e: any, ...rest: any[]) => {
+        const { trigger, closeOnTriggerBlur } = this.props;
+
+        // Call original event handler
+        (trigger as any)?.props?.onBlur?.call(null, e, ...rest);
+
+        // IE 11 doesn't work with relatedTarget in blur events
+        const target = e.relatedTarget || document.activeElement;
+        // do not close if focus is given to the portal
+        const didFocusPortal = this.contentRef.current?.contains?.call(null, target);
+
+        if (!closeOnTriggerBlur || didFocusPortal) return;
+
+        this.close(e);
+      },
+      onClick: (e: any, ...rest: any[]) => {
+
+        const { trigger, closeOnTriggerClick, openOnTriggerClick } = this.props;
+        const { open } = this.state;
+
+        // Call original event handler
+        (trigger as any)?.props.onClick?.call(null, e, ...rest);
+
+        if (open && closeOnTriggerClick) {
+          this.close(e);
+        } else if (!open && openOnTriggerClick) {
+          this.open(e);
+        }
+      },
+      onFocus: (e: any, ...rest: any[]) => {
+        const { trigger, openOnTriggerFocus } = this.props;
+
+        // Call original event handler
+        (trigger as any)?.props.onFocus?.call(null, e, ...rest);
+
+        if (!openOnTriggerFocus) return;
+
+        this.open(e);
+      },
+      onMouseLeave: (e: any, ...rest: any[]) => {
+
+        clearTimeout(this.mouseEnterTimer);
+
+        const { trigger, closeOnTriggerMouseLeave, mouseLeaveDelay } = this.props;
+
+        // Call original event handler
+        (trigger as any)?.props.onMouseLeave?.call(null, e, ...rest);
+
+        if (!closeOnTriggerMouseLeave) return;
+
+        this.mouseLeaveTimer = this.closeWithTimeout(e, mouseLeaveDelay);
+      },
+      onMouseEnter: (e: any, ...rest: any[]) => {
+        clearTimeout(this.mouseLeaveTimer);
+
+        const { trigger, mouseEnterDelay, openOnTriggerMouseEnter } = this.props;
+
+        // Call original event handler
+        (trigger as any)?.props.onMouseEnter?.call(null, e, ...rest);
+
+        if (!openOnTriggerMouseEnter) return;
+
+        this.mouseEnterTimer = this.openWithTimeout(e, mouseEnterDelay);
+      },
+    };
+  }
+
+  static getDerivedStateFromProps({ open }: PortalProps) {
+
+    return open != null ? { open } : null;
   }
 
   componentWillUnmount() {
@@ -199,75 +274,6 @@ export class Portal extends Component<PortalProps, PortalState> {
     if (!closeOnPortalMouseLeave) return;
 
     clearTimeout(this.mouseLeaveTimer);
-  }
-
-  handleTriggerBlur = (e: any, ...rest: any[]) => {
-    const { trigger, closeOnTriggerBlur } = this.props;
-
-    // Call original event handler
-    (trigger as any)?.props?.onBlur?.call(null, e, ...rest);
-
-    // IE 11 doesn't work with relatedTarget in blur events
-    const target = e.relatedTarget || document.activeElement;
-    // do not close if focus is given to the portal
-    const didFocusPortal = this.contentRef.current?.contains?.call(null, target);
-
-    if (!closeOnTriggerBlur || didFocusPortal) return;
-
-    this.close(e);
-  }
-
-  handleTriggerClick = (e: any, ...rest: any[]) => {
-
-    const { trigger, closeOnTriggerClick, openOnTriggerClick } = this.props;
-    const { open } = this.state;
-
-    // Call original event handler
-    (trigger as any)?.props.onClick?.call(null, e, ...rest);
-
-    if (open && closeOnTriggerClick) {
-      this.close(e);
-    } else if (!open && openOnTriggerClick) {
-      this.open(e);
-    }
-  }
-
-  handleTriggerFocus = (e: any, ...rest: any[]) => {
-    const { trigger, openOnTriggerFocus } = this.props;
-
-    // Call original event handler
-    (trigger as any)?.props.onFocus?.call(null, e, ...rest);
-
-    if (!openOnTriggerFocus) return;
-
-    this.open(e);
-  }
-
-  handleTriggerMouseLeave = (e: any, ...rest: any[]) => {
-
-    clearTimeout(this.mouseEnterTimer);
-
-    const { trigger, closeOnTriggerMouseLeave, mouseLeaveDelay } = this.props;
-
-    // Call original event handler
-    (trigger as any)?.props.onMouseLeave?.call(null, e, ...rest);
-
-    if (!closeOnTriggerMouseLeave) return;
-
-    this.mouseLeaveTimer = this.closeWithTimeout(e, mouseLeaveDelay);
-  }
-
-  handleTriggerMouseEnter = (e: any, ...rest: any[]) => {
-    clearTimeout(this.mouseLeaveTimer);
-
-    const { trigger, mouseEnterDelay, openOnTriggerMouseEnter } = this.props;
-
-    // Call original event handler
-    (trigger as any)?.props.onMouseEnter?.call(null, e, ...rest);
-
-    if (!openOnTriggerMouseEnter) return;
-
-    this.mouseEnterTimer = this.openWithTimeout(e, mouseEnterDelay);
   }
 
   // ----------------------------------------
@@ -342,13 +348,7 @@ export class Portal extends Component<PortalProps, PortalState> {
         )}
         {trigger && (
           <Ref innerRef={this.handleTriggerRef}>
-            {cloneElement(trigger as any, {
-              onBlur: this.handleTriggerBlur,
-              onClick: this.handleTriggerClick,
-              onFocus: this.handleTriggerFocus,
-              onMouseLeave: this.handleTriggerMouseLeave,
-              onMouseEnter: this.handleTriggerMouseEnter,
-            })}
+            {cloneElement(trigger as any, this.triggerEvents)}
           </Ref>
         )}
       </Fragment>

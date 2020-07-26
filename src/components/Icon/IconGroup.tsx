@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { SemanticShorthandContent, ChildrenOrContent } from '../../lib';
-import { IconSizeProp } from './Icon';
+import { IconSizeProp } from './types';
 
 export interface IconGroupProps extends StrictIconGroupProps {
   [key: string]: any;

@@ -34,7 +34,7 @@ interface StepContentProps extends StrictStepContentProps {
 const StepContent: FCX<StepContentProps> = ({ as, children, className, content, description, title, ...rest }) => {
 
   const classes = getClassName('content', className);
-  const ElementType = as || 'div';
+  const ElementType = rest.href ? 'a' : as ?? 'div';
 
   if (Children.count(children)) {
     return (

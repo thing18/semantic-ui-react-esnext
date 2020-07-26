@@ -1,6 +1,6 @@
-import React, { Children } from 'react';
+import React from 'react';
 
-import { SemanticShorthandContent, Use, getClassName, ChildrenOrContent } from '../../lib';
+import { SemanticShorthandContent, ChildrenOrContent } from '../../lib';
 
 export interface StrictButtonContentProps {
   /** An element type to render as (string or function). */

@@ -1,7 +1,8 @@
 import React, { Children } from 'react';
 
 import { SemanticCOLORS, SemanticFLOATS, SemanticTEXTALIGNMENTS, Use, getClassName } from '../../lib';
-import { Icon, Image } from '..';
+import { Icon } from '../Icon';
+import { Image } from '../Image';
 import { HeaderSubheader } from './HeaderSubheader';
 import { HeaderContent } from './HeaderContent';
 
@@ -74,15 +75,17 @@ export const Header: CHeader = ({ as, attached, block, children, className, colo
 
   const classes = getClassName(
     'ui', color, size,
-    // tslint:disable-next-line: object-shorthand-properties-first
-    [Use.Key, { block, disabled, dividing, icon: icon === true, image: image === true, inverted, sub }],
+    { block, disabled, dividing },
     [Use.ValueKey, { floated }],
+    // tslint:disable-next-line: object-shorthand-properties-first
+    { icon: icon === true, image: image === true, inverted, sub },
     [Use.KeyOrValueKey, { attached }],
     [Use.TextAlign, textAlign],
     'header', className,
   );
 
-  const ElementType = as || 'div';
+  // tslint:disable-next-line: triple-equals
+  const ElementType = as && as != 'div' ? as : rest.href ? 'a' : 'div';
 
   if (Children.count(children)) {
     return (

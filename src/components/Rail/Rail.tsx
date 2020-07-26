@@ -1,6 +1,6 @@
 import React, { Children } from 'react';
 
-import { SemanticFLOATS, SemanticShorthandContent, getClassName, Use } from '../../lib';
+import { SemanticFLOATS, SemanticShorthandContent, getClassName, Use, ChildrenOrContent } from '../../lib';
 
 export interface RailProps extends StrictRailProps {
   [key: string]: any;
@@ -41,13 +41,5 @@ export interface StrictRailProps {
 /**
  * A rail is used to show accompanying content outside the boundaries of the main view of a site.
  */
-export const Rail: React.FC<RailProps> = ({ as: ElementType = 'div', attached, children, className, close, content, dividing, internal, position, size, ...rest }) => {
-
-  const classes = getClassName('ui', position, size, { attached, dividing, internal }, [Use.KeyOrValueKey, { close }], 'rail', className);
-
-  return (
-    <ElementType {...rest} className={classes}>
-      {Children.count(children) ? children : content}
-    </ElementType>
-  );
-};
+export const Rail: React.FC<RailProps> = ({ attached, close, dividing, internal, position, size, ...props }) =>
+  ChildrenOrContent(props, 'ui', position, size, { attached, dividing, internal }, [Use.KeyOrValueKey, { close }], 'rail');

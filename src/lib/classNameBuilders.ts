@@ -211,6 +211,24 @@ const reduceMultiple = (acc: any[], [key, value]: [string, any]) => {
   return acc;
 };
 
+const reduceWidth = (acc: any[], [val, widthClass = '', canEqual = false]: [any, string, boolean]) => {
+
+  if (canEqual && val === 'equal') {
+    acc.push('equal width');
+    return acc;
+  }
+
+  const valType = typeof val;
+  // tslint:disable-next-line: triple-equals
+  if ((valType == 'string' || valType == 'number') && widthClass) {
+    acc.push(`${numberToWord(val)} ${widthClass}`);
+    return acc;
+  }
+
+  acc.push(numberToWord(val));
+  return acc;
+};
+
 export const getClassName = (...args: ClassArg[]) => args
   .reduce(
     (acc: any[], val) => {
@@ -244,25 +262,20 @@ export const getClassName = (...args: ClassArg[]) => args
           return Object.entries(val[1]).reduce(reduceMultiple, acc);
 
         case Use.TextAlign:
-          acc.push(val[1] === 'justified' ? 'justified' : `${val[1]} aligned`);
+          const val1 = val[1];
+          acc.push(val1 === 'justified' ? 'justified' : val1 && `${val1} aligned`);
           return acc;
 
         case Use.VerticalAlign:
-          acc.push(`${val[1]} aligned`);
+          acc.push(val[1] && `${val[1]} aligned`);
           return acc;
 
         case Use.Width:
+          if (!val[1]) return acc;
 
-          if (!Array.isArray(val[1])) {
+          if (!Array.isArray(val[1])) return reduceWidth(acc, [val[1], val[2] as any, val[3] as any]);
 
-            const [, value, widthClass = null, canEqual = false] = val;
-
-            acc.push(canEqual && value === 'equal' ? 'equal width' : !!widthClass ? `${numberToWord(value)} ${widthClass})` : numberToWord(value));
-            return acc;
-          }
-
-          val[1].forEach(([value, widthClass = '', canEqual = false]) => acc.push(canEqual && value === 'equal' ? 'equal width' : `${numberToWord(value)} ${widthClass}`));
-          return acc;
+          return (val[1] as any[]).reduce(reduceWidth, acc);
 
         default:
           // is array of strings

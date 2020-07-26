@@ -1,5 +1,4 @@
 import React, { forwardRef } from 'react';
-import { FCX } from '../../lib';
 
 export interface TextAreaProps extends StrictTextAreaProps {
   [key: string]: any;
@@ -36,13 +35,21 @@ export interface StrictTextAreaProps {
  * A TextArea can be used to allow for extended user input.
  * @see Form
  */
-export const TextArea: React.FC<TextAreaProps> = forwardRef<any, TextAreaProps>((props, ref) => {
+export const TextArea: React.FC<TextAreaProps> = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => {
 
   const { as: ElementType = 'textarea', onChange, onInput, rows = 3, value, ...rest } = props;
 
-  const handleChange = onChange ? (e: any) => onChange(e, { ...props, value: e.target.value }) : null;
+  //
+  const isEditable = !rest.disabled && !rest.readOnly;
 
-  const handleInput = onInput ? (e: any) => onInput(e, { ...props, value: e.target.value }) : null;
+  // set handlers
+  const handleChange = isEditable && onChange
+    ? (e: any) => onChange(e, { ...props, value: e.target.value })
+    : null;
+
+  const handleInput = isEditable && onInput
+    ? (e: any) => onInput(e, { ...props, value: e.target.value })
+    : null;
 
   return <ElementType {...rest} onChange={handleChange} onInput={handleInput} rows={rows} value={value} ref={ref} />;
 });

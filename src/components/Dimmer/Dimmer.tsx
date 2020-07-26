@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FCX, createShorthandFactory, isBrowser } from '../../lib';
-import { Portal } from '..';
+import { Portal } from '../Portal';
 import { DimmerDimmable } from './DimmerDimmable';
 import { DimmerInner } from './DimmerInner';
 
@@ -31,9 +31,9 @@ const Dimmer: CDimmer = props => {
 
   if (!page) return <DimmerInner {...rest} active={active} page={page} />;
 
-  const handlePortalMount = () => isBrowser() && document.body.classList.add('dimmed', 'dimmable');
+  const handlePortalMount = isBrowser() ? () => document.body.classList.add('dimmed', 'dimmable') : undefined;
 
-  const handlePortalUnmount = () => isBrowser() && document.body.classList.remove('dimmed', 'dimmable');
+  const handlePortalUnmount = isBrowser() ? () => document.body.classList.remove('dimmed', 'dimmable') : undefined;
 
   return (
     <Portal closeOnEscape={false} closeOnDocumentClick={false} onMount={handlePortalMount} onUnmount={handlePortalUnmount} open={active} openOnTriggerClick={false}>

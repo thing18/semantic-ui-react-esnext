@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { cloneElement } from 'react';
 
 import { handleRef } from './handleRef';
 import { RefProps } from './types';
@@ -11,5 +11,5 @@ export const RefForward: React.FC<RefProps> = ({ children, innerRef }) => {
     handleRef(innerRef, node);
   };
 
-  return React.cloneElement(children, { ref: handleRefOverride });
+  return cloneElement(children, { ref: handleRefOverride });
 };

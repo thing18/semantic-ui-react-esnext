@@ -1,6 +1,6 @@
 import React, { Children } from 'react';
 
-import { SemanticShorthandContent, FCX, createShorthandFactory, getClassName, Use } from '../../lib';
+import { SemanticShorthandContent, FCX, createShorthandFactory, getClassName } from '../../lib';
 
 export interface BreadcrumbSectionProps extends StrictBreadcrumbSectionProps {
   [key: string]: any;
@@ -43,15 +43,15 @@ export interface StrictBreadcrumbSectionProps {
  */
 export const BreadcrumbSection: FCX<BreadcrumbSectionProps> = props => {
 
-  const { as = 'div', link, active, children, className, content, href, onClick, ...rest } = props;
+  const { as = 'div', link, active, children, className, content, onClick, ...rest } = props;
 
-  const handleClick = (e: any) => onClick?.call(null, e, props);
+  const handleClick = onClick ? (e: any) => onClick(e, props) : undefined;
 
-  const classes = getClassName([Use.Key, { active }], 'section', className);
+  const classes = getClassName({ active }, 'section', className);
   const ElementType = (link || onClick) ? 'a' : as;
 
   return (
-    <ElementType {...rest} className={classes} href={href} onClick={handleClick}>
+    <ElementType {...rest} className={classes} onClick={handleClick}>
       {Children.count(children) ? children : content}
     </ElementType>
   );

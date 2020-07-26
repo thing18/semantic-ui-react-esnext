@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { InputEventListener, GenericMap, InputTargetElement, TargetElement, EventListeners } from '../types';
-import { isRefObject } from '../..';
+import { isRefObject } from '../../Ref';
 
 /**
  * An IE11-compatible function.

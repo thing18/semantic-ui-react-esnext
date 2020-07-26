@@ -7,7 +7,9 @@ interface IsBrowser {
     override: any;
 }
 
-const isBrowser: IsBrowser = () => isBrowser.override != null ? isBrowser.override : hasDocument && hasWindow;
+const isBrowser: IsBrowser = () => isBrowser.override != null
+    ? isBrowser.override
+    : hasDocument && hasWindow;
 
 isBrowser.override = null;
 

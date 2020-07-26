@@ -53,7 +53,7 @@ export interface StrictTableRowProps {
  */
 export const TableRow: FCX<TableRowProps> = ({ as: ElementType = 'tr', active, cellAs = 'td', cells, children, className, disabled, error, negative, positive, textAlign, verticalAlign, warning, ...rest }) => {
 
-  const classes = getClassName([Use.Key, { active, disabled, error, negative, positive, warning }], [Use.TextAlign, textAlign], [Use.VerticalAlign, verticalAlign], className);
+  const classes = getClassName({ active, disabled, error, negative, positive, warning }, [Use.TextAlign, textAlign], [Use.VerticalAlign, verticalAlign], className);
 
   if (Children.count(children)) {
     return (

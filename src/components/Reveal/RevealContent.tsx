@@ -1,8 +1,8 @@
-import React, { Children } from 'react';
+import React from 'react';
 
-import { SemanticShorthandContent, Use, getClassName } from '../../lib';
+import { SemanticShorthandContent, ChildrenOrContent } from '../../lib';
 
-interface StrictRevealContentProps {
+export interface StrictRevealContentProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -22,24 +22,12 @@ interface StrictRevealContentProps {
   visible?: boolean;
 }
 
-interface RevealContentProps extends StrictRevealContentProps {
+export interface RevealContentProps extends StrictRevealContentProps {
   [key: string]: any;
 }
 
 /**
  * A content sub-component for the Reveal.
  */
-const RevealContent: React.FC<RevealContentProps> = ({ as = 'div', children, className, content, hidden, visible, ...rest }) => {
-
-  const classes = getClassName('ui', [Use.Key, { hidden, visible }], 'content', className);
-
-  const ElementType = !!rest.href ? 'a' : as;
-
-  return (
-    <ElementType {...rest} className={classes}>
-      {Children.count(children) ? children : content}
-    </ElementType>
-  );
-};
-
-export { RevealContent, RevealContentProps, StrictRevealContentProps };
+export const RevealContent: React.FC<RevealContentProps> = ({ hidden, visible, ...props }) =>
+  ChildrenOrContent(props, 'ui', { hidden, visible }, 'content');

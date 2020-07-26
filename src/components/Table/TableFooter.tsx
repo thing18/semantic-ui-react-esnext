@@ -14,6 +14,7 @@ export interface StrictTableFooterProps extends StrictTableHeaderProps {
 /**
  * A table can have a footer.
  */
-export const TableFooter: React.FC<TableFooterProps> = ({ as = 'tfoot', ...rest }) => <TableHeader {...rest} as={as} />;
+export const TableFooter: React.FC<TableFooterProps> = ({ as = 'tfoot', ...rest }) =>
+  <TableHeader {...rest} as={as} />;
 
 TableFooter.defaultProps = { as: 'tfoot' };

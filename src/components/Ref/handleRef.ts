@@ -13,12 +13,14 @@ export const handleRef = <N = any>(ref: React.Ref<N> | undefined, node: N) => {
     throw new Error('We do not support refs as string, this is a legacy API and will be likely to be removed in one of the future releases of React.');
   }
 
-  if (typeof ref === 'function') {
+  // tslint:disable-next-line: triple-equals
+  if (typeof ref == 'function') {
     ref(node);
     return;
   }
 
-  if (ref !== null && typeof ref === 'object') {
+  // tslint:disable-next-line: triple-equals
+  if (ref !== null && typeof ref == 'object') {
     // The `current` property is defined as readonly, however it's a valid way because
     // `ref` is a mutable object
     (ref as React.MutableRefObject<N>).current = node;

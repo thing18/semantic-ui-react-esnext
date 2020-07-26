@@ -91,7 +91,7 @@ export const htmlImageProps = ['alt', 'height', 'src', 'srcSet', 'width'];
  * @param {boolean} [options.includeAria] Includes all input props that starts with "aria-"
  * @returns {[{}, {}]} An array of objects
  */
-export const partitionHTMLProps = (props: any, { htmlProps = htmlInputProps, includeAria = true } = {}) => {
+export const partitionHTMLProps = (props: Record<string, any>, { htmlProps = htmlInputProps, includeAria = true } = {}) => {
 
   const inputProps = {} as Record<string, any>;
   const rest = {} as Record<string, any>;
@@ -100,7 +100,7 @@ export const partitionHTMLProps = (props: any, { htmlProps = htmlInputProps, inc
 
     const possibleAria = includeAria && (/^aria-.*$/.test(prop) || prop === 'role');
 
-    const target = htmlProps.includes(props) || possibleAria ? inputProps : rest;
+    const target = htmlProps.includes(prop) || possibleAria ? inputProps : rest;
 
     target[prop] = val;
   });
