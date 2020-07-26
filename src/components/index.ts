@@ -39,6 +39,7 @@ export * from './Dimmer';                   // uses addons:[Portal]
 // collections
 export * from './Table';                    // uses elements:[Icon]
 export * from './Breadcrumb';               // uses elements:[Icon]
+export * from './Message';                  // uses elements:[Icon]
 
 // =========== Tier 2
 // =========================================
@@ -52,7 +53,6 @@ export * from './Button';                   // uses elements:[Icon, Label]
 export * from './Input';
 
 // collections
-// export * from './Message';
 // export * from './Menu';
 // export * from './Form';
 
