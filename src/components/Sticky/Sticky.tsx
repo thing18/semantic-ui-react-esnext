@@ -1,6 +1,7 @@
 import React, { Component, createRef } from 'react';
-import { isBrowser, eventStack, getClassName } from '../../lib';
-import { isRefObject } from '../..';
+import { isBrowser, getClassName } from '../../lib';
+import { isRefObject } from '../Ref';
+import { eventStack } from '../EventStack';
 
 export interface StickyProps extends StrictStickyProps {
   [key: string]: any;

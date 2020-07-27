@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { SemanticShorthandItem } from '../../lib';
-import { StrictButtonProps, LabelProps, Button } from '..';
+import { StrictButtonProps, Button } from '../Button';
+import { LabelProps } from '../Label';
 import { StrictFormFieldProps, FormField } from './FormField';
 
 export interface FormButtonProps extends StrictFormButtonProps {

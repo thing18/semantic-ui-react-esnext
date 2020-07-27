@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TextArea, StrictTextAreaProps } from '..';
+import { TextArea, StrictTextAreaProps } from '../TextArea';
 import { FormField, StrictFormFieldProps } from './FormField';
 
 export interface FormTextAreaProps extends StrictFormTextAreaProps {

@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { Select, StrictSelectProps, DropdownItemProps } from '..';
+import { Select, StrictSelectProps } from '../Select';
 import { FormField, StrictFormFieldProps } from './FormField';
+import { DropdownItemProps } from '../Dropdown';
 
 export interface FormSelectProps extends StrictFormSelectProps {
   [key: string]: any;

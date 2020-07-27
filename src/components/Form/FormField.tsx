@@ -1,7 +1,9 @@
 import React, { createElement, Children } from 'react';
 
 import { HtmlLabelProps, SemanticShorthandContent, SemanticShorthandItem, SemanticWIDTHS, getClassName, createHTMLLabel, Use } from '../../lib';
-import { LabelProps, Label, Radio, Checkbox } from '..';
+import { LabelProps, Label } from '../Label';
+import { Checkbox } from '../Checkbox';
+import { Radio } from '../Radio';
 
 export interface FormFieldProps extends StrictFormFieldProps {
   [key: string]: any;

@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 // import _without from 'lodash/without';
-// import _uniq from 'lodash/uniq';
 
 import * as SUI from '../../lib/SUI';
 // import * as customPropTypes from '../../lib/customPropTypes';

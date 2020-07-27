@@ -8,11 +8,11 @@ import { FeedMetaProps } from './FeedMeta';
 import { FeedSummaryProps } from './FeedSummary';
 import { FeedExtraProps } from './FeedExtra';
 
-interface FeedEventProps extends StrictFeedEventProps {
+export interface FeedEventProps extends StrictFeedEventProps {
   [key: string]: any;
 }
 
-interface StrictFeedEventProps {
+export interface StrictFeedEventProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -50,7 +50,7 @@ interface StrictFeedEventProps {
 /**
  * A feed contains an event.
  */
-const FeedEvent: React.FC<FeedEventProps> = ({ as: ElementType = 'div', content, children, className, date, extraImages, extraText, image, icon, meta, summary, ...rest }) => {
+export const FeedEvent: React.FC<FeedEventProps> = ({ as: ElementType = 'div', content, children, className, date, extraImages, extraText, image, icon, meta, summary, ...rest }) => {
 
   const hasContentProp = content || date || extraImages || extraText || meta || summary;
 
@@ -63,5 +63,3 @@ const FeedEvent: React.FC<FeedEventProps> = ({ as: ElementType = 'div', content,
     </ElementType>
   );
 };
-
-export { FeedEvent, FeedEventProps, StrictFeedEventProps };

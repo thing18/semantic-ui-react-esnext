@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Radio, StrictRadioProps } from '..';
+import { Radio, StrictRadioProps } from '../Radio';
 import { FormField, StrictFormFieldProps } from './FormField';
 
 export interface FormRadioProps extends StrictFormRadioProps {

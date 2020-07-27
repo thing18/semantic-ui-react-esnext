@@ -1,6 +1,6 @@
 import React, { Children } from 'react';
 
-import { SemanticShorthandContent, createShorthandFactory, getClassName, FCX } from '../../lib';
+import { SemanticShorthandContent, createShorthandFactory, getClassName, FCX, ChildrenOrContent } from '../../lib';
 
 interface StatisticValueProps extends StrictStatisticValueProps {
   [key: string]: any;
@@ -26,16 +26,8 @@ interface StrictStatisticValueProps {
 /**
  * A statistic can contain a numeric, icon, image, or text value.
  */
-const StatisticValue: FCX<StatisticValueProps> = ({ as: ElementType = 'div', children, className, content, text, ...rest }) => {
-
-  const classes = getClassName({ text }, 'value', className);
-
-  return (
-    <ElementType {...rest} className={classes}>
-      {Children.count(children) ? children : content}
-    </ElementType>
-  );
-};
+const StatisticValue: FCX<StatisticValueProps> = ({ text, ...props }) =>
+  ChildrenOrContent(props, { text }, 'value');
 
 StatisticValue.create = createShorthandFactory(StatisticValue, (content) => ({ content }));
 

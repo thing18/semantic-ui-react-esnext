@@ -2,11 +2,11 @@ import React from 'react';
 
 import { SemanticShorthandContent, ChildrenOrContent } from '../../lib';
 
-interface FeedDateProps extends StrictFeedDateProps {
+export interface FeedDateProps extends StrictFeedDateProps {
   [key: string]: any;
 }
 
-interface StrictFeedDateProps {
+export interface StrictFeedDateProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -23,6 +23,4 @@ interface StrictFeedDateProps {
 /**
  * An event or an event summary can contain a date.
  */
-const FeedDate: React.FC<FeedDateProps> = props => ChildrenOrContent(props, 'date');
-
-export { FeedDate, FeedDateProps, StrictFeedDateProps };
+export const FeedDate: React.FC<FeedDateProps> = props => ChildrenOrContent(props, 'date');

@@ -19,6 +19,7 @@ export * from './normalizeTransitionDuration';
 export * from './isPlainObject';
 export * from './types';
 export * from './childrenOrContent';
+export * from './keys';
 
 // tslint:disable-next-line: triple-equals
 export const isEmptyPrimitive = (value: string | number | boolean | (string | number | boolean)[]) => ((Array.isArray(value) || typeof value == 'string') && !value.length) || value == null;

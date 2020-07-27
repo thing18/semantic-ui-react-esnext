@@ -1,12 +1,13 @@
 import keyboardKey from 'keyboard-key';
 import React, { PureComponent } from 'react';
 
-import { SemanticShorthandItem, eventStack, isBrowser, partitionHTMLProps, htmlInputAttrs, getClassName, Use, ModernAutoControlledComponent, ModernAutoControlledComponentState } from '../../lib';
+import { SemanticShorthandItem, isBrowser, partitionHTMLProps, htmlInputAttrs, getClassName, Use, ModernAutoControlledComponent, ModernAutoControlledComponentState } from '../../lib';
 import { InputProps, Input } from '..';
 import { SearchCategory, SearchCategoryProps } from './SearchCategory';
 import { SearchResult, SearchResultProps } from './SearchResult';
 import { SearchResults } from './SearchResults';
 import shallowEqual from 'shallowequal';
+import { eventStack } from '../EventStack';
 
 export interface SearchProps extends StrictSearchProps {
   [key: string]: any;

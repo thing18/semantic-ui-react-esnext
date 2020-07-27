@@ -1,5 +1,5 @@
 // extra
-// export * from './Ref';
+export * from './Ref';
 // export * from './EventStack';
 // export * from './EventListener';
 
@@ -26,6 +26,8 @@ export * from './TextArea';
 
 // views
 export * from './Advertisement';
+export * from './Comment';
+export * from './Statistic';
 
 // =========== Tier 1
 // =========================================
@@ -40,6 +42,10 @@ export * from './Dimmer';                   // uses addons:[Portal]
 export * from './Table';                    // uses elements:[Icon]
 export * from './Breadcrumb';               // uses elements:[Icon]
 export * from './Message';                  // uses elements:[Icon]
+export * from './Menu';                     // uses elements:[Icon]
+
+// views
+export * from './Feed';                     // uses elements:[Icon]
 
 // =========== Tier 2
 // =========================================
@@ -50,18 +56,14 @@ export * from './Image';                    // uses elements:[Label], modules:[D
 export * from './List';                     // uses elements:[Icon, Image]
 export * from './Header';                   // uses elements:[Icon, Image]
 export * from './Button';                   // uses elements:[Icon, Label]
-export * from './Input';
+export * from './Input';                    // uses elements:[Icon, Label, Button]
 
 // collections
-// export * from './Menu';
 // export * from './Form';
 
 // views
 // export * from './Card';
-// export * from './Comment';
-// export * from './Feed';
 // export * from './Item';
-// export * from './Statistic';
 
 // modules
 // export * from './Checkbox';

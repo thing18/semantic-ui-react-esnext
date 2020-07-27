@@ -103,10 +103,10 @@ interface CMenu extends FCX<MenuProps> {
  */
 export const Menu: CMenu = ({ as: ElementType = 'div', onItemClick, activeIndex, defaultActiveIndex, items, attached, borderless, children, className, color, compact, fixed, floated, fluid, icon, inverted, pagination, pointing, secondary, size, stackable, tabular, text, vertical, widths, ...rest }) => {
 
-  const [__activeIndex, __setActiveIndex] = useState(Number(activeIndex ?? defaultActiveIndex ?? -1));
+  const [__activeIndex, __setActiveIndex] = useState<number>();
 
   useEffect(
-    () => { __setActiveIndex(Number(activeIndex)); },
+    () => { __setActiveIndex(Number(activeIndex ?? defaultActiveIndex ?? -1)); },
     [activeIndex],
   );
 
@@ -115,7 +115,7 @@ export const Menu: CMenu = ({ as: ElementType = 'div', onItemClick, activeIndex,
   const handleItemOverrides = (pprops: MenuProps) => ({
     onClick: (e: any, itemProps: MenuItemProps) => {
 
-      __setActiveIndex(itemProps.index as number);
+      __setActiveIndex(itemProps.index);
 
       pprops.onClick?.call(null, e, itemProps);
       onItemClick?.call(null, e, itemProps);

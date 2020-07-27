@@ -1,12 +1,12 @@
-import React, { Children } from 'react';
+import React from 'react';
 
-import { SemanticShorthandContent, getClassName } from '../../lib';
+import { SemanticShorthandContent, ChildrenOrContent } from '../../lib';
 
-interface CommentActionProps extends StrictCommentActionProps {
+export interface CommentActionProps extends StrictCommentActionProps {
   [key: string]: any;
 }
 
-interface StrictCommentActionProps {
+export interface StrictCommentActionProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -26,12 +26,7 @@ interface StrictCommentActionProps {
 /**
  * A comment can contain an action.
  */
-const CommentAction: React.FC<CommentActionProps> = ({ as: ElementType = 'a', active, className, children, content, ...rest }) => (
-  <ElementType {...rest} className={getClassName({ active }, className)}>
-    {Children.count(children) ? children : content}
-  </ElementType>
-);
+export const CommentAction: React.FC<CommentActionProps> = ({ as = 'a', active, ...props }) =>
+  ChildrenOrContent({ ...props, as }, { active });
 
 CommentAction.defaultProps = { as: 'a' };
-
-export { CommentAction, CommentActionProps, StrictCommentActionProps };

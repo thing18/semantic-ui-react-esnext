@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Dropdown, StrictDropdownProps } from '..';
+import { Dropdown, StrictDropdownProps } from '../Dropdown';
 import { FormField, StrictFormFieldProps } from './FormField';
 
 export interface FormDropdownProps extends StrictFormDropdownProps {

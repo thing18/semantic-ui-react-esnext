@@ -2,11 +2,11 @@ import React from 'react';
 
 import { SemanticShorthandContent, ChildrenOrContent } from '../../lib';
 
-interface CommentActionsProps extends StrictCommentActionsProps {
+export interface CommentActionsProps extends StrictCommentActionsProps {
   [key: string]: any;
 }
 
-interface StrictCommentActionsProps {
+export interface StrictCommentActionsProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -23,6 +23,5 @@ interface StrictCommentActionsProps {
 /**
  * A comment can contain an list of actions a user may perform related to this comment.
  */
-const CommentActions: React.FC<CommentActionsProps> = props => ChildrenOrContent(props, 'actions');
-
-export { CommentActions, CommentActionsProps, StrictCommentActionsProps };
+export const CommentActions: React.FC<CommentActionsProps> = props =>
+  ChildrenOrContent(props, 'actions');

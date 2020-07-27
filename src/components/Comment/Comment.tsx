@@ -1,6 +1,6 @@
-import React, { Children } from 'react';
+import React from 'react';
 
-import { SemanticShorthandContent, getClassName } from '../../lib';
+import { SemanticShorthandContent, ChildrenOrContent } from '../../lib';
 import { CommentAction } from './CommentAction';
 import { CommentActions } from './CommentActions';
 import { CommentAuthor } from './CommentAuthor';
@@ -45,16 +45,8 @@ interface CComment extends React.FC<CommentProps> {
 /**
  * A comment displays user feedback to site content.
  */
-const Comment: CComment = ({ as: ElementType = 'div', className, children, collapsed, content, ...rest }) => {
-
-  const classes = getClassName({ collapsed }, 'comment', className);
-
-  return (
-    <ElementType {...rest} className={classes}>
-      {Children.count(children) ? children : content}
-    </ElementType>
-  );
-};
+const Comment: CComment = ({ collapsed, ...props }) =>
+  ChildrenOrContent(props, { collapsed }, 'comment');
 
 Comment.Author = CommentAuthor;
 Comment.Action = CommentAction;

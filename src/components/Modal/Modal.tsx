@@ -1,11 +1,14 @@
 import React, { createRef, Fragment, isValidElement, useRef, useState, useEffect, Children, useReducer } from 'react';
 
-import { Icon, Portal, StrictPortalProps, MountNode } from '..';
-import { SemanticShorthandItem, isBrowser, doesNodeContainClick, eventStack, getClassName } from '../../lib';
+import { SemanticShorthandItem, isBrowser, doesNodeContainClick, getClassName } from '../../lib';
 import { ModalHeader, ModalHeaderProps } from './ModalHeader';
 import { ModalContent, ModalContentProps } from './ModalContent';
 import { ModalActions, ModalActionsProps } from './ModalActions';
 import { ModalDescription } from './ModalDescription';
+import { StrictPortalProps, Portal } from '../Portal';
+import { eventStack } from '../EventStack';
+import { Icon } from '../Icon';
+import { MountNode } from '../MountNode';
 
 export interface ModalProps extends StrictModalProps {
   [key: string]: any;

@@ -2,11 +2,11 @@ import React from 'react';
 
 import { SemanticShorthandContent, ChildrenOrContent } from '../../lib';
 
-interface FeedUserProps extends StrictFeedUserProps {
+export interface FeedUserProps extends StrictFeedUserProps {
   [key: string]: any;
 }
 
-interface StrictFeedUserProps {
+export interface StrictFeedUserProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -23,8 +23,7 @@ interface StrictFeedUserProps {
 /**
  * A feed can contain a user element.
  */
-const FeedUser: React.FC<FeedUserProps> = ({ as = 'a', ...rest }) => ChildrenOrContent({ as, ...rest }, 'user');
+export const FeedUser: React.FC<FeedUserProps> = ({ as = 'a', ...props }) =>
+  ChildrenOrContent({ as, ...props }, 'user');
 
 FeedUser.defaultProps = { as: 'a' };
-
-export { FeedUser, FeedUserProps, StrictFeedUserProps };

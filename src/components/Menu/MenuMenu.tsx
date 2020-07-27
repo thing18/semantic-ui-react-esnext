@@ -26,4 +26,5 @@ export interface StrictMenuMenuProps {
 /**
  * A menu can contain a sub menu.
  */
-export const MenuMenu: React.FC<MenuMenuProps> = ({ position, ...rest }) => ChildrenOrContent([position, 'menu'], rest);
+export const MenuMenu: React.FC<MenuMenuProps> = ({ position, ...props }) =>
+  ChildrenOrContent(props, position, 'menu');

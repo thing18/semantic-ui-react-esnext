@@ -2,11 +2,13 @@ import React, { Component, createRef, Children } from 'react';
 import { Popper } from 'react-popper';
 import shallowEqual from 'shallowequal';
 
-import { SemanticShorthandItem, eventStack, getClassName, Use } from '../../lib';
-import { StrictPortalProps, Portal, EventStack, Ref, PortalProps } from '..';
+import { SemanticShorthandItem, getClassName, Use } from '../../lib';
+import { StrictPortalProps, Portal, PortalProps } from '../Portal';
+import { Ref } from '../Ref';
+import { EventStack, eventStack } from '../EventStack';
 import { PopupContent, PopupContentProps } from './PopupContent';
 import { PopupHeader, PopupHeaderProps } from './PopupHeader';
-import { placementMapping, positions, positionsMapping } from './lib/positions';
+import { placementMapping, positionsMapping } from './lib/positions';
 import { createReferenceProxy } from './lib/createReferenceProxy';
 
 export interface PopupProps extends StrictPopupProps {

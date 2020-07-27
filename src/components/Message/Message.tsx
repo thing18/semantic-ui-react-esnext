@@ -1,7 +1,7 @@
 import React, { Children } from 'react';
 
 import { SemanticCOLORS, SemanticShorthandCollection, SemanticShorthandContent, SemanticShorthandItem, createHTMLParagraph, getClassName, Use } from '../../lib';
-import { Icon } from '..';
+import { Icon } from '../Icon';
 import { MessageContent } from './MessageContent';
 import { MessageHeader, MessageHeaderProps } from './MessageHeader';
 import { MessageItem, MessageItemProps } from './MessageItem';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StrictCheckboxProps, Checkbox } from '..';
+import { StrictCheckboxProps, Checkbox } from '../Checkbox';
 
 export interface RadioProps extends StrictRadioProps {
   [key: string]: any;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Checkbox, StrictCheckboxProps } from '..';
+import { Checkbox, StrictCheckboxProps } from '../Checkbox';
 import { StrictFormFieldProps, FormField } from './FormField';
 
 export interface FormCheckboxProps extends StrictFormCheckboxProps {

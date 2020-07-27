@@ -42,11 +42,9 @@ interface StrictStatisticGroupProps {
 /**
  * A group of statistics.
  */
-const StatisticGroup: React.FC<StrictStatisticGroupProps> = ({ as, children, className, color, content, horizontal, inverted, items, size, widths, ...rest }) => {
+const StatisticGroup: React.FC<StrictStatisticGroupProps> = ({ as: ElementType = 'div', children, className, color, content, horizontal, inverted, items, size, widths, ...rest }) => {
 
   const classes = getClassName('ui', color, size, { horizontal, inverted }, [Use.Width, widths], 'statistics', className);
-
-  const ElementType = as || 'div';
 
   if (Children.count(children)) {
     return (

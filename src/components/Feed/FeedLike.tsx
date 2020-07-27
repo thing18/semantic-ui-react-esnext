@@ -1,13 +1,13 @@
 import React, { Children } from 'react';
 
 import { SemanticShorthandContent, SemanticShorthandItem, getClassName } from '../../lib';
-import { Icon, IconProps } from '..';
+import { Icon, IconProps } from '../Icon';
 
-interface FeedLikeProps extends StrictFeedLikeProps {
+export interface FeedLikeProps extends StrictFeedLikeProps {
   [key: string]: any;
 }
 
-interface StrictFeedLikeProps {
+export interface StrictFeedLikeProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -27,7 +27,7 @@ interface StrictFeedLikeProps {
 /**
  * A feed can contain a like element.
  */
-const FeedLike: React.FC<FeedLikeProps> = ({ as: ElementType = 'a', children, className, content, icon, ...rest }) => {
+export const FeedLike: React.FC<FeedLikeProps> = ({ as: ElementType = 'a', children, className, content, icon, ...rest }) => {
 
   const classes = getClassName('like', className);
 
@@ -48,5 +48,3 @@ const FeedLike: React.FC<FeedLikeProps> = ({ as: ElementType = 'a', children, cl
 };
 
 FeedLike.defaultProps = { as: 'a' };
-
-export { FeedLike, FeedLikeProps, StrictFeedLikeProps };

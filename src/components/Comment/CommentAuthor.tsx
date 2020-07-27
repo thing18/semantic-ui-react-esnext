@@ -2,11 +2,11 @@ import React from 'react';
 
 import { SemanticShorthandContent, ChildrenOrContent } from '../../lib';
 
-interface CommentAuthorProps extends StrictCommentAuthorProps {
+export interface CommentAuthorProps extends StrictCommentAuthorProps {
   [key: string]: any;
 }
 
-interface StrictCommentAuthorProps {
+export interface StrictCommentAuthorProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -23,6 +23,5 @@ interface StrictCommentAuthorProps {
 /**
  * A comment can contain an author.
  */
-const CommentAuthor: React.FC<CommentAuthorProps> = props => ChildrenOrContent(props, 'author');
-
-export { CommentAuthor, CommentAuthorProps, StrictCommentAuthorProps };
+export const CommentAuthor: React.FC<CommentAuthorProps> = props =>
+  ChildrenOrContent(props, 'author');

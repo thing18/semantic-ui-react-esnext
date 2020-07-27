@@ -1,6 +1,7 @@
 import React, { Component, createRef } from 'react';
-import { eventStack, getElementType, normalizeOffset, isBrowser } from '../../lib';
-import { Ref } from '..';
+import { normalizeOffset, isBrowser } from '../../lib';
+import { Ref } from '../Ref';
+import { eventStack } from '../EventStack';
 
 export interface VisibilityProps extends StrictVisibilityProps {
   [key: string]: any;

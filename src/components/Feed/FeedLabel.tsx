@@ -1,13 +1,13 @@
 import React, { Children } from 'react';
 
 import { HtmlImageProps, SemanticShorthandContent, SemanticShorthandItem, createHTMLImage, getClassName } from '../../lib';
-import { Icon, IconProps } from '..';
+import { Icon, IconProps } from '../Icon';
 
-interface FeedLabelProps extends StrictFeedLabelProps {
+export interface FeedLabelProps extends StrictFeedLabelProps {
   [key: string]: any;
 }
 
-interface StrictFeedLabelProps {
+export interface StrictFeedLabelProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -30,7 +30,7 @@ interface StrictFeedLabelProps {
 /**
  * An event can contain an image or icon label.
  */
-const FeedLabel: React.FC<FeedLabelProps> = ({ as: ElementType = 'div', children, className, content, icon, image, ...rest }) => {
+export const FeedLabel: React.FC<FeedLabelProps> = ({ as: ElementType = 'div', children, className, content, icon, image, ...rest }) => {
 
   const classes = getClassName('label', className);
 
@@ -50,5 +50,3 @@ const FeedLabel: React.FC<FeedLabelProps> = ({ as: ElementType = 'div', children
     </ElementType>
   );
 };
-
-export { FeedLabel, FeedLabelProps, StrictFeedLabelProps };

@@ -3,11 +3,11 @@ import React, { Children } from 'react';
 import { SemanticShorthandContent, SemanticShorthandItem, createShorthand, getClassName } from '../../lib';
 import { FeedLike, FeedLikeProps } from './FeedLike';
 
-interface FeedMetaProps extends StrictFeedMetaProps {
+export interface FeedMetaProps extends StrictFeedMetaProps {
   [key: string]: any;
 }
 
-interface StrictFeedMetaProps {
+export interface StrictFeedMetaProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -26,7 +26,7 @@ interface StrictFeedMetaProps {
 /**
  * A feed can contain a meta.
  */
-const FeedMeta: React.FC<FeedLikeProps> = ({ as: ElementType = 'div', children, className, content, like, ...rest }) => {
+export const FeedMeta: React.FC<FeedLikeProps> = ({ as: ElementType = 'div', children, className, content, like, ...rest }) => {
 
   const classes = getClassName('meta', className);
 
@@ -45,5 +45,3 @@ const FeedMeta: React.FC<FeedLikeProps> = ({ as: ElementType = 'div', children, 
     </ElementType>
   );
 };
-
-export { FeedMeta, FeedMetaProps, StrictFeedMetaProps };

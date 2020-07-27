@@ -1,12 +1,12 @@
-import React, { Children } from 'react';
+import React from 'react';
 
-import { SemanticShorthandContent, SemanticSIZES, getClassName } from '../../lib';
+import { SemanticShorthandContent, SemanticSIZES, ChildrenOrContent } from '../../lib';
 
-interface CommentGroupProps extends StrictCommentGroupProps {
+export interface CommentGroupProps extends StrictCommentGroupProps {
   [key: string]: any;
 }
 
-interface StrictCommentGroupProps {
+export interface StrictCommentGroupProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -35,17 +35,5 @@ interface StrictCommentGroupProps {
 /**
  * Comments can be grouped.
  */
-const CommentGroup: React.FC<CommentGroupProps> = ({ as, className, children, collapsed, content, minimal, size, threaded, ...rest }) => {
-
-  const classes = getClassName('ui', size, { collapsed, minimal, threaded }, 'comments', className);
-
-  const ElementType = as || 'div';
-
-  return (
-    <ElementType {...rest} className={classes}>
-      {Children.count(children) ? children : content}
-    </ElementType>
-  );
-};
-
-export { CommentGroup, CommentGroupProps, StrictCommentGroupProps };
+export const CommentGroup: React.FC<CommentGroupProps> = ({ collapsed, minimal, size, threaded, ...props }) =>
+  ChildrenOrContent(props, 'ui', size, { collapsed, minimal, threaded }, 'comments');

@@ -2,11 +2,11 @@ import React, { Children } from 'react';
 
 import { HtmlImageProps, SemanticShorthandContent, SemanticShorthandCollection, createHTMLImage, getClassName } from '../../lib';
 
-interface FeedExtraProps extends StrictFeedExtraProps {
+export interface FeedExtraProps extends StrictFeedExtraProps {
   [key: string]: any;
 }
 
-interface StrictFeedExtraProps {
+export interface StrictFeedExtraProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -29,11 +29,11 @@ interface StrictFeedExtraProps {
 /**
  * A feed can contain an extra content.
  */
-const FeedExtra: React.FC<FeedExtraProps> = ({ as: ElementType = 'div', children, className, content, images, text, ...rest }) => {
+export const FeedExtra: React.FC<FeedExtraProps> = ({ as: ElementType = 'div', children, className, content, images, text, ...rest }) => {
 
-  const classes = getClassName({ images, text: content || text } as any, 'extra', className);
+  const classes = getClassName({ images, text: content || text }, 'extra', className);
 
-  if (!Children.count(children)) {
+  if (Children.count(children)) {
     return (
       <ElementType {...rest} className={classes}>
         {children}
@@ -51,5 +51,3 @@ const FeedExtra: React.FC<FeedExtraProps> = ({ as: ElementType = 'div', children
     </ElementType>
   );
 };
-
-export { FeedExtra, FeedExtraProps, StrictFeedExtraProps };

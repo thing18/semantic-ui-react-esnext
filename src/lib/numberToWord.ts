@@ -25,16 +25,19 @@ export const numberToWordMap: Record<number | '__proto__', string | null> = {
  * @param {string|number} value The value to convert to a word.
  * @returns {string}
  */
-export const numberToWord = (value: any) => {
+export const numberToWord = (value: string | number) => {
 
   // tslint:disable: triple-equals
   switch (typeof value) {
 
-    case ('string'): return value as string;
+    case 'string':
+      return value;
 
-    case ('number'): return numberToWordMap[value as any] as string;
+    case 'number':
+      return numberToWordMap[value];
 
-    default: return '';
+    default:
+      return '';
   }
   // tslint:enable: triple-equals
 };

@@ -1,4 +1,4 @@
-import { isRefObject, toRefObject } from '../..';
+import { isRefObject, toRefObject } from '../../Ref';
 
 import { isBrowser } from '../../../lib';
 

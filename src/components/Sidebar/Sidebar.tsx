@@ -1,4 +1,4 @@
-import { EventListener, documentRef } from '..';
+import { EventListener, documentRef } from '../EventListener';
 import React, { useRef, useReducer, useEffect, Children } from 'react';
 
 import { SemanticShorthandContent, doesNodeContainClick, getClassName } from '../../lib';

@@ -1,5 +1,5 @@
 import React, { createRef } from 'react';
-import { isRefObject } from '../..';
+import { isRefObject } from '../../Ref';
 
 class ReferenceProxy {
 

@@ -22,16 +22,29 @@ describe('Message', () => {
         expect(html1).toBe(html0);
     });
 
-    // it('shorthands', () => {
+    it('shorthands', () => {
 
-    //     const props={
-    //         footerRow: { cells: ['footer1', 'footer2', 'footer3', 'footer4'] },
-    //         headerRows: [{ cells: ['header1', 'header2', 'header3', 'header4'] }]
-    //     };
+        const props={
+            attached: 'top', color: 'blue', compact: true, content: 'message', error: true, floating: true,
+            header: 'header', hidden: true, icon: 'copy', size: 'large', list: ['message1', 'message2', 'message3']
+        };
 
-    //     const html1=mount(<Message1 {...props} />).html();
-    //     const html0=mount(<Message0 {...props} />).html();
+        const html1=mount(<Message1 {...props} />).html();
+        const html0=mount(<Message0 {...props} />).html();
 
-    //     expect(html1).toBe(html0);
-    // });
+        expect(html1).toBe(html0);
+    });
+
+    it('event:onDismiss', () => {
+
+        let __flag=0;
+        const props={
+            header: 'header', icon: 'copy', content: 'content', onDismiss: () => ++__flag
+        };
+
+        mount(<Message1 {...props} />).find('.close').first().simulate('click');
+        mount(<Message0 {...props} />).find('.close').first().simulate('click');
+
+        expect(__flag).toBe(2);
+    });
 });

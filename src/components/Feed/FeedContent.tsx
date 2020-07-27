@@ -6,11 +6,11 @@ import { FeedExtraProps, FeedExtra } from './FeedExtra';
 import { FeedMetaProps, FeedMeta } from './FeedMeta';
 import { FeedSummaryProps, FeedSummary } from './FeedSummary';
 
-interface FeedContentProps extends StrictFeedContentProps {
+export interface FeedContentProps extends StrictFeedContentProps {
   [key: string]: any;
 }
 
-interface StrictFeedContentProps {
+export interface StrictFeedContentProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -39,7 +39,7 @@ interface StrictFeedContentProps {
   summary?: SemanticShorthandItem<FeedSummaryProps>;
 }
 
-const FeedContent: React.FC<FeedContentProps> = ({ as: ElementType = 'div', children, className, content, extraImages, extraText, date, meta, summary, ...rest }) => {
+export const FeedContent: React.FC<FeedContentProps> = ({ as: ElementType = 'div', children, className, content, extraImages, extraText, date, meta, summary, ...rest }) => {
 
   const classes = getClassName('content', className);
 
@@ -62,5 +62,3 @@ const FeedContent: React.FC<FeedContentProps> = ({ as: ElementType = 'div', chil
     </ElementType>
   );
 };
-
-export { FeedContent, FeedContentProps, StrictFeedContentProps };

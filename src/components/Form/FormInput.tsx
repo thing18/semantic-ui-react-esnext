@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { SemanticShorthandItem } from '../../lib';
-import { LabelProps, StrictInputProps, Input } from '..';
+import { StrictInputProps, Input } from '../Input';
 import { FormField, StrictFormFieldProps } from './FormField';
+import { LabelProps } from '../Label';
 
 export interface FormInputProps extends StrictFormInputProps {
   [key: string]: any;

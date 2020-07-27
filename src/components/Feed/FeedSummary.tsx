@@ -4,11 +4,11 @@ import { SemanticShorthandContent, SemanticShorthandItem, createShorthand, getCl
 import { FeedUser, FeedUserProps } from './FeedUser';
 import { FeedDate, FeedDateProps } from './FeedDate';
 
-interface FeedSummaryProps extends StrictFeedSummaryProps {
+export interface FeedSummaryProps extends StrictFeedSummaryProps {
   [key: string]: any;
 }
 
-interface StrictFeedSummaryProps {
+export interface StrictFeedSummaryProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -31,10 +31,9 @@ interface StrictFeedSummaryProps {
 /**
  * A feed can contain a summary.
  */
-const FeedSummary: React.FC<FeedSummaryProps> = ({ as, children, className, content, date, user, ...rest }) => {
+export const FeedSummary: React.FC<FeedSummaryProps> = ({ as: ElementType = 'div', children, className, content, date, user, ...rest }) => {
 
   const classes = getClassName('summary', className);
-  const ElementType = as || 'div';
 
   if (Children.count(children)) {
     return (
@@ -58,5 +57,3 @@ const FeedSummary: React.FC<FeedSummaryProps> = ({ as, children, className, cont
     </ElementType>
   );
 };
-
-export { FeedSummary, FeedSummaryProps, StrictFeedSummaryProps };

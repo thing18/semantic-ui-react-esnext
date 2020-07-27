@@ -4,7 +4,9 @@ import React, { Children, cloneElement, createRef } from 'react';
 import shallowEqual from 'shallowequal';
 
 import { doesNodeContainClick, getClassName, Use, isEqualObj, unique, diffValues, isEmptyPrimitive, escapeRegExp, deburr as _deburr, ModernAutoControlledComponent, ModernAutoControlledComponentState } from '../../lib';
-import { EventStack, LabelProps, Label, Icon, IconProps } from '..';
+import { EventStack } from '../EventStack';
+import { LabelProps, Label } from '../Label';
+import { Icon, IconProps } from '../Icon';
 import { DropdownDivider } from './DropdownDivider';
 import { DropdownHeader } from './DropdownHeader';
 import { DropdownItem, DropdownItemProps } from './DropdownItem';

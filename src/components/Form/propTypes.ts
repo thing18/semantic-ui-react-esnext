@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import _without from 'lodash/without';
-// import _uniq from 'lodash/uniq';
 
 import * as SUI from '../../lib/SUI';
 import * as customPropTypes from '../../lib/customPropTypes';
@@ -16,6 +15,62 @@ import { FormRadio } from './FormRadio';
 import { FormSelect } from './FormSelect';
 import { FormTextArea } from './FormTextArea';
 import { DropdownItem } from '../Dropdown';
+
+FormField.propTypes = {
+    /** An element type to render as (string or function). */
+    as: PropTypes.elementType,
+
+    /** Primary content. */
+    children: PropTypes.node,
+
+    /** Additional classes. */
+    className: PropTypes.string,
+
+    /** Shorthand for primary content. */
+    content: customPropTypes.contentShorthand,
+
+    /**
+     * A form control component (i.e. Dropdown) or HTML tagName (i.e. 'input').
+     * Extra FormField props are passed to the control component.
+     * Mutually exclusive with children.
+     */
+    control: customPropTypes.some([
+        PropTypes.func,
+        PropTypes.oneOf(['button', 'input', 'select', 'textarea']),
+    ]) as any,
+
+    /** Individual fields may be disabled. */
+    disabled: PropTypes.bool,
+
+    /** Individual fields may display an error state along with a message. */
+    error: PropTypes.oneOfType([PropTypes.bool, customPropTypes.itemShorthand]) as any,
+
+    /** The id of the control */
+    id: PropTypes.string,
+
+    /** A field can have its label next to instead of above it. */
+    inline: PropTypes.bool,
+
+    // Heads Up!
+    // Do not disallow children with `label` shorthand
+    // The `control` might accept a `label` prop and `children`
+    /** Mutually exclusive with children. */
+    label: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
+
+    /** A field can show that input is mandatory. */
+    required: PropTypes.bool,
+
+    /** Passed to the control component (i.e. <input type='password' />) */
+    type: customPropTypes.every([
+        customPropTypes.demand(['control']),
+        // don't strictly validate HTML types
+        // a control might be passed that uses a `type` prop with unknown values
+        // let the control validate if for us
+    ]),
+
+    /** A field can specify its width in grid columns */
+    width: PropTypes.oneOf(SUI.WIDTHS as any),
+};
 
 FormTextArea.propTypes = {
     /** An element type to render as (string or function). */
@@ -73,62 +128,6 @@ FormGroup.propTypes = {
 
     /** Fields Groups can specify their width in grid columns or automatically divide fields to be equal width. */
     widths: PropTypes.oneOf([...SUI.WIDTHS as any, 'equal']),
-};
-
-FormField.propTypes = {
-    /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
-
-    /** Primary content. */
-    children: PropTypes.node,
-
-    /** Additional classes. */
-    className: PropTypes.string,
-
-    /** Shorthand for primary content. */
-    content: customPropTypes.contentShorthand,
-
-    /**
-     * A form control component (i.e. Dropdown) or HTML tagName (i.e. 'input').
-     * Extra FormField props are passed to the control component.
-     * Mutually exclusive with children.
-     */
-    control: customPropTypes.some([
-        PropTypes.func,
-        PropTypes.oneOf(['button', 'input', 'select', 'textarea']),
-    ]) as any,
-
-    /** Individual fields may be disabled. */
-    disabled: PropTypes.bool,
-
-    /** Individual fields may display an error state along with a message. */
-    error: PropTypes.oneOfType([PropTypes.bool, customPropTypes.itemShorthand]) as any,
-
-    /** The id of the control */
-    id: PropTypes.string,
-
-    /** A field can have its label next to instead of above it. */
-    inline: PropTypes.bool,
-
-    // Heads Up!
-    // Do not disallow children with `label` shorthand
-    // The `control` might accept a `label` prop and `children`
-    /** Mutually exclusive with children. */
-    label: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
-
-    /** A field can show that input is mandatory. */
-    required: PropTypes.bool,
-
-    /** Passed to the control component (i.e. <input type='password' />) */
-    type: customPropTypes.every([
-        customPropTypes.demand(['control']),
-        // don't strictly validate HTML types
-        // a control might be passed that uses a `type` prop with unknown values
-        // let the control validate if for us
-    ]),
-
-    /** A field can specify its width in grid columns */
-    width: PropTypes.oneOf(SUI.WIDTHS as any),
 };
 
 FormDropdown.propTypes = {

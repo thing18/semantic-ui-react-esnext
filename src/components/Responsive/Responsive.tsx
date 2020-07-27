@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
-import { isBrowser, eventStack } from '../../lib';
+import { isBrowser } from '../../lib';
 import { isVisible } from './lib/isVisible';
+import { eventStack } from '../EventStack';
 
 export interface ResponsiveProps extends StrictResponsiveProps {
   [key: string]: any;

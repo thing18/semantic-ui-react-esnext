@@ -1,6 +1,6 @@
-import React, { Children } from 'react';
+import React, { Children, useState } from 'react';
 
-import { SemanticShorthandCollection, getClassName } from '../../lib';
+import { SemanticShorthandCollection, getClassName, useKeys } from '../../lib';
 import { FeedContent } from './FeedContent';
 import { FeedDate } from './FeedDate';
 import { FeedEvent, FeedEventProps } from './FeedEvent';
@@ -10,6 +10,7 @@ import { FeedMeta } from './FeedMeta';
 import { FeedLike } from './FeedLike';
 import { FeedSummary } from './FeedSummary';
 import { FeedUser } from './FeedUser';
+import { props } from 'lodash/fp';
 
 interface FeedProps extends StrictFeedProps {
   [key: string]: any;
@@ -49,6 +50,7 @@ interface CFeed extends React.FC<FeedProps> {
  */
 const Feed: CFeed = ({ as: ElementType = 'div', children, className, events, size, ...rest }) => {
 
+  const keys = useKeys(events?.length ?? 0);
   const classes = getClassName('ui', size, 'feed', className);
 
   if (Children.count(children)) {
@@ -59,13 +61,11 @@ const Feed: CFeed = ({ as: ElementType = 'div', children, className, events, siz
     );
   }
 
-  const eventElements = Array.isArray(events)
-    ? events.map(({ childKey, date, meta, summary, ...data }: any) => <FeedEvent date={date} key={childKey || [date, meta, summary].join('-')} meta={meta} summary={summary} {...data} />)
-    : null;
+  if (!Array.isArray(events)) return <ElementType {...rest} className={classes} />;
 
   return (
     <ElementType {...rest} className={classes}>
-      {eventElements}
+      {(events as FeedEventProps[]).map(({ key, childKey, ...p }, index) => <FeedEvent key={key ?? childKey ?? keys[index]}{...p} />)}
     </ElementType>
   );
 };

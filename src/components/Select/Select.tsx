@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StrictDropdownProps, DropdownDivider, DropdownHeader, DropdownItem, DropdownItemProps, DropdownMenu, Dropdown } from '..';
+import { StrictDropdownProps, DropdownDivider, DropdownHeader, DropdownItem, DropdownItemProps, DropdownMenu, Dropdown } from '../Dropdown';
 
 export interface SelectProps extends StrictSelectProps {
   [key: string]: any;

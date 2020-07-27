@@ -2,11 +2,11 @@ import React from 'react';
 
 import { createHTMLImage, htmlImageProps, partitionHTMLProps, getClassName } from '../../lib';
 
-interface CommentAvatarProps extends StrictCommentAvatarProps {
+export interface CommentAvatarProps extends StrictCommentAvatarProps {
   [key: string]: any;
 }
 
-interface StrictCommentAvatarProps {
+export interface StrictCommentAvatarProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -20,16 +20,14 @@ interface StrictCommentAvatarProps {
 /**
  * A comment can contain an image or avatar.
  */
-const CommentAvatar: React.FC<CommentAvatarProps> = ({ as: ElementType = 'div', className, src, ...rest }) => {
+export const CommentAvatar: React.FC<CommentAvatarProps> = ({ as: ElementType = 'div', className, src, ...unhanled }) => {
 
   const classes = getClassName('avatar', className);
-  const [imageProps, rootProps] = partitionHTMLProps(rest, { htmlProps: htmlImageProps });
+  const [imageProps, rest] = partitionHTMLProps(unhanled, { htmlProps: htmlImageProps });
 
   return (
-    <ElementType {...rootProps} className={classes}>
+    <ElementType {...rest} className={classes}>
       {createHTMLImage(src, { autoGenerateKey: false, defaultProps: imageProps })}
     </ElementType>
   );
 };
-
-export { CommentAvatar, CommentAvatarProps, StrictCommentAvatarProps };
