@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 import { SemanticShorthandItem } from '../../lib';
-import { Grid, GridColumn, Menu, GridProps, MenuProps } from '..';
+import { Grid, GridColumn, GridProps } from '../Grid';
+import { Menu, MenuProps } from '../Menu';
 import { TabPane, TabPaneProps } from './TabPane';
 
 export interface TabProps extends StrictTabProps {
@@ -70,33 +71,30 @@ interface CTab extends React.FC<TabProps> {
  */
 const Tab: CTab = props => {
 
-  const { as: ElementType = 'div', activeIndex, defaultActiveIndex, onTabChange, menu, panes, menuPosition, renderActiveOnly, gird, ...rest } = props;
+  const { as: ElementType = 'div', grid, activeIndex, defaultActiveIndex, onTabChange, menu, panes, menuPosition, renderActiveOnly, gird, ...rest } = props;
 
-  const [__activeIndex, __setActiveIndex] = useState(Math.max(Number(activeIndex ?? defaultActiveIndex ?? 0)));
+  const [state, setState] = useState(0);
 
   useEffect(
-    () => { __setActiveIndex(Number(activeIndex)); },
+    () => {
+      setState(Number(activeIndex ?? defaultActiveIndex ?? 0));
+    },
     [activeIndex],
   );
 
   const handleItemClick = (e: any, { index }: TabPaneProps) => {
-
     onTabChange?.call(null, e, { ...props, activeIndex: index });
-    __setActiveIndex(index);
+    setState(index);
   };
 
-  const _menu = renderMenu(props, __activeIndex, handleItemClick);
-  if (!_menu) return null;
-
-  if (_menu.props.vertical) {
-    return <ElementType {...rest}>{renderVertical(props, __activeIndex, _menu)}</ElementType>;
-  }
+  const __menu = __renderMenu(props, state, handleItemClick);
+  if (__menu.props.vertical) return <ElementType {...rest}>{__renderVerticalMenu(props, state, __menu)}</ElementType>;
 
   return (
     <ElementType {...rest}>
-      {_menu.props.attached !== 'bottom' && _menu}
-      {renderItems(props, __activeIndex)}
-      {_menu.props.attached === 'bottom' && _menu}
+      {__menu.props.attached !== 'bottom' && __menu}
+      {__renderItems(props, state)}
+      {__menu.props.attached === 'bottom' && __menu}
     </ElementType>
   );
 };
@@ -104,7 +102,7 @@ const Tab: CTab = props => {
 Tab.defaultProps = { grid: { paneWidth: 12, tabWidth: 4 }, menu: { attached: true, tabular: true }, renderActiveOnly: true };
 Tab.Pane = TabPane;
 
-const renderVertical = (props: TabProps, activeIndex: number, menu: any) => {
+const __renderVerticalMenu = (props: TabProps, activeIndex: number, menu: any) => {
 
   const { paneWidth = 12, tabWidth = 4, ...gridProps } = props.grid ?? {};
   const position = props.menuPosition || (menu.props.tabular === 'right' && 'right') || 'left';
@@ -112,21 +110,19 @@ const renderVertical = (props: TabProps, activeIndex: number, menu: any) => {
   return (
     <Grid {...gridProps}>
       {position === 'left' && GridColumn.create({ width: tabWidth, children: menu }, { autoGenerateKey: false })}
-      {GridColumn.create({ width: paneWidth, children: renderItems(props, activeIndex), stretched: true }, { autoGenerateKey: false })}
+      {GridColumn.create({ width: paneWidth, children: __renderItems(props, activeIndex), stretched: true }, { autoGenerateKey: false })}
       {position === 'right' && GridColumn.create({ width: tabWidth, children: menu }, { autoGenerateKey: false })}
     </Grid>
   );
 };
 
-const renderMenu = ({ panes, menuPosition, menu }: TabProps, activeIndex: number, onItemClick: any) => {
+const __renderMenu = ({ panes, menuPosition, menu = {} }: TabProps, activeIndex: number, onItemClick: any) => {
 
-  const { attached = true, tabular = true, ...menuprops } = menu ?? {};
-
-  if (menuprops.tabular === true && menuPosition === 'right') {
-    menuprops.tabular = 'right';
+  if (menu.tabular === true && menuPosition === 'right') {
+    menu.tabular = 'right';
   }
 
-  return Menu.create({ attached, tabular, ...menuprops }, {
+  return Menu.create(menu, {
     autoGenerateKey: false,
     overrideProps: {
       onItemClick,
@@ -136,19 +132,15 @@ const renderMenu = ({ panes, menuPosition, menu }: TabProps, activeIndex: number
   });
 };
 
-const renderItems = (props: TabProps, activeIndex: number) => {
+const __renderItems = (props: TabProps, activeIndex: number) => {
 
-  if (!props.panes) return null;
+  const { panes, renderActiveOnly } = props;
 
-  if (props.renderActiveOnly ?? true) {
+  if (!Array.isArray(panes)) return null;
 
-    const pane = props.panes[activeIndex];
-    if (!pane) return null;
+  if (renderActiveOnly) return panes[activeIndex]?.render?.call(null, props);
 
-    return pane.render ? pane.render(props) : TabPane.create(pane.pane, { overrideProps: { active: true } });
-  }
-
-  return props.panes.map(({ pane }, index) => TabPane.create(pane, { overrideProps: { active: index === activeIndex } }));
+  return panes.map(({ pane }, index) => TabPane.create(pane, { overrideProps: { active: index === activeIndex } }));
 };
 
 export { Tab };

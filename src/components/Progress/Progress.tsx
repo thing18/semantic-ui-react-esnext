@@ -74,40 +74,82 @@ export interface StrictProgressProps {
 /**
  * A progress bar shows the progression of a task.
  */
-export const Progress: React.FC<ProgressProps> = ({ as: ElementType = 'div', active, attached, className, color, disabled, error, indicating, inverted, size, success, warning, children, content, label, autoSuccess, precision, progress, total, value, percent, ...rest }) => {
+export const Progress: React.FC<ProgressProps> = props => {
 
-  const getPercent = () => {
+  const { as: ElementType = 'div', active, attached, className, color, disabled, error, indicating, inverted, size, success, warning, children, content, label, autoSuccess, precision, progress, total, value, percent, ...rest } = props;
+  const classes = getClassName(
+    'ui', color, size,
+    // tslint:disable-next-line: object-shorthand-properties-first
+    { active: active || indicating, disabled, error, indicating, inverted, success: success || (autoSuccess && (percent! >= 100 || value! >= total!)), warning },
+    [Use.ValueKey, { attached }],
+    'progress', className,
+  );
 
-    if (total != null && value != null && progress === 'value') return (value / total) * 100;
-
-    if (progress === 'value') return value;
-
-    return withPrecision(limit(calcPercent(percent, total, value)), precision);
-  };
-
-  // tslint:disable-next-line: object-shorthand-properties-first
-  const classes = getClassName('ui', color, size, { active: active || indicating, disabled, error, indicating, inverted, success: success || (autoSuccess && (percent! >= 100 || value! >= total!)), warning }, [Use.ValueKey, { attached }], 'progress', className);
-
-  const p = getPercent() || 0;
+  const p = __getPercent(props) ?? 0;
 
   return (
     <ElementType {...rest} className={classes} data-percent={Math.floor(p)}>
       <div className='bar' style={{ width: `${p}%` }}>
-        {progress && precision != null && <div className='progress'>{progress === 'value' ? value : progress === 'ratio' ? `${value}/${total}` : `${p}%`}</div>}
+        {__renderProgress(props, p)}
       </div>
-      {
-        (Children.count(children))
-          ? <div className='label'>{children}</div>
-          : content != null
-            ? <div className='label'>{content}</div>
-            : createHTMLDivision(label, { autoGenerateKey: false, defaultProps: { className: 'label' } })
-      }
+      {__renderLabel(props)}
     </ElementType>
   );
 };
 
-const limit = (x: number) => x < 0 ? 0 : x > 100 ? 100 : x;
+const __calculatePercent = ({ percent, total, value }: ProgressProps) => {
 
-const withPrecision = (x: number, precision: number | undefined) => precision == null ? x : Number(x.toFixed(precision));
+  if (percent != null) return percent;
+  if (total != null && value != null) return (value / total) * 100;
+};
 
-const calcPercent = (percent: number | undefined, total: number | undefined, value: number | undefined) => percent != null ? percent : total != null && value != null ? (value / total) * 100 : 0;
+const __getPercent = (props: ProgressProps) => {
+
+  const { precision, progress, total, value } = props;
+
+  // tslint:disable-next-line: triple-equals
+  if ((total != null) && (value != null) && progress == 'value') return (value / total) * 100;
+
+  // tslint:disable-next-line: triple-equals
+  if (progress == 'value') return value;
+
+  const percent = limit(__calculatePercent(props));
+  return precision == null ? percent : Number(percent.toFixed(precision)); // withPrecision(percent, precision);
+};
+
+// const __isAutoSuccess = ({ autoSuccess, percent, total, value }: ProgressProps) =>
+//   autoSuccess && (percent! >= 100 || value! >= total!);
+
+const __renderLabel = ({ children, content, label }: ProgressProps) => {
+
+  if (Children.count(children)) return <div className='label'>{children}</div>;
+
+  if (content != null) return <div className='label'>{content}</div>;
+
+  return createHTMLDivision(label, { autoGenerateKey: false, defaultProps: { className: 'label' } });
+};
+
+// const __computeValueText = ({ progress, total, value }: ProgressProps, percent: any) => {
+
+//   if (progress === 'value') return value;
+//   if (progress === 'ratio') return `${value}/${total}`;
+//   return `${percent}%`;
+// };
+
+const __renderProgress = ({ progress, total, value, precision }: ProgressProps, percent: any) => {
+
+  if (!progress && (precision == null)) return;
+
+  return (
+    <div className='progress'>
+      {
+        // tslint:disable-next-line: triple-equals
+        progress == 'value' ? value : progress == 'ratio' ? `${value}/${total}` : `${percent}%`
+      }
+    </div>
+  );
+};
+
+const limit = (x: any) => x < 0 ? 0 : x > 100 ? 100 : x;
+
+// const withPrecision = (x: number, precision: number | undefined) => precision == null ? x : Number(x.toFixed(precision));

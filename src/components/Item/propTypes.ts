@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import * as SUI from '../../lib/SUI';
 import * as customPropTypes from '../../lib/customPropTypes';
 
+import { Image } from '../Image';
 import { Item } from './Item';
 import { ItemContent } from './ItemContent';
 import { ItemDescription } from './ItemDescription';
@@ -11,7 +12,6 @@ import { ItemExtra } from './ItemExtra';
 import { ItemGroup } from './ItemGroup';
 import { ItemHeader } from './ItemHeader';
 import { ItemImage } from './ItemImage';
-import { Image } from '../Image';
 import { ItemMeta } from './ItemMeta';
 
 ItemMeta.propTypes = {

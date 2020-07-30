@@ -64,11 +64,12 @@ interface RatingState {
 export const Rating: CRating = props => {
 
   const { as: ElementType = 'div', rating, defaultRating, className, disabled, icon, maxRating, size, clearable, onRate, ...rest } = { ...Rating.defaultProps, ...props };
-  const [state, setState] = useReducer((p: RatingState, n: Partial<RatingState>) => ({ ...p, ...n }), { rating: rating ?? defaultRating ?? 0, selectedIndex: -1, isSelecting: false });
+
+  const [state, setState] = useReducer((p: RatingState, n: Partial<RatingState>) => ({ ...p, ...n }), { rating: 0, selectedIndex: -1, isSelecting: false });
 
   useEffect(
     () => {
-      if (state.rating !== rating) setState({ rating });
+      setState({ rating: rating ?? defaultRating ?? 0 });
     },
     [rating],
   );

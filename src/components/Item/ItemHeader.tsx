@@ -2,11 +2,11 @@ import React from 'react';
 
 import { SemanticShorthandContent, createShorthandFactory, FCX, ChildrenOrContent } from '../../lib';
 
-interface ItemHeaderProps extends StrictItemHeaderProps {
+export interface ItemHeaderProps extends StrictItemHeaderProps {
   [key: string]: any;
 }
 
-interface StrictItemHeaderProps {
+export interface StrictItemHeaderProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -23,8 +23,6 @@ interface StrictItemHeaderProps {
 /**
  * An item can contain a header.
  */
-const ItemHeader: FCX<ItemHeaderProps> = props => ChildrenOrContent(props, 'header');
+export const ItemHeader: FCX<ItemHeaderProps> = props => ChildrenOrContent(props, 'header');
 
 ItemHeader.create = createShorthandFactory(ItemHeader, (content) => ({ content }));
-
-export { ItemHeader, ItemHeaderProps, StrictItemHeaderProps };

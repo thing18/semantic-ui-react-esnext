@@ -77,7 +77,6 @@ CardGroup.propTypes = {
     textAlign: PropTypes.oneOf(_without(SUI.TEXT_ALIGNMENTS, 'justified')) as any,
 };
 
-//
 CardDescription.propTypes = {
     /** An element type to render as (string or function). */
     as: PropTypes.elementType,

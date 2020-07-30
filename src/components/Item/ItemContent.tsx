@@ -6,11 +6,11 @@ import { ItemExtraProps, ItemExtra } from './ItemExtra';
 import { ItemHeaderProps, ItemHeader } from './ItemHeader';
 import { ItemMetaProps, ItemMeta } from './ItemMeta';
 
-interface ItemContentProps extends StrictItemContentProps {
+export interface ItemContentProps extends StrictItemContentProps {
   [key: string]: any;
 }
 
-interface StrictItemContentProps {
+export interface StrictItemContentProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -42,10 +42,9 @@ interface StrictItemContentProps {
 /**
  * An item can contain content.
  */
-const ItemContent: React.FC<ItemContentProps> = ({ as, children, className, content, description, extra, header, meta, verticalAlign, ...rest }) => {
+export const ItemContent: React.FC<ItemContentProps> = ({ as: ElementType = 'div', children, className, content, description, extra, header, meta, verticalAlign, ...rest }) => {
 
   const classes = getClassName([Use.VerticalAlign, verticalAlign], 'content', className);
-  const ElementType = as || 'div';
 
   if (Children.count(children)) {
     return (
@@ -65,5 +64,3 @@ const ItemContent: React.FC<ItemContentProps> = ({ as, children, className, cont
     </ElementType>
   );
 };
-
-export { ItemContent, ItemContentProps, StrictItemContentProps };

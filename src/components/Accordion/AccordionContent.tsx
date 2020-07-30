@@ -26,7 +26,8 @@ export interface StrictAccordionContentProps {
 /**
  * A content sub-component for Accordion component.
  */
-const AccordionContent: FCX<AccordionContentProps> = ({ active, ...rest }) => ChildrenOrContent(rest, 'content', { active });
+const AccordionContent: FCX<AccordionContentProps> = ({ active, ...props }) =>
+  ChildrenOrContent(props, 'content', { active });
 
 AccordionContent.create = createShorthandFactory(AccordionContent, (content) => ({ content }));
 

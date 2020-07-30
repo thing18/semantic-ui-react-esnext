@@ -9,11 +9,11 @@ import { ItemHeader, ItemHeaderProps } from './ItemHeader';
 import { ItemImage, ItemImageProps } from './ItemImage';
 import { ItemMeta, ItemMetaProps } from './ItemMeta';
 
-interface ItemProps extends StrictItemProps {
+export interface ItemProps extends StrictItemProps {
   [key: string]: any;
 }
 
-interface StrictItemProps {
+export interface StrictItemProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -55,10 +55,9 @@ interface CItem extends React.FC<ItemProps> {
 /**
  * An item view presents large collections of site content for display.
  */
-const Item: CItem = ({ as, children, className, content, description, extra, header, image, meta, ...rest }) => {
+export const Item: CItem = ({ as: ElementType = 'div', children, className, content, description, extra, header, image, meta, ...rest }) => {
 
   const classes = getClassName('item', className);
-  const ElementType = as || 'div';
 
   if (Children.count(children)) {
     return (
@@ -90,5 +89,3 @@ Item.Group = ItemGroup;
 Item.Header = ItemHeader;
 Item.Image = ItemImage;
 Item.Meta = ItemMeta;
-
-export { Item, ItemProps, StrictItemProps };

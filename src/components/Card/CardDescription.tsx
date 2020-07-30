@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { SemanticShorthandContent, SemanticTEXTALIGNMENTS } from '../../lib';
-import { CardElement } from './CardElement';
+import { SemanticShorthandContent, SemanticTEXTALIGNMENTS, ChildrenOrContent, Use } from '../../lib';
 
 export interface CardDescriptionProps extends StrictCardDescriptionProps {
   [key: string]: any;
@@ -27,4 +26,5 @@ export interface StrictCardDescriptionProps {
 /**
  * A card can contain a description with one or more paragraphs.
  */
-export const CardDescription: React.FC<CardDescriptionProps> = props => CardElement('description', props);
+export const CardDescription: React.FC<CardDescriptionProps> = ({ textAlign, ...props }) =>
+  ChildrenOrContent(props, [Use.TextAlign, textAlign], 'description');

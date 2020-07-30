@@ -1,7 +1,7 @@
 import React, { Children } from 'react';
 
 import { SemanticShorthandContent, FCX, getClassName, createShorthandFactory } from '../../lib';
-import { Segment } from '..';
+import { Segment } from '../Segment';
 
 export interface TabPaneProps extends StrictTabPaneProps {
   [key: string]: any;

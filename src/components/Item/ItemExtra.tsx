@@ -2,11 +2,11 @@ import React from 'react';
 
 import { SemanticShorthandContent, createShorthandFactory, FCX, ChildrenOrContent } from '../../lib';
 
-interface ItemExtraProps extends StrictItemExtraProps {
+export interface ItemExtraProps extends StrictItemExtraProps {
   [key: string]: any;
 }
 
-interface StrictItemExtraProps {
+export interface StrictItemExtraProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -23,8 +23,6 @@ interface StrictItemExtraProps {
 /**
  * An item can contain extra content meant to be formatted separately from the main content.
  */
-const ItemExtra: FCX<ItemExtraProps> = props => ChildrenOrContent(props, 'extra');
+export const ItemExtra: FCX<ItemExtraProps> = props => ChildrenOrContent(props, 'extra');
 
 ItemExtra.create = createShorthandFactory(ItemExtra, (content) => ({ content }));
-
-export { ItemExtra, ItemExtraProps, StrictItemExtraProps };

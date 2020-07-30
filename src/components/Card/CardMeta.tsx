@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { SemanticShorthandContent, SemanticTEXTALIGNMENTS } from '../../lib';
-import { CardElement } from './CardElement';
+import { SemanticShorthandContent, SemanticTEXTALIGNMENTS, ChildrenOrContent, Use } from '../../lib';
 
 export interface CardMetaProps extends StrictCardMetaProps {
   [key: string]: any;
@@ -27,4 +26,5 @@ export interface StrictCardMetaProps {
 /**
  * A card can contain content metadata.
  */
-export const CardMeta: React.FC<CardMetaProps> = props => CardElement('meta', props);
+export const CardMeta: React.FC<CardMetaProps> = ({ textAlign, ...props }) =>
+  ChildrenOrContent(props, [Use.TextAlign, textAlign], 'meta');

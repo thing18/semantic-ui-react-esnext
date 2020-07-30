@@ -1,7 +1,7 @@
 import React, { Children } from 'react';
 
-import { SemanticShorthandCollection, SemanticShorthandContent, SemanticWIDTHS, SemanticTEXTALIGNMENTS, getClassName, Use, createShorthand } from '../../lib';
-import { Card, CardProps } from '.';
+import { SemanticShorthandCollection, SemanticShorthandContent, SemanticWIDTHS, SemanticTEXTALIGNMENTS, getClassName, Use, createShorthand, useKeys } from '../../lib';
+import { Card, CardProps } from './Card';
 
 export interface CardGroupProps extends StrictCardGroupProps {
   [key: string]: any;
@@ -44,6 +44,7 @@ export interface StrictCardGroupProps {
  */
 export const CardGroup: React.FC<CardGroupProps> = ({ as: ElementType = 'div', centered, children, className, content, doubling, items, itemsPerRow, stackable, textAlign, ...rest }) => {
 
+  const keys = useKeys(items?.length ?? 0);
   const classes = getClassName('ui', { centered, doubling, stackable }, [Use.TextAlign, textAlign], [Use.Width, itemsPerRow], 'cards', className);
 
   if (Children.count(children)) {
@@ -63,7 +64,7 @@ export const CardGroup: React.FC<CardGroupProps> = ({ as: ElementType = 'div', c
 
   return (
     <ElementType {...rest} className={classes}>
-      {Array.isArray(items) && items.map(p => createShorthand(Card, v => v, p))}  {/*<Card {...p}/>*/}
+      {Array.isArray(items) && items.map(({ key, ...p }: any, index) => <Card {...p} key={key ?? keys[index]} />)}
     </ElementType>
   );
 };

@@ -2,11 +2,11 @@ import React from 'react';
 
 import { SemanticShorthandContent, createShorthandFactory, FCX, ChildrenOrContent } from '../../lib';
 
-interface ItemDescriptionProps extends StrictItemDescriptionProps {
+export interface ItemDescriptionProps extends StrictItemDescriptionProps {
   [key: string]: any;
 }
 
-interface StrictItemDescriptionProps {
+export interface StrictItemDescriptionProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -23,8 +23,6 @@ interface StrictItemDescriptionProps {
 /**
  * An item can contain a description with a single or multiple paragraphs.
  */
-const ItemDescription: FCX<ItemDescriptionProps> = props => ChildrenOrContent(props, 'description');
+export const ItemDescription: FCX<ItemDescriptionProps> = props => ChildrenOrContent(props, 'description');
 
 ItemDescription.create = createShorthandFactory(ItemDescription, (content) => ({ content }));
-
-export { ItemDescription, ItemDescriptionProps, StrictItemDescriptionProps };

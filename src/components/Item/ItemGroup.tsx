@@ -1,13 +1,13 @@
 import React, { Children } from 'react';
 
-import { SemanticShorthandCollection, SemanticShorthandContent, getClassName, Use } from '../../lib';
+import { SemanticShorthandCollection, SemanticShorthandContent, getClassName, Use, useKeys } from '../../lib';
 import { Item, ItemProps } from './Item';
 
-interface ItemGroupProps extends StrictItemGroupProps {
+export interface ItemGroupProps extends StrictItemGroupProps {
   [key: string]: any;
 }
 
-interface StrictItemGroupProps {
+export interface StrictItemGroupProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -39,11 +39,10 @@ interface StrictItemGroupProps {
 /**
  * A group of items.
  */
-const ItemGroup: React.FC<ItemGroupProps> = ({ as, children, className, content, divided, items, link, relaxed, unstackable, ...rest }) => {
+export const ItemGroup: React.FC<ItemGroupProps> = ({ as: ElementType = 'div', children, className, content, divided, items, link, relaxed, unstackable, ...rest }) => {
 
+  const keys = useKeys(items?.length ?? 0);
   const classes = getClassName('ui', { divided, link, unstackable }, [Use.KeyOrValueKey, { relaxed }], 'items', className);
-
-  const ElementType = as || 'div';
 
   if (Children.count(children)) {
     return (
@@ -62,9 +61,7 @@ const ItemGroup: React.FC<ItemGroupProps> = ({ as, children, className, content,
 
   return (
     <ElementType {...rest} className={classes}>
-      {items && items.map(({ childKey, ...props }: any) => <Item {...props} key={childKey || props.key} />)}
+      {items && (items as ItemProps[]).map(({ childKey, ...props }, index) => <Item {...props} key={props.keys ?? childKey ?? keys[index]} />)}
     </ElementType>
   );
 };
-
-export { ItemGroup, ItemGroupProps, StrictItemGroupProps };

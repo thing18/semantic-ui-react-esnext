@@ -42,7 +42,7 @@ interface StrictStatisticGroupProps {
 /**
  * A group of statistics.
  */
-const StatisticGroup: React.FC<StrictStatisticGroupProps> = ({ as: ElementType = 'div', children, className, color, content, horizontal, inverted, items, size, widths, ...rest }) => {
+const StatisticGroup: React.FC<StatisticGroupProps> = ({ as: ElementType = 'div', children, className, color, content, horizontal, inverted, items, size, widths, ...rest }) => {
 
   const classes = getClassName('ui', color, size, { horizontal, inverted }, [Use.Width, widths], 'statistics', className);
 

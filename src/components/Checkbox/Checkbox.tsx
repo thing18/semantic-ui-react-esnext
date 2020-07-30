@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, forwardRef } from 'react';
 
 import { HtmlLabelProps, SemanticShorthandItem, getClassName, partitionHTMLProps, htmlInputAttrs, createHTMLLabel } from '../../lib';
 
@@ -99,29 +99,40 @@ export interface StrictCheckboxProps {
  * @see Form
  * @see Radio
  */
-export const Checkbox: React.FC<CheckboxProps> = props => {
+export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
 
   const { as: ElementType = 'div', checked, className, defaultChecked, defaultIndeterminate, disabled, fitted, id, indeterminate, label, name, onChange, onClick, onMouseDown, onMouseUp, radio, readOnly, slider, tabIndex, toggle, type = 'checkbox', value, ...unhandled } = props;
 
-  const inputRef = useRef<any>();
-  const labelRef = useRef<any>();
-  const [{ isChecked, isIndeterminate }, setState] = useState({ isChecked: checked ?? defaultChecked ?? false, isIndeterminate: indeterminate ?? defaultIndeterminate ?? false });
+  const inputRef = useRef<HTMLInputElement>();
+  const labelRef = useRef<HTMLLabelElement>();
+  const [state, setState] = useState<{ checked?: boolean, indeterminate?: boolean }>({});
   const [isClickFromMouse, setIsClickFromMouse] = useState(false);
 
-  useEffect(() => { inputRef.current.indeterminate = !!isIndeterminate; }, []);
+  useEffect(
+    () => {
+      setState({ ...state, checked: props.checked ?? props.defaultChecked, indeterminate: props.defaultIndeterminate ?? props.defaultIndeterminate });
+    },
+    [props.checked, props.indeterminate],
+  );
 
-  const handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
+  useEffect(
+    () => {
+      inputRef.current && (inputRef.current.indeterminate = !!state.indeterminate);
+    },
+    [state.checked, inputRef.current],
+  );
 
-    const isInputClick = inputRef.current?.contains(e.target);
-    const isLabelClick = labelRef.current?.contains(e.target);
-    const isRootClick = !isLabelClick && !isInputClick;
+  const handleClick = (e: React.MouseEvent<any>) => {
 
     const hasId = id != null;
+    const isInputClick = inputRef.current?.contains(e.target as any);
+    const isLabelClick = labelRef.current?.contains(e.target as any);
+    const isRootClick = !isLabelClick && !isInputClick;
     const isLabelClickAndForwardedToInput = isLabelClick && hasId;
 
     // https://github.com/Semantic-Org/Semantic-UI-React/pull/3351
     if (!isLabelClickAndForwardedToInput) {
-      onClick?.call(null, e, { ...props, checked: !isChecked, indeterminate: !!isIndeterminate });
+      onClick?.call(null, e, { ...props, checked: !state.checked, indeterminate: !!state.indeterminate });
     }
 
     if (isClickFromMouse) {
@@ -140,19 +151,17 @@ export const Checkbox: React.FC<CheckboxProps> = props => {
 
   const handleChange = (e: React.MouseEvent<HTMLInputElement>) => {
 
-    if (!(!disabled && !readOnly && !(radio && isChecked))) return;
+    if (!(!disabled && !readOnly && !(radio && state.checked))) return;
 
-    onChange?.call(null, e, { ...props, checked: !isChecked, indeterminate: false });
-    setState({ isChecked: !checked, isIndeterminate: false });
+    onChange?.call(null, e, { ...props, checked: !state.checked, indeterminate: false });
+    setState({ checked: !checked, indeterminate: false });
   };
 
   const handleMouseDown = (e: React.MouseEvent<HTMLInputElement>) => {
 
-    onMouseDown?.call(null, e, { ...props, checked: !!isChecked, indeterminate: !!isIndeterminate });
+    onMouseDown?.call(null, e, { ...props, checked: state.checked, indeterminate: state.indeterminate });
 
-    if (!e.defaultPrevented) {
-      inputRef.current?.focus();
-    }
+    if (!e.defaultPrevented) inputRef.current!.focus();
 
     // Heads up!
     // We need to call "preventDefault" to keep element focused.
@@ -161,25 +170,33 @@ export const Checkbox: React.FC<CheckboxProps> = props => {
 
   const handleMouseUp = (e: React.MouseEvent<HTMLInputElement>) => {
     setIsClickFromMouse(true);
-    onMouseUp?.call(null, e, { ...props, checked: !!isChecked, indeterminate: !!isIndeterminate });
+    onMouseUp?.call(null, e, { ...props, checked: state.checked, indeterminate: state.indeterminate });
+  };
+
+  const handleRef = (c: HTMLInputElement) => {
+    inputRef.current = c;
+
+    if (!ref) return;
+    // tslint:disable-next-line: triple-equals
+    typeof ref == 'function' ? ref(c) : ref.current = c;
   };
 
   // auto apply fitted class to compact white space when there is no label https://semantic-ui.com/modules/checkbox.html#fitted
   // tslint:disable-next-line: object-shorthand-properties-first
-  const classes = getClassName('ui', { checked: isChecked, disabled, indeterminate: isIndeterminate, fitted: label == null, radio, 'read-only': readOnly, slider, toggle }, 'checkbox', className);
+  const classes = getClassName('ui', { checked: state.checked, disabled, indeterminate: state.indeterminate, fitted: label == null, radio, 'read-only': readOnly, slider, toggle }, 'checkbox', className);
   // const ElementType = getElementType(Checkbox, props);
   const [htmlInputProps, rest] = partitionHTMLProps(unhandled, { htmlProps: htmlInputAttrs });
 
   // Heads Up!
   // Do not remove empty labels, they are required by SUI CSS
-  const labelElement = createHTMLLabel(label, { defaultProps: { htmlFor: id, ref: labelRef }, autoGenerateKey: false }) || <label htmlFor={id} ref={labelRef} />;
+  const labelElement = createHTMLLabel(label, { defaultProps: { htmlFor: id, ref: labelRef }, autoGenerateKey: false }) || <label htmlFor={id} ref={labelRef as any} />;
 
   return (
     <ElementType {...rest} className={classes} onClick={handleClick} onChange={handleChange} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
       <input
-        ref={inputRef}
+        ref={handleRef}
         {...htmlInputProps}
-        checked={isChecked}
+        checked={!!state.checked}
         className='hidden'
         disabled={disabled}
         id={id}
@@ -192,6 +209,6 @@ export const Checkbox: React.FC<CheckboxProps> = props => {
       {labelElement}
     </ElementType>
   );
-};
+});
 
 Checkbox.defaultProps = { type: 'checkbox' };

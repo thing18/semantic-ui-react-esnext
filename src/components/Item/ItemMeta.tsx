@@ -2,11 +2,11 @@ import React from 'react';
 
 import { SemanticShorthandContent, createShorthandFactory, FCX, ChildrenOrContent } from '../../lib';
 
-interface ItemMetaProps extends StrictItemMetaProps {
+export interface ItemMetaProps extends StrictItemMetaProps {
   [key: string]: any;
 }
 
-interface StrictItemMetaProps {
+export interface StrictItemMetaProps {
   /** An element type to render as (string or function). */
   as?: any;
 
@@ -23,8 +23,6 @@ interface StrictItemMetaProps {
 /**
  * An item can contain content metadata.
  */
-const ItemMeta: FCX<ItemMetaProps> = props => ChildrenOrContent(props, 'meta');
+export const ItemMeta: FCX<ItemMetaProps> = props => ChildrenOrContent(props, 'meta');
 
 ItemMeta.create = createShorthandFactory(ItemMeta, (content) => ({ content }));
-
-export { ItemMeta, ItemMetaProps, StrictItemMetaProps };

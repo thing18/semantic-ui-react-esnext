@@ -1,7 +1,7 @@
 import React, { useCallback, Children } from 'react';
 
 import { SemanticCOLORS, SemanticShorthandContent, SemanticShorthandItem, getClassName } from '../../lib';
-import { Image, ImageProps } from '..';
+import { Image, ImageProps } from '../Image';
 import { CardContent } from './CardContent';
 import { CardDescription, CardDescriptionProps } from './CardDescription';
 import { CardGroup } from './CardGroup';
@@ -81,17 +81,16 @@ interface CCard extends React.FC<CardProps> {
  */
 export const Card: CCard = props => {
 
-  const { as = 'div', centered, children, className, color, content, description, extra, fluid, header, href, image, link, meta, onClick, raised, ...rest } = props;
-
-  const handleClick = useCallback((e) => onClick?.call(null, e, props), [onClick]);
+  const { as, centered, children, className, color, content, description, extra, fluid, header, image, link, meta, onClick, raised, ...rest } = props;
 
   const classes = getClassName('ui', color, { centered, fluid, link, raised }, 'card', className);
 
-  const ElementType = !!onClick ? 'a' : as;
+  const handleClick = onClick ? (e: any) => onClick(e, props) : undefined;
+  const ElementType = onClick ? 'a' : rest.href ? 'a' : as ?? 'div';
 
   if (Children.count(children)) {
     return (
-      <ElementType {...rest} className={classes} href={href} onClick={handleClick}>
+      <ElementType {...rest} className={classes} onClick={handleClick}>
         {children}
       </ElementType>
     );
@@ -99,14 +98,14 @@ export const Card: CCard = props => {
 
   if (content != null) {
     return (
-      <ElementType {...rest} className={classes} href={href} onClick={handleClick}>
+      <ElementType {...rest} className={classes} onClick={handleClick}>
         {content}
       </ElementType>
     );
   }
 
   return (
-    <ElementType {...rest} className={classes} href={href} onClick={handleClick}>
+    <ElementType {...rest} className={classes} onClick={handleClick}>
       {Image.create(image, { autoGenerateKey: false, defaultProps: { ui: false, wrapped: true } })}
       {(description || header || meta) && (<CardContent description={description} header={header} meta={meta} />)}
       {extra && <CardContent extra>{extra}</CardContent>}

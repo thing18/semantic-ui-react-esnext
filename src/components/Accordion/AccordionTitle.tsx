@@ -1,7 +1,7 @@
 import React, { Children } from 'react';
 
-import { IconProps, Icon } from '..';
 import { SemanticShorthandContent, SemanticShorthandItem, FCX, getClassName, createShorthandFactory } from '../../lib';
+import { IconProps, Icon } from '../Icon';
 
 export interface AccordionTitleProps extends StrictAccordionTitleProps {
   [key: string]: any;
@@ -43,7 +43,7 @@ export interface StrictAccordionTitleProps {
  */
 const AccordionTitle: FCX<AccordionTitleProps> = props => {
 
-  const { as: ElementType = 'div', active, children, className, content, icon = 'dropdown', onClick, ...rest } = props;
+  const { as: ElementType = 'div', index, active, children, className, content, icon = 'dropdown', onClick, ...rest } = props;
 
   const handleClick = (e: any) => onClick?.call(null, e, props);
 

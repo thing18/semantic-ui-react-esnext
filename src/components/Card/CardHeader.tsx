@@ -1,7 +1,6 @@
-import React, { Children } from 'react';
+import React from 'react';
 
-import { SemanticShorthandContent, SemanticTEXTALIGNMENTS, getClassName, Use } from '../../lib';
-import { CardElement } from './CardElement';
+import { SemanticShorthandContent, SemanticTEXTALIGNMENTS, Use, ChildrenOrContent } from '../../lib';
 
 export interface CardHeaderProps extends StrictCardHeaderProps {
   [key: string]: any;
@@ -27,4 +26,5 @@ export interface StrictCardHeaderProps {
 /**
  * A card can contain a header.
  */
-export const CardHeader: React.FC<CardHeaderProps> = props => CardElement('header', props);
+export const CardHeader: React.FC<CardHeaderProps> = ({ textAlign, ...props }) =>
+  ChildrenOrContent(props, [Use.TextAlign, textAlign], 'header');
