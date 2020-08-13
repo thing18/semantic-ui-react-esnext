@@ -478,7 +478,7 @@ export type FlagNames = 'ad' | 'andorra' | 'ae' | 'united arab emirates' | 'uae'
 
 export interface StrictFlagProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Additional classes. */
   className?: string;

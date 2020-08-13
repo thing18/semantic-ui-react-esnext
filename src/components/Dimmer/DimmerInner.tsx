@@ -8,7 +8,7 @@ export interface DimmerInnerProps extends StrictDimmerInnerProps {
 
 export interface StrictDimmerInnerProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** An active dimmer will dim its parent container. */
   active?: boolean;

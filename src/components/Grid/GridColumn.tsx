@@ -10,7 +10,7 @@ export interface GridColumnProps extends StrictGridColumnProps {
 
 export interface StrictGridColumnProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;

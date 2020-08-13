@@ -10,7 +10,7 @@ import { SegmentInline } from './SegmentInline';
 
 SegmentInline.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -24,7 +24,7 @@ SegmentInline.propTypes = {
 
 SegmentGroup.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -56,7 +56,7 @@ SegmentGroup.propTypes = {
 
 Segment.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Attach segment to other content, like a header. */
     attached: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['top', 'bottom'])]) as any,

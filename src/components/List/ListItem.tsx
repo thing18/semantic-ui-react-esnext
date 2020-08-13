@@ -9,7 +9,7 @@ import { ListIcon, ListIconProps } from './ListIcon';
 
 export interface StrictListItemProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A list item can active. */
   active?: boolean;

@@ -8,7 +8,7 @@ export interface DimmerDimmableProps extends StrictDimmerDimmableProps {
 
 export interface StrictDimmerDimmableProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A dimmable element can blur its contents. */
   blurring?: boolean;

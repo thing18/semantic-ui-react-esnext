@@ -33,6 +33,9 @@ export * from './Statistic';
 export * from './Checkbox';
 export * from './Progress';
 export * from './Rating';
+export * from './Sidebar';
+export * from './Sticky';
+export * from './Transition';
 
 // =========== Tier 1
 // =========================================
@@ -54,6 +57,8 @@ export * from './Feed';                     // uses elements:[Icon]
 
 // modules
 export * from './Accordion';                // uses elements:[Icon]
+export * from './Embed';                    // uses elements:[Icon]
+export * from './Popup';                    // uses addons:[Portal]
 
 // =========== Tier 2
 // =========================================
@@ -70,24 +75,20 @@ export * from './Card';                     // uses elements:[Image]
 
 // modules
 export * from './Tab';                      // uses Grid, Menu, Segment
+export * from './Dropdown';                 // uses Icon, Image, Label, Flag
 
 // collections
 // export * from './Form';
 
 // modules
-// export * from './Dropdown';
 // export * from './Search';
-// export * from './Embed';
+
 // export * from './Modal';
-// export * from './Sidebar';
-// export * from './Sticky';
-// export * from './Transition';
-// export * from './Popup';
 
 // // addons
 // export * from './TransitionablePortal';
 // export * from './Select';
-// export * from './Responsive';
+// export * from './Responsive';            ** deprecate **
 // export * from './Radio';
 // export * from './Pagination';
 // export * from './Confirm';

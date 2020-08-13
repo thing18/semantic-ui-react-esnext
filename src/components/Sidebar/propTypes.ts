@@ -10,7 +10,7 @@ import { SidebarPusher } from './SidebarPusher';
 
 SidebarPusher.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -27,7 +27,7 @@ SidebarPusher.propTypes = {
 
 SidebarPushable.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -41,7 +41,7 @@ SidebarPushable.propTypes = {
 
 Sidebar.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Animation style. */
     animation: PropTypes.oneOf([

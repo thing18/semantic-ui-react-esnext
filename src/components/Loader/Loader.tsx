@@ -8,7 +8,7 @@ export interface LoaderProps extends StrictLoaderProps {
 
 export interface StrictLoaderProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A loader can be active or visible. */
   active?: boolean;

@@ -16,7 +16,7 @@ import { ItemMeta } from './ItemMeta';
 
 ItemMeta.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -35,7 +35,7 @@ ItemImage.propTypes = {
 
 ItemHeader.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -49,7 +49,7 @@ ItemHeader.propTypes = {
 
 ItemGroup.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -78,7 +78,7 @@ ItemGroup.propTypes = {
 
 ItemExtra.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -92,7 +92,7 @@ ItemExtra.propTypes = {
 
 ItemDescription.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -106,7 +106,7 @@ ItemDescription.propTypes = {
 
 ItemContent.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -135,7 +135,7 @@ ItemContent.propTypes = {
 
 Item.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,

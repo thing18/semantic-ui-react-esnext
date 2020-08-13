@@ -6,7 +6,7 @@ import { Advertisement } from './Advertisement';
 
 Advertisement.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Center the advertisement. */
     centered: PropTypes.bool,

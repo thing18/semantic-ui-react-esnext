@@ -11,7 +11,7 @@ export interface BreadcrumbProps extends StrictBreadcrumbProps {
 
 export interface StrictBreadcrumbProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;

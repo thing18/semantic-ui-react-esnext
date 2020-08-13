@@ -8,7 +8,7 @@ export interface SidebarPusherProps extends StrictSidebarPusherProps {
 
 export interface StrictSidebarPusherProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;
@@ -26,4 +26,5 @@ export interface StrictSidebarPusherProps {
 /**
  * A pushable sub-component for Sidebar.
  */
-export const SidebarPusher: React.FC<SidebarPusherProps> = ({ dimmed, ...props }) => ChildrenOrContent(props, 'pusher', { dimmed });
+export const SidebarPusher: React.FC<SidebarPusherProps> = ({ dimmed, ...props }) =>
+  ChildrenOrContent(props, 'pusher', { dimmed });

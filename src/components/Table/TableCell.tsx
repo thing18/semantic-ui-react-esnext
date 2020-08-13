@@ -9,7 +9,7 @@ export interface TableCellProps extends StrictTableCellProps {
 
 export interface StrictTableCellProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A cell can be active or selected by a user. */
   active?: boolean;

@@ -13,7 +13,7 @@ import { StepTitle } from './StepTitle';
 
 StepTitle.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -29,7 +29,7 @@ const numberMap = Object.entries(numberToWordMap).reduce((a, [k, v]) => { if (+k
 
 StepGroup.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Steps can be attached to other elements. */
     attached: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['top', 'bottom'])]) as any,
@@ -74,7 +74,7 @@ StepGroup.propTypes = {
 
 StepDescription.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -88,7 +88,7 @@ StepDescription.propTypes = {
 
 StepContent.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -108,7 +108,7 @@ StepContent.propTypes = {
 
 Step.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A step can be highlighted as active. */
     active: PropTypes.bool,

@@ -11,7 +11,7 @@ export interface SearchCategoryProps extends StrictSearchCategoryProps {
 
 export interface StrictSearchCategoryProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** The item currently selected by keyboard shortcut. */
   active?: boolean;

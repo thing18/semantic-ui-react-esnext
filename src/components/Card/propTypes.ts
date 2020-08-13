@@ -13,7 +13,7 @@ import { CardMeta } from './CardMeta';
 
 CardMeta.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -30,7 +30,7 @@ CardMeta.propTypes = {
 
 CardHeader.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -47,7 +47,7 @@ CardHeader.propTypes = {
 
 CardGroup.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A group of cards can center itself inside its container. */
     centered: PropTypes.bool,
@@ -79,7 +79,7 @@ CardGroup.propTypes = {
 
 CardDescription.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -96,7 +96,7 @@ CardDescription.propTypes = {
 
 CardContent.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -125,7 +125,7 @@ CardContent.propTypes = {
 
 Card.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A Card can center itself inside its container. */
     centered: PropTypes.bool,

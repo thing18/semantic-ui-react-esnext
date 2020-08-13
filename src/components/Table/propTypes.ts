@@ -15,13 +15,13 @@ import { Table } from './Table';
 
 TableRow.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A row can be active or selected by a user. */
     active: PropTypes.bool,
 
     /** An element type to render as (string or function). */
-    cellAs: PropTypes.elementType,
+    cellas: PropTypes.elementType as any,
 
     /** Shorthand array of props for TableCell. */
     cells: customPropTypes.collectionShorthand,
@@ -56,7 +56,7 @@ TableRow.propTypes = {
 
 TableCell.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A cell can be active or selected by a user. */
     active: PropTypes.bool,
@@ -109,7 +109,7 @@ TableCell.propTypes = {
 
 TableHeaderCell.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Additional classes. */
     className: PropTypes.string,
@@ -120,7 +120,7 @@ TableHeaderCell.propTypes = {
 
 TableHeader.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -137,12 +137,12 @@ TableHeader.propTypes = {
 
 TableFooter.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 };
 
 TableBody.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -153,7 +153,7 @@ TableBody.propTypes = {
 
 Table.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Attach table to other content */
     attached: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['top', 'bottom'])]) as any,

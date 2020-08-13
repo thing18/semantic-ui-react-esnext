@@ -2,7 +2,7 @@ import React, { cloneElement, Component } from 'react';
 
 import { SemanticTRANSITIONS, normalizeTransitionDuration, getClassName } from '../../lib';
 import { TransitionGroup } from './TransitionGroup';
-import { computeStatuses } from './utils/computeStatuses';
+import { computeStatuses } from './lib/computeStatuses';
 
 export type TRANSITION_STATUSES = 'INITIAL' | 'ENTERED' | 'ENTERING' | 'EXITED' | 'EXITING' | 'UNMOUNTED';
 

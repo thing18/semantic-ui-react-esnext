@@ -8,7 +8,7 @@ export interface RatingIconProps extends StrictRatingIconProps {
 
 export interface StrictRatingIconProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Indicates activity of an icon. */
   active?: boolean;

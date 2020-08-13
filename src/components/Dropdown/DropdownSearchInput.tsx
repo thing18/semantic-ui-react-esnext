@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import { FCX, createShorthandFactory, getClassName } from '../../lib';
+import { FCX, createShorthandFactory, getClassName1 } from '../../lib';
 
 export interface DropdownSearchInputProps extends StrictDropdownSearchInputProps {
   [key: string]: any;
@@ -7,7 +7,7 @@ export interface DropdownSearchInputProps extends StrictDropdownSearchInputProps
 
 export interface StrictDropdownSearchInputProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** An input can have the auto complete. */
   autoComplete?: string;
@@ -28,13 +28,13 @@ export interface StrictDropdownSearchInputProps {
 /**
  * A search item sub-component for Dropdown component.
  */
-const DropdownSearchInput: FCX<DropdownSearchInputProps> = forwardRef<any, DropdownSearchInputProps>((props, ref) => {
+export const DropdownSearchInput: FCX<DropdownSearchInputProps> = forwardRef<HTMLInputElement, DropdownSearchInputProps>((props, ref) => {
 
-  const { as: ElementType = 'div', autoComplete = 'off', className, tabIndex, type = 'text', value, onChange, ...rest } = props;
+  const { as: ElementType = 'div', autoComplete = 'off', children, className, type = 'text', onChange, ...rest } = props;
 
-  const handleChange = (e: any) => onChange?.call(null, e, { ...props, value: e.target.value });
+  const handleChange = (e: any) => props.onChange?.call(null, e, { ...props, value: e.target.value });
 
-  const classes = getClassName('search', className);
+  const classes = getClassName1('search', className);
 
   return (
     <input
@@ -44,14 +44,12 @@ const DropdownSearchInput: FCX<DropdownSearchInputProps> = forwardRef<any, Dropd
       autoComplete={autoComplete}
       className={classes}
       onChange={handleChange}
-      tabIndex={tabIndex}
+      // tabIndex={tabIndex}
       type={type}
-      value={value}
+    // value={value}
     />
   );
 }) as any;
 
 DropdownSearchInput.defaultProps = { autoComplete: 'off', type: 'text' };
 DropdownSearchInput.create = createShorthandFactory(DropdownSearchInput, (type) => ({ type }));
-
-export { DropdownSearchInput };

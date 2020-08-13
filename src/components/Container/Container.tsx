@@ -4,7 +4,7 @@ import { SemanticShorthandContent, SemanticTEXTALIGNMENTS, Use, getClassName, Ch
 
 export interface StrictContainerProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;

@@ -12,7 +12,7 @@ import { ModalActions } from './ModalActions';
 
 ModalHeader.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -26,7 +26,7 @@ ModalHeader.propTypes = {
 
 ModalDescription.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -40,7 +40,7 @@ ModalDescription.propTypes = {
 
 ModalContent.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -60,7 +60,7 @@ ModalContent.propTypes = {
 
 ModalActions.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Array of shorthand buttons. */
     actions: customPropTypes.collectionShorthand,
@@ -85,7 +85,7 @@ ModalActions.propTypes = {
 
 Modal.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Shorthand for Modal.Actions. Typically an array of button shorthand. */
     actions: customPropTypes.itemShorthand,

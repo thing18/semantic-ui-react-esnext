@@ -9,7 +9,7 @@ export interface CardGroupProps extends StrictCardGroupProps {
 
 export interface StrictCardGroupProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A group of cards can center itself inside its container. */
   centered?: boolean;

@@ -8,7 +8,7 @@ export interface ModalHeaderProps extends StrictModalHeaderProps {
 
 export interface StrictModalHeaderProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;
@@ -23,7 +23,8 @@ export interface StrictModalHeaderProps {
 /**
  * A modal can have a header.
  */
-const ModalHeader: FCX<ModalHeaderProps> = ({ className, ...props }) => ChildrenOrContent(props, className, 'header');
+const ModalHeader: FCX<ModalHeaderProps> = ({ className, ...props }) =>
+  ChildrenOrContent(props, className, 'header');
 
 ModalHeader.create = createShorthandFactory(ModalHeader, (content) => ({ content }));
 

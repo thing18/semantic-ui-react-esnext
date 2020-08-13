@@ -8,7 +8,7 @@ import { Responsive } from './Responsive';
 
 Responsive.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,

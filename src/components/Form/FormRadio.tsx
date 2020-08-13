@@ -9,7 +9,7 @@ export interface FormRadioProps extends StrictFormRadioProps {
 
 export interface StrictFormRadioProps extends StrictFormFieldProps, StrictRadioProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A FormField control prop. */
   control?: any;

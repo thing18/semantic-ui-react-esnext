@@ -5,7 +5,7 @@ type SEMANTICLineLength = 'full' | 'very long' | 'long' | 'medium' | 'short' | '
 
 export interface StrictPlaceholderLineProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Additional classes. */
   className?: string;

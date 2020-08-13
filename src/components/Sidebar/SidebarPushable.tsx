@@ -8,7 +8,7 @@ export interface SidebarPushableProps extends StrictSidebarPushableProps {
 
 export interface StrictSidebarPushableProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;
@@ -23,4 +23,5 @@ export interface StrictSidebarPushableProps {
 /**
  * A pushable sub-component for Sidebar.
  */
-export const SidebarPushable: React.FC<SidebarPushableProps> = props => ChildrenOrContent(props, 'pushable');
+export const SidebarPushable: React.FC<SidebarPushableProps> = props =>
+  ChildrenOrContent(props, 'pushable');

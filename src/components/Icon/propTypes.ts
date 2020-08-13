@@ -9,7 +9,7 @@ import { Icon } from './Icon';
 
 Icon.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Formatted to appear bordered. */
     bordered: PropTypes.bool,
@@ -65,7 +65,7 @@ Icon.propTypes = {
 
 IconGroup.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,

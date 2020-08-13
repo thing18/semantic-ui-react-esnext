@@ -11,7 +11,7 @@ import { StatisticValue } from './StatisticValue';
 
 StatisticValue.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -28,7 +28,7 @@ StatisticValue.propTypes = {
 
 StatisticLabel.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -42,7 +42,7 @@ StatisticLabel.propTypes = {
 
 StatisticGroup.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -74,7 +74,7 @@ StatisticGroup.propTypes = {
 
 Statistic.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,

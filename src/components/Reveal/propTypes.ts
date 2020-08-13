@@ -9,7 +9,7 @@ import { RevealContent } from './RevealContent';
 
 RevealContent.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -29,7 +29,7 @@ RevealContent.propTypes = {
 
 Reveal.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** An active reveal displays its hidden content. */
     active: PropTypes.bool,

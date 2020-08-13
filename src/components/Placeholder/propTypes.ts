@@ -12,7 +12,7 @@ import { PlaceholderParagraph } from './PlaceholderParagraph';
 
 PlaceholderParagraph.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -26,7 +26,7 @@ PlaceholderParagraph.propTypes = {
 
 PlaceholderLine.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Additional classes. */
     className: PropTypes.string,
@@ -37,7 +37,7 @@ PlaceholderLine.propTypes = {
 
 PlaceholderImage.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Additional classes. */
     className: PropTypes.string,
@@ -51,7 +51,7 @@ PlaceholderImage.propTypes = {
 
 PlaceholderHeader.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -68,7 +68,7 @@ PlaceholderHeader.propTypes = {
 
 Placeholder.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,

@@ -6,7 +6,7 @@ import { Input } from './Input';
 
 Input.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** An Input can be formatted to alert the user to an action they may perform. */
     action: PropTypes.oneOfType([PropTypes.bool, customPropTypes.itemShorthand]),

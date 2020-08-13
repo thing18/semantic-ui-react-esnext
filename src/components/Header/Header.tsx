@@ -8,7 +8,7 @@ import { HeaderContent } from './HeaderContent';
 
 export interface StrictHeaderProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Attach header  to other content, like a segment. */
   attached?: boolean | 'top' | 'bottom';

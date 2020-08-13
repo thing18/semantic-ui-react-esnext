@@ -10,7 +10,7 @@ import { Breadcrumb } from './Breadcrumb';
 
 BreadcrumbSection.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Style as the currently active section. */
     active: PropTypes.bool,
@@ -42,7 +42,7 @@ BreadcrumbSection.propTypes = {
 
 BreadcrumbDivider.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -59,7 +59,7 @@ BreadcrumbDivider.propTypes = {
 
 Breadcrumb.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,

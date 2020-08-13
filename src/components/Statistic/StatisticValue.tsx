@@ -8,7 +8,7 @@ interface StatisticValueProps extends StrictStatisticValueProps {
 
 interface StrictStatisticValueProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;

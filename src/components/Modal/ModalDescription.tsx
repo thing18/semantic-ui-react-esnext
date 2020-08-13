@@ -8,7 +8,7 @@ export interface ModalDescriptionProps extends StrictModalDescriptionProps {
 
 export interface StrictModalDescriptionProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;
@@ -23,4 +23,5 @@ export interface StrictModalDescriptionProps {
 /**
  * A modal can contain a description with one or more paragraphs.
  */
-export const ModalDescription: React.FC<ModalDescriptionProps> = props => ChildrenOrContent(props, 'description');
+export const ModalDescription: React.FC<ModalDescriptionProps> = props =>
+  ChildrenOrContent(props, 'description');

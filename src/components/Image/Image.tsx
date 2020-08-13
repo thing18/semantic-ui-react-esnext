@@ -7,7 +7,7 @@ import { ImageGroup } from './ImageGroup';
 
 export interface StrictImageProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** An image may be formatted to appear inline with text as an avatar. */
   avatar?: boolean;

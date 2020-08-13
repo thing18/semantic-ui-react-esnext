@@ -288,3 +288,5 @@ export const getClassName = (...args: ClassArg[]) => args
   .flat(2)
   .filter(Boolean)
   .join(' ');
+
+export const getClassName1 = (...args: (string | undefined)[]) => args.filter(Boolean).join(' ');

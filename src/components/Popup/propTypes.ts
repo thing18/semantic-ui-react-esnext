@@ -11,7 +11,7 @@ import { Popup } from './Popup';
 
 PopupHeader.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -25,7 +25,7 @@ PopupHeader.propTypes = {
 
 PopupContent.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** The content of the Popup */
     children: PropTypes.node,
@@ -39,7 +39,7 @@ PopupContent.propTypes = {
 
 Popup.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Display the popup without the pointing arrow. */
     basic: PropTypes.bool,

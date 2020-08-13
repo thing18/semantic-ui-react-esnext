@@ -9,7 +9,7 @@ import { Image } from './Image';
 
 Image.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** An image may be formatted to appear inline with text as an avatar. */
     avatar: PropTypes.bool,
@@ -77,7 +77,7 @@ Image.propTypes = {
 
 ImageGroup.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,

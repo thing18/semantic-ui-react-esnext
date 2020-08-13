@@ -14,7 +14,7 @@ export interface CardProps extends StrictCardProps {
 
 export interface StrictCardProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A Card can center itself inside its container. */
   centered?: boolean;

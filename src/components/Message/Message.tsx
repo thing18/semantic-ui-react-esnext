@@ -15,7 +15,7 @@ export interface MessageProps extends StrictMessageProps {
 
 export interface StrictMessageProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A message can be formatted to attach itself to other content. */
   attached?: boolean | 'bottom' | 'top';

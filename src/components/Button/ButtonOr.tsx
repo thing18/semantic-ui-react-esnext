@@ -3,7 +3,7 @@ import { getClassName } from '../../lib';
 
 export interface StrictButtonOrProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Additional classes. */
   className?: string;

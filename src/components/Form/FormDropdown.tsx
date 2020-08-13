@@ -9,7 +9,7 @@ export interface FormDropdownProps extends StrictFormDropdownProps {
 
 export interface StrictFormDropdownProps extends StrictFormFieldProps, StrictDropdownProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A FormField control prop. */
   control?: any;

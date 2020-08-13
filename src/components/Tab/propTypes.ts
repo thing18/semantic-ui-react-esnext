@@ -9,7 +9,7 @@ import { TabPane } from './TabPane';
 
 TabPane.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A tab pane can be active. */
     active: PropTypes.bool,
@@ -29,7 +29,7 @@ TabPane.propTypes = {
 
 Tab.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** The initial activeIndex. */
     defaultActiveIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

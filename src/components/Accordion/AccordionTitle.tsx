@@ -9,7 +9,7 @@ export interface AccordionTitleProps extends StrictAccordionTitleProps {
 
 export interface StrictAccordionTitleProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Whether or not the title is in the open state. */
   active?: boolean;

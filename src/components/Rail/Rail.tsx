@@ -8,7 +8,7 @@ export interface RailProps extends StrictRailProps {
 
 export interface StrictRailProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A rail can appear attached to the main viewport. */
   attached?: boolean;

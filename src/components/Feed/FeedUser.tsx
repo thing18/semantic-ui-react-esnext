@@ -8,7 +8,7 @@ export interface FeedUserProps extends StrictFeedUserProps {
 
 export interface StrictFeedUserProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;

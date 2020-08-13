@@ -9,7 +9,7 @@ export interface FormTextAreaProps extends StrictFormTextAreaProps {
 
 export interface StrictFormTextAreaProps extends StrictFormFieldProps, StrictTextAreaProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A FormField control prop. */
   control?: any;

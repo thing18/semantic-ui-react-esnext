@@ -9,7 +9,7 @@ export interface VisibilityProps extends StrictVisibilityProps {
 
 export interface StrictVisibilityProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;

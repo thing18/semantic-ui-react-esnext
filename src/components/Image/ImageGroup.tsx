@@ -4,7 +4,7 @@ import { SemanticSIZES, SemanticShorthandContent, ChildrenOrContent } from '../.
 
 export interface StrictImageGroupProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;

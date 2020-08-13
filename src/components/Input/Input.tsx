@@ -7,7 +7,7 @@ import { Label, LabelProps } from '../Label';
 
 export interface StrictInputProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** An Input can be formatted to alert the user to an action they may perform. */
   action?: any | boolean;

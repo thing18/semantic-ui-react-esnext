@@ -8,7 +8,7 @@ export interface BreadcrumbSectionProps extends StrictBreadcrumbSectionProps {
 
 export interface StrictBreadcrumbSectionProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Style as the currently active section. */
   active?: boolean;

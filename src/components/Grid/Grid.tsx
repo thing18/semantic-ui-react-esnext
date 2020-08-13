@@ -12,7 +12,7 @@ export interface GridProps extends StrictGridProps {
 
 export interface StrictGridProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A grid can have rows divided into cells. */
   celled?: boolean | 'internally';

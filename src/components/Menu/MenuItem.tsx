@@ -9,7 +9,7 @@ export interface MenuItemProps extends StrictMenuItemProps {
 
 export interface StrictMenuItemProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A menu item can be active. */
   active?: boolean;

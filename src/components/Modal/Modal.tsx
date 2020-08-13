@@ -16,7 +16,7 @@ export interface ModalProps extends StrictModalProps {
 
 export interface StrictModalProps extends StrictPortalProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Shorthand for Modal.Actions. Typically an array of button shorthand. */
   actions?: SemanticShorthandItem<ModalActionsProps>;
@@ -139,7 +139,7 @@ const Modal: CModal = props => {
   const {
     as: ElementType = 'div', open, actions, basic, children, className, closeIcon, content, header, size, style, mountNode,
     closeOnDocumentClick, trigger, eventPool, centered, dimmer, onOpen, onClose, closeOnDimmerClick, onActionClick, onMount, onUnmount,
-  } = { ...Modal.defaultProps, ...props };
+  } = props;
 
   const ref = useRef<any>();
   const dimmerRef = useRef<any>();

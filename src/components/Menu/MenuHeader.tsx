@@ -8,7 +8,7 @@ export interface MenuHeaderProps extends StrictMenuHeaderProps {
 
 export interface StrictMenuHeaderProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;

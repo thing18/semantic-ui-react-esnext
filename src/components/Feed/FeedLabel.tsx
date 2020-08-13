@@ -9,7 +9,7 @@ export interface FeedLabelProps extends StrictFeedLabelProps {
 
 export interface StrictFeedLabelProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;

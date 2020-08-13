@@ -9,7 +9,7 @@ export interface ItemGroupProps extends StrictItemGroupProps {
 
 export interface StrictItemGroupProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;

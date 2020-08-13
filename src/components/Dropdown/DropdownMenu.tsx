@@ -8,7 +8,7 @@ export interface DropdownMenuProps extends StrictDropdownMenuProps {
 
 export interface StrictDropdownMenuProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;
@@ -32,5 +32,7 @@ export interface StrictDropdownMenuProps {
 /**
  * A dropdown menu can contain a menu.
  */
-// tslint:disable-next-line: object-shorthand-properties-first
-export const DropdownMenu: React.FC<DropdownMenuProps> = ({ direction, open, scrolling, ...rest }) => ChildrenOrContent(rest, direction, { visible: open, scrolling }, 'menu transition');
+// tslint:disable: object-shorthand-properties-first
+export const DropdownMenu: React.FC<DropdownMenuProps> = ({ direction, open, scrolling, ...props }) =>
+  ChildrenOrContent(props, direction, { visible: open, scrolling }, 'menu transition');
+// tslint:enable: object-shorthand-properties-first

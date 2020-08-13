@@ -11,7 +11,7 @@ export interface TabProps extends StrictTabProps {
 
 export interface StrictTabProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** The initial activeIndex. */
   defaultActiveIndex?: number | string;

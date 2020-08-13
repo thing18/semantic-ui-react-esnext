@@ -7,7 +7,7 @@ type SEMANTICRevealAnimation = 'fade' | 'small fade' | 'move' | 'move right' | '
 
 interface StrictRevealProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** An active reveal displays its hidden content. */
   active?: boolean;

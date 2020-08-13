@@ -18,7 +18,7 @@ import { DropdownItem } from '../Dropdown';
 
 FormField.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -74,7 +74,7 @@ FormField.propTypes = {
 
 FormTextArea.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A FormField control prop. */
     control: FormField.propTypes!.control,
@@ -82,7 +82,7 @@ FormTextArea.propTypes = {
 
 FormSelect.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A FormField control prop. */
     control: FormField.propTypes!.control,
@@ -93,7 +93,7 @@ FormSelect.propTypes = {
 
 FormRadio.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A FormField control prop. */
     control: FormField.propTypes!.control,
@@ -101,7 +101,7 @@ FormRadio.propTypes = {
 
 FormInput.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A FormField control prop. */
     control: FormField.propTypes!.control,
@@ -109,7 +109,7 @@ FormInput.propTypes = {
 
 FormGroup.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -132,7 +132,7 @@ FormGroup.propTypes = {
 
 FormDropdown.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A FormField control prop. */
     control: FormField.propTypes!.control,
@@ -140,7 +140,7 @@ FormDropdown.propTypes = {
 
 FormCheckbox.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A FormField control prop. */
     control: FormField.propTypes!.control,
@@ -148,7 +148,7 @@ FormCheckbox.propTypes = {
 
 FormButton.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A FormField control prop. */
     control: FormField.propTypes!.control,
@@ -156,7 +156,7 @@ FormButton.propTypes = {
 
 Form.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** The HTML form action */
     action: PropTypes.string,

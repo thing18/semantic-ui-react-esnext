@@ -8,7 +8,7 @@ export interface CheckboxProps extends StrictCheckboxProps {
 
 export interface StrictCheckboxProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Whether or not checkbox is checked. */
   checked?: boolean;

@@ -11,7 +11,7 @@ import { MenuMenu } from './MenuMenu';
 
 MenuMenu.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -28,7 +28,7 @@ MenuMenu.propTypes = {
 
 MenuHeader.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -42,7 +42,7 @@ MenuHeader.propTypes = {
 
 MenuItem.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A menu item can be active. */
     active: PropTypes.bool,
@@ -95,7 +95,7 @@ MenuItem.propTypes = {
 
 Menu.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Index of the currently active item. */
     activeIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

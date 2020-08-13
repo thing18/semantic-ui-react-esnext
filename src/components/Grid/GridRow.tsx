@@ -10,7 +10,7 @@ export interface GridRowProps extends StrictGridRowProps {
 
 export interface StrictGridRowProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A row can have its columns centered. */
   centered?: boolean;

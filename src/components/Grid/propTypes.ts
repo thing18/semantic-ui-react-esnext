@@ -10,7 +10,7 @@ import { GridRow } from './GridRow';
 
 GridRow.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A row can have its columns centered. */
     centered: PropTypes.bool,
@@ -55,7 +55,7 @@ GridRow.propTypes = {
 
 GridColumn.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -114,7 +114,7 @@ GridColumn.propTypes = {
 
 Grid.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A grid can have rows divided into cells. */
     celled: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['internally'])]) as any,

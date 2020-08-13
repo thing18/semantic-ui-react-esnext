@@ -6,7 +6,7 @@ export interface TextAreaProps extends StrictTextAreaProps {
 
 export interface StrictTextAreaProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /**
    * Called on change.

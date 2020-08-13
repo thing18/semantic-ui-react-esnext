@@ -6,7 +6,7 @@ import { TextArea } from './TextArea';
 
 TextArea.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /**
      * Called on change.

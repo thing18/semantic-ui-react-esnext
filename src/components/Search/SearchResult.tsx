@@ -8,7 +8,7 @@ export interface SearchResultProps extends StrictSearchResultProps {
 
 export interface StrictSearchResultProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** The item currently selected by keyboard shortcut. */
   active?: boolean;

@@ -16,7 +16,7 @@ import { CommentText } from './CommentText';
 
 CommentText.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -30,7 +30,7 @@ CommentText.propTypes = {
 
 CommentMetadata.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -44,7 +44,7 @@ CommentMetadata.propTypes = {
 
 CommentGroup.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -70,7 +70,7 @@ CommentGroup.propTypes = {
 
 CommentContent.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -84,7 +84,7 @@ CommentContent.propTypes = {
 
 CommentAvatar.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Additional classes. */
     className: PropTypes.string,
@@ -95,7 +95,7 @@ CommentAvatar.propTypes = {
 
 CommentAuthor.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -109,7 +109,7 @@ CommentAuthor.propTypes = {
 
 CommentActions.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -123,7 +123,7 @@ CommentActions.propTypes = {
 
 CommentAction.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Style as the currently active action. */
     active: PropTypes.bool,
@@ -140,7 +140,7 @@ CommentAction.propTypes = {
 
 Comment.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,

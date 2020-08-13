@@ -21,7 +21,7 @@ interface CategoryResult {
 
 export interface StrictSearchProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   // ------------------------------------
   // Behavior

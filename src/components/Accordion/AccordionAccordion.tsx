@@ -10,7 +10,7 @@ export interface AccordionAccordionProps extends StrictAccordionAccordionProps {
 
 export interface StrictAccordionAccordionProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Index of the currently active panel. */
   activeIndex?: number | number[];

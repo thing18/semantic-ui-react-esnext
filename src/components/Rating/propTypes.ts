@@ -9,7 +9,7 @@ import { RatingIcon } from './RatingIcon';
 
 RatingIcon.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Indicates activity of an icon. */
     active: PropTypes.bool,
@@ -50,7 +50,7 @@ RatingIcon.propTypes = {
 
 Rating.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Additional classes. */
     className: PropTypes.string,

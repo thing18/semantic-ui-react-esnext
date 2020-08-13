@@ -7,7 +7,7 @@ export interface PopupHeaderProps extends StrictPopupHeaderProps {
 
 export interface StrictPopupHeaderProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;

@@ -9,7 +9,7 @@ export interface StickyProps extends StrictStickyProps {
 
 export interface StrictStickyProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A Sticky can be active. */
   active?: boolean;
@@ -223,7 +223,7 @@ export class Sticky extends Component<StickyProps, StickyState> {
   // Helpers
   // ----------------------------------------
 
-  assignRects = () => {
+  assignRects() {
     const { context } = this.props;
     const contextNode = isRefObject(context) ? (context as React.MutableRefObject<any>).current : context || document.body;
 

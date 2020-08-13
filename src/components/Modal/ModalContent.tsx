@@ -8,7 +8,7 @@ export interface ModalContentProps extends StrictModalContentProps {
 
 export interface StrictModalContentProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;
@@ -29,7 +29,8 @@ export interface StrictModalContentProps {
 /**
  * A modal can contain content.
  */
-const ModalContent: FCX<ModalContentProps> = ({ className, image, scrolling, ...props }) => ChildrenOrContent(props, className, { image, scrolling }, 'content');
+const ModalContent: FCX<ModalContentProps> = ({ className, image, scrolling, ...props }) =>
+  ChildrenOrContent(props, className, { image, scrolling }, 'content');
 
 ModalContent.create = createShorthandFactory(ModalContent, (content) => ({ content }));
 

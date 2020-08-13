@@ -9,7 +9,7 @@ import { ButtonOr } from './ButtonOr';
 
 export interface StrictButtonProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A button can show it is currently the active user selection. */
   active?: boolean;

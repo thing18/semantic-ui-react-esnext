@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Children } from 'react';
 
 import { HtmlIframeProps, SemanticShorthandContent, SemanticShorthandItem, createHTMLIframe, getClassName } from '../../lib';
-import { IconProps, Icon } from '..';
+import { IconProps, Icon } from '../Icon';
 
 export interface EmbedProps extends StrictEmbedProps {
   [key: string]: any;
@@ -9,7 +9,7 @@ export interface EmbedProps extends StrictEmbedProps {
 
 export interface StrictEmbedProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** An embed can be active. */
   active?: boolean;
@@ -74,14 +74,14 @@ export interface StrictEmbedProps {
 export const Embed: React.FC<EmbedProps> = props => {
 
   const {
-    as: ElementType = 'div', active, defaultActive, onClick, children, content, iframe, autoplay, brandedUI, color,
+    as: ElementType = 'div', id, active, defaultActive, onClick, children, content, iframe, autoplay, brandedUI, color,
     hd, source, url, aspectRatio, className, icon = 'video play', placeholder,
     ...rest } = props;
 
-  const [__active, __setActive] = useState<boolean>(active ?? defaultActive ?? false);
+  const [__active, __setActive] = useState<boolean>();
 
   useEffect(
-    () => { if (__active !== active) __setActive(!!active); },
+    () => { __setActive(active ?? defaultActive ?? false); },
     [active],
   );
 
@@ -118,7 +118,7 @@ const getSrc = ({ autoplay = true, brandedUI = false, color = '#444444', hd = tr
   }
 };
 
-const renderEmbed = (props: EmbedProps, active: boolean) => {
+const renderEmbed = (props: EmbedProps, active?: boolean) => {
 
   if (!active) return null;
 

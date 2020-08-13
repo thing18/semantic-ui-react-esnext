@@ -12,7 +12,7 @@ import { Search } from './Search';
 
 SearchResults.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -26,7 +26,7 @@ SearchResults.propTypes = {
 
 SearchResult.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** The item currently selected by keyboard shortcut. */
     active: PropTypes.bool,
@@ -79,7 +79,7 @@ SearchCategoryLayout.propTypes = {
 
 SearchCategory.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** The item currently selected by keyboard shortcut. */
     active: PropTypes.bool,
@@ -118,7 +118,7 @@ SearchCategory.propTypes = {
 
 Search.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     // ------------------------------------
     // Behavior

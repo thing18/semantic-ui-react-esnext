@@ -8,7 +8,7 @@ export interface CommentActionProps extends StrictCommentActionProps {
 
 export interface StrictCommentActionProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Style as the currently active action. */
   active?: boolean;

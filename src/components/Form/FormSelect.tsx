@@ -10,7 +10,7 @@ export interface FormSelectProps extends StrictFormSelectProps {
 
 export interface StrictFormSelectProps extends StrictFormFieldProps, StrictSelectProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A FormField control prop. */
   control?: any;

@@ -9,7 +9,7 @@ import { ButtonOr } from './ButtonOr';
 
 ButtonOr.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Additional classes. */
     className: PropTypes.string,
@@ -20,7 +20,7 @@ ButtonOr.propTypes = {
 
 ButtonGroup.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Groups can be attached to other content. */
     attached: PropTypes.oneOfType([
@@ -91,7 +91,7 @@ ButtonGroup.propTypes = {
 
 ButtonContent.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -111,7 +111,7 @@ ButtonContent.propTypes = {
 
 Button.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A button can show it is currently the active user selection. */
     active: PropTypes.bool,

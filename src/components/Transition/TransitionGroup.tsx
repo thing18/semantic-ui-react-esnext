@@ -1,9 +1,9 @@
-import React, { Children, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { SemanticTRANSITIONS, htmlImageProps } from '../../lib';
-import { TransitionPropDuration, Transition } from './Transition';
-import { getChildMapping, mergeChildMappings } from './utils/childMapping';
-import { wrapChild } from './utils/wrapChild';
+import { SemanticTRANSITIONS } from '../../lib';
+import { TransitionPropDuration } from './Transition';
+import { getChildMapping, mergeChildMappings } from './lib/childMapping';
+import { wrapChild } from './lib/wrapChild';
 
 export interface TransitionGroupProps extends StrictTransitionGroupProps {
   [key: string]: any;
@@ -11,7 +11,7 @@ export interface TransitionGroupProps extends StrictTransitionGroupProps {
 
 export interface StrictTransitionGroupProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Named animation event to used. Must be defined in CSS. */
   animation?: SemanticTRANSITIONS | string;
@@ -31,7 +31,7 @@ export interface StrictTransitionGroupProps {
  */
 export const TransitionGroup: React.FC<TransitionGroupProps> = props => {
 
-  const { as: ElementType, animation, children, directional, duration, ...rest } = { ...TransitionGroup.defaultProps, ...props };
+  const { as: ElementType, animation, children, directional, duration, ...rest } = props;
 
   const [state, setState] = useState<any>({});
 

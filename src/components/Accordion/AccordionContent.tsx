@@ -8,7 +8,7 @@ export interface AccordionContentProps extends StrictAccordionContentProps {
 
 export interface StrictAccordionContentProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Whether or not the content is visible. */
   active?: boolean;

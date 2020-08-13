@@ -1,7 +1,7 @@
-import React, { Component, Children } from 'react';
+import React, { Children } from 'react';
 
-import { ButtonProps, Button } from '..';
 import { SemanticShorthandCollection, SemanticShorthandContent, FCX, createShorthandFactory, getClassName } from '../../lib';
+import { ButtonProps, Button } from '../Button';
 
 export interface ModalActionsProps extends StrictModalActionsProps {
   [key: string]: any;
@@ -9,7 +9,7 @@ export interface ModalActionsProps extends StrictModalActionsProps {
 
 export interface StrictModalActionsProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Array of shorthand buttons. */
   actions?: SemanticShorthandCollection<ButtonProps>;

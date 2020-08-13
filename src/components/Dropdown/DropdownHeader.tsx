@@ -1,7 +1,7 @@
 import React, { Children } from 'react';
 
-import { SemanticShorthandContent, SemanticShorthandItem, createShorthandFactory, FCX, getClassName } from '../../lib';
-import { IconProps, Icon } from '..';
+import { SemanticShorthandContent, SemanticShorthandItem, createShorthandFactory, FCX, getClassName1 } from '../../lib';
+import { IconProps, Icon } from '../Icon';
 
 export interface DropdownHeaderProps extends StrictDropdownHeaderProps {
   [key: string]: any;
@@ -9,7 +9,7 @@ export interface DropdownHeaderProps extends StrictDropdownHeaderProps {
 
 export interface StrictDropdownHeaderProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;
@@ -27,9 +27,9 @@ export interface StrictDropdownHeaderProps {
 /**
  * A dropdown menu can contain a header.
  */
-const DropdownHeader: FCX<DropdownHeaderProps> = ({ as: ElementType = 'div', children, className, content, icon, ...rest }) => {
+export const DropdownHeader: FCX<DropdownHeaderProps> = ({ as: ElementType = 'div', children, className, content, icon, ...rest }) => {
 
-  const classes = getClassName('header', className);
+  const classes = getClassName1('header', className);
 
   if (Children.count(children)) {
     return (
@@ -48,5 +48,3 @@ const DropdownHeader: FCX<DropdownHeaderProps> = ({ as: ElementType = 'div', chi
 };
 
 DropdownHeader.create = createShorthandFactory(DropdownHeader, (content) => ({ content }));
-
-export { DropdownHeader };

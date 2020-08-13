@@ -12,7 +12,7 @@ import { AccordionTitle } from './AccordionTitle';
 
 AccordionTitle.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Whether or not the title is in the open state. */
     active: PropTypes.bool,
@@ -65,7 +65,7 @@ AccordionPanel.propTypes = {
 
 AccordionContent.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Whether or not the content is visible. */
     active: PropTypes.bool,
@@ -82,7 +82,7 @@ AccordionContent.propTypes = {
 
 AccordionAccordion.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Index of the currently active panel. */
     activeIndex: customPropTypes.every([

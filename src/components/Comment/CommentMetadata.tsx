@@ -8,7 +8,7 @@ export interface CommentMetadataProps extends StrictCommentMetadataProps {
 
 export interface StrictCommentMetadataProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;

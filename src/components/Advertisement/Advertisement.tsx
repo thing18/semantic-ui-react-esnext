@@ -10,7 +10,7 @@ export type AdvertisementUnit = 'medium rectangle' | 'large rectangle' | 'vertic
 
 export interface StrictAdvertisementProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Center the advertisement. */
   centered?: boolean;

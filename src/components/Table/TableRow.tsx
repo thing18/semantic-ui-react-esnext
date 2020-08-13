@@ -9,13 +9,13 @@ export interface TableRowProps extends StrictTableRowProps {
 
 export interface StrictTableRowProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A row can be active or selected by a user. */
   active?: boolean;
 
   /** An element type to render as (string or function). */
-  cellAs?: any;
+  cellas?: React.ElementType;
 
   /** Shorthand array of props for TableCell. */
   cells?: SemanticShorthandCollection<TableCellProps>;

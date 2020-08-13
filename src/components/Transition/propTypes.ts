@@ -9,7 +9,7 @@ import { TransitionGroup } from './TransitionGroup';
 
 TransitionGroup.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Named animation event to used. Must be defined in CSS. */
     animation: PropTypes.oneOfType([PropTypes.oneOf(SUI.TRANSITIONS), PropTypes.string]),

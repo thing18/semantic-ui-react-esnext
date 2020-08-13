@@ -14,7 +14,7 @@ import { List } from './List';
 
 ListList.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -28,7 +28,7 @@ ListList.propTypes = {
 
 ListItem.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A list item can active. */
     active: PropTypes.bool,
@@ -94,7 +94,7 @@ ListIcon.propTypes = {
 
 ListHeader.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -108,7 +108,7 @@ ListHeader.propTypes = {
 
 ListDescription.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -122,7 +122,7 @@ ListDescription.propTypes = {
 
 ListContent.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -148,7 +148,7 @@ ListContent.propTypes = {
 
 List.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A list can animate to set the current item apart from the list. */
     animated: PropTypes.bool,

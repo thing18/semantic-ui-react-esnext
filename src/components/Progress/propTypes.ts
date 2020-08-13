@@ -8,7 +8,7 @@ import { Progress } from './Progress';
 
 Progress.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A progress bar can show activity. */
     active: PropTypes.bool,

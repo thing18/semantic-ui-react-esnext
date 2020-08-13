@@ -16,7 +16,7 @@ export interface FormProps extends StrictFormProps {
 
 export interface StrictFormProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** The HTML form action */
   action?: string;

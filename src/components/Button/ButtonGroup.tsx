@@ -5,7 +5,7 @@ import { ButtonProps, Button } from '.';
 
 export interface StrictButtonGroupProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Groups can be attached to other content. */
   attached?: boolean | 'left' | 'right' | 'top' | 'bottom';

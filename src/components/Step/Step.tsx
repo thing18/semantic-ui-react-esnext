@@ -9,7 +9,7 @@ import { StepTitle, StepTitleProps } from './StepTitle';
 
 interface StrictStepProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A step can be highlighted as active. */
   active?: boolean;

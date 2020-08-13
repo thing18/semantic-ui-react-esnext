@@ -8,7 +8,7 @@ type SegmentSizeProp = 'mini' | 'tiny' | 'small' | 'large' | 'big' | 'huge' | 'm
 
 interface StrictSegmentProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Attach segment to other content, like a header. */
   attached?: boolean | 'top' | 'bottom';

@@ -8,7 +8,7 @@ import { Embed } from './Embed';
 
 Embed.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** An embed can be active. */
     active: PropTypes.bool,

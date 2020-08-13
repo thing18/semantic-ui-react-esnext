@@ -9,7 +9,7 @@ export interface IconProps extends StrictIconProps {
 
 export interface StrictIconProps {
     /** An element type to render as (string or function). */
-    as?: any;
+    as?: React.ElementType;
 
     /** Formatted to appear bordered */
     bordered?: boolean;

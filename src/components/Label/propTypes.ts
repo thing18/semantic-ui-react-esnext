@@ -10,7 +10,7 @@ import { LabelGroup } from './LabelGroup';
 
 Label.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A label can be active. */
     active: PropTypes.bool,
@@ -104,7 +104,7 @@ Label.propTypes = {
 
 LabelDetail.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,
@@ -118,7 +118,7 @@ LabelDetail.propTypes = {
 
 LabelGroup.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** Primary content. */
     children: PropTypes.node,

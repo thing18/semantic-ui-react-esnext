@@ -10,7 +10,7 @@ import { ListList } from './ListList';
 
 interface StrictListProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A list can animate to set the current item apart from the list. */
   animated?: boolean;

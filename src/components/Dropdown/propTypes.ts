@@ -10,10 +10,148 @@ import { DropdownHeader } from './DropdownHeader';
 import { DropdownDivider } from './DropdownDivider';
 import { DropdownSearchInput } from './DropdownSearchInput';
 import { Dropdown } from './Dropdown';
+import { DropdownText } from './DropdownText';
 
-Dropdown.propTypes = {
+DropdownSearchInput.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
+
+    /** An input can have the auto complete. */
+    autoComplete: PropTypes.string,
+
+    /** Additional classes. */
+    className: PropTypes.string,
+
+    /** An input can receive focus. */
+    tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]) as any,
+
+    /** The HTML input type. */
+    type: PropTypes.string,
+
+    /** Stored value. */
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+};
+
+DropdownDivider.propTypes = {
+    /** An element type to render as (string or function). */
+    as: PropTypes.elementType as any,
+
+    /** Additional classes. */
+    className: PropTypes.string,
+};
+
+DropdownHeader.propTypes = {
+    /** An element type to render as (string or function) */
+    as: PropTypes.elementType as any,
+
+    /** Primary content. */
+    children: PropTypes.node,
+
+    /** Additional classes. */
+    className: PropTypes.string,
+
+    /** Shorthand for primary content. */
+    content: customPropTypes.contentShorthand,
+
+    /** Shorthand for Icon. */
+    icon: customPropTypes.itemShorthand,
+};
+
+DropdownItem.propTypes = {
+    /** An element type to render as (string or function). */
+    as: PropTypes.elementType as any,
+
+    /** Style as the currently chosen item. */
+    active: PropTypes.bool,
+
+    /** Primary content. */
+    children: PropTypes.node,
+
+    /** Additional classes. */
+    className: PropTypes.string,
+
+    /** Shorthand for primary content. */
+    content: customPropTypes.contentShorthand,
+
+    /** Additional text with less emphasis. */
+    description: customPropTypes.itemShorthand,
+
+    /** A dropdown item can be disabled. */
+    disabled: PropTypes.bool,
+
+    /** Shorthand for Flag. */
+    flag: customPropTypes.itemShorthand,
+
+    /** Shorthand for Icon. */
+    icon: customPropTypes.itemShorthand,
+
+    /** Shorthand for Image. */
+    image: customPropTypes.itemShorthand,
+
+    /** Shorthand for Label. */
+    label: customPropTypes.itemShorthand,
+
+    /**
+     * Called on click.
+     *
+     * @param {SyntheticEvent} event - React's original SyntheticEvent.
+     * @param {object} data - All props.
+     */
+    onClick: PropTypes.func,
+
+    /**
+     * The item currently selected by keyboard shortcut.
+     * This is not the active item.
+     */
+    selected: PropTypes.bool,
+
+    /** Display text. */
+    text: customPropTypes.contentShorthand,
+
+    /** Stored value. */
+    value: PropTypes.oneOfType([PropTypes.bool, PropTypes.number, PropTypes.string]),
+};
+
+DropdownMenu.propTypes = {
+    /** An element type to render as (string or function). */
+    as: PropTypes.elementType as any,
+
+    /** Primary content. */
+    children: PropTypes.node,
+
+    /** Additional classes. */
+    className: PropTypes.string,
+
+    /** Shorthand for primary content. */
+    content: customPropTypes.contentShorthand,
+
+    /** A dropdown menu can open to the left or to the right. */
+    direction: PropTypes.oneOf(['left', 'right']),
+
+    /** Whether or not the dropdown menu is displayed. */
+    open: PropTypes.bool,
+
+    /** A dropdown menu can scroll. */
+    scrolling: PropTypes.bool,
+};
+
+DropdownText.propTypes = {
+    /** An element type to render as (string or function). */
+    as: PropTypes.elementType as any,
+
+    /** Primary content. */
+    children: PropTypes.node,
+
+    /** Additional classes. */
+    className: PropTypes.string,
+
+    /** Shorthand for primary content. */
+    content: customPropTypes.contentShorthand,
+};
+
+(Dropdown as any).propTypes = {
+    /** An element type to render as (string or function). */
+    as: PropTypes.elementType as any,
 
     /** Label prefixed to an option added by a user. */
     additionLabel: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
@@ -308,10 +446,7 @@ Dropdown.propTypes = {
     text: PropTypes.string,
 
     /** Custom element to trigger the menu to become visible. Takes place of 'text'. */
-    trigger: customPropTypes.every([
-        customPropTypes.disallow(['selection', 'text']),
-        PropTypes.node,
-    ]),
+    trigger: customPropTypes.every([customPropTypes.disallow(['selection', 'text']), PropTypes.node]),
 
     /** Current value or value array if multiple. Creates a controlled component. */
     value: PropTypes.oneOfType([
@@ -329,129 +464,6 @@ Dropdown.propTypes = {
      * or go to the first when ArrowDown is pressed on the last( aka infinite selection )
      */
     wrapSelection: PropTypes.bool,
-};
-
-DropdownSearchInput.propTypes = {
-    /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
-
-    /** An input can have the auto complete. */
-    autoComplete: PropTypes.string,
-
-    /** Additional classes. */
-    className: PropTypes.string,
-
-    /** An input can receive focus. */
-    tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]) as any,
-
-    /** The HTML input type. */
-    type: PropTypes.string,
-
-    /** Stored value. */
-    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-};
-
-DropdownDivider.propTypes = {
-    /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
-
-    /** Additional classes. */
-    className: PropTypes.string,
-};
-
-DropdownHeader.propTypes = {
-    /** An element type to render as (string or function) */
-    as: PropTypes.elementType,
-
-    /** Primary content. */
-    children: PropTypes.node,
-
-    /** Additional classes. */
-    className: PropTypes.string,
-
-    /** Shorthand for primary content. */
-    content: customPropTypes.contentShorthand,
-
-    /** Shorthand for Icon. */
-    icon: customPropTypes.itemShorthand,
-};
-
-DropdownItem.propTypes = {
-    /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
-
-    /** Style as the currently chosen item. */
-    active: PropTypes.bool,
-
-    /** Primary content. */
-    children: PropTypes.node,
-
-    /** Additional classes. */
-    className: PropTypes.string,
-
-    /** Shorthand for primary content. */
-    content: customPropTypes.contentShorthand,
-
-    /** Additional text with less emphasis. */
-    description: customPropTypes.itemShorthand,
-
-    /** A dropdown item can be disabled. */
-    disabled: PropTypes.bool,
-
-    /** Shorthand for Flag. */
-    flag: customPropTypes.itemShorthand,
-
-    /** Shorthand for Icon. */
-    icon: customPropTypes.itemShorthand,
-
-    /** Shorthand for Image. */
-    image: customPropTypes.itemShorthand,
-
-    /** Shorthand for Label. */
-    label: customPropTypes.itemShorthand,
-
-    /**
-     * Called on click.
-     *
-     * @param {SyntheticEvent} event - React's original SyntheticEvent.
-     * @param {object} data - All props.
-     */
-    onClick: PropTypes.func,
-
-    /**
-     * The item currently selected by keyboard shortcut.
-     * This is not the active item.
-     */
-    selected: PropTypes.bool,
-
-    /** Display text. */
-    text: customPropTypes.contentShorthand,
-
-    /** Stored value. */
-    value: PropTypes.oneOfType([PropTypes.bool, PropTypes.number, PropTypes.string]),
-};
-
-DropdownMenu.propTypes = {
-    /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
-
-    /** Primary content. */
-    children: PropTypes.node,
-
-    /** Additional classes. */
-    className: PropTypes.string,
-
-    /** Shorthand for primary content. */
-    content: customPropTypes.contentShorthand,
-
-    /** A dropdown menu can open to the left or to the right. */
-    direction: PropTypes.oneOf(['left', 'right']),
-
-    /** Whether or not the dropdown menu is displayed. */
-    open: PropTypes.bool,
-
-    /** A dropdown menu can scroll. */
-    scrolling: PropTypes.bool,
 };
 
 export { };

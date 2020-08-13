@@ -1,7 +1,10 @@
 import React, { Children } from 'react';
 
-import { HtmlSpanProps, SemanticShorthandContent, SemanticShorthandItem, FCX, getClassName, createShorthand, createShorthandFactory } from '../../lib';
-import { FlagProps, Flag, IconProps, Icon, ImageProps, Image, LabelProps, Label } from '..';
+import { HtmlSpanProps, SemanticShorthandContent, SemanticShorthandItem, FCX, getClassName, createShorthand, createShorthandFactory, createHTMLSpan } from '../../lib';
+import { FlagProps, Flag } from '../Flag';
+import { IconProps, Icon } from '../Icon';
+import { ImageProps, Image } from '../Image';
+import { LabelProps, Label } from '../Label';
 
 export interface DropdownItemProps extends StrictDropdownItemProps {
   [key: string]: any;
@@ -9,7 +12,7 @@ export interface DropdownItemProps extends StrictDropdownItemProps {
 
 export interface StrictDropdownItemProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Style as the currently chosen item. */
   active?: boolean;
@@ -65,15 +68,14 @@ export interface StrictDropdownItemProps {
 /**
  * An item sub-component for Dropdown component.
  */
-const DropdownItem: FCX<DropdownItemProps> = props => {
+export const DropdownItem: FCX<DropdownItemProps> = props => {
 
-  const { as: ElementType = 'div', active, children, className, content, disabled, description, flag, icon, image, label, selected, text, onClick, ...rest } = props;
-
-  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => onClick?.call(null, e, props);
+  const { as: ElementType = 'div', active, children, className, value, content, disabled, description, flag, icon, image, label, selected, text, onClick, ...rest } = props;
 
   const classes = getClassName({ active, disabled, selected }, 'item', className);
-
   const ariaOptions = { role: 'option', 'aria-disabled': disabled, 'aria-checked': active, 'aria-selected': selected };
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => props.onClick?.call(null, e, props);
 
   if (Children.count(children)) {
     return (
@@ -90,8 +92,8 @@ const DropdownItem: FCX<DropdownItemProps> = props => {
   const iconElement = Icon.create(iconName, { autoGenerateKey: false });
   const imageElement = Image.create(image, { autoGenerateKey: false });
   const labelElement = Label.create(label, { autoGenerateKey: false });
-  const descriptionElement = createShorthand('span', (val: any) => ({ children: val }), description, { defaultProps: { className: 'description' }, autoGenerateKey: false });
-  const textElement = createShorthand('span', (val: any) => ({ children: val }), content == null ? text : content, { defaultProps: { className: 'text' }, autoGenerateKey: false });
+  const descriptionElement = createHTMLSpan(description, { defaultProps: { className: 'description' }, autoGenerateKey: false });
+  const textElement = createHTMLSpan(content == null ? text : content, { defaultProps: { className: 'text' }, autoGenerateKey: false });
 
   return (
     <ElementType {...rest} {...ariaOptions} className={classes} onClick={handleClick}>
@@ -107,4 +109,4 @@ const DropdownItem: FCX<DropdownItemProps> = props => {
 
 DropdownItem.create = createShorthandFactory(DropdownItem, (opts: any) => opts);
 
-export { DropdownItem };
+const __value2Props = (val: any) => ({ children: val });

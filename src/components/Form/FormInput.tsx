@@ -11,7 +11,7 @@ export interface FormInputProps extends StrictFormInputProps {
 
 export interface StrictFormInputProps extends StrictFormFieldProps, StrictInputProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A FormField control prop. */
   control?: any;

@@ -8,7 +8,7 @@ export interface MessageHeaderProps extends StrictMessageHeaderProps {
 
 export interface StrictMessageHeaderProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;

@@ -8,7 +8,7 @@ import { DimmerInner } from './DimmerInner';
 
 DimmerInner.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** An active dimmer will dim its parent container. */
     active: PropTypes.bool,
@@ -56,7 +56,7 @@ DimmerInner.propTypes = {
 
 DimmerDimmable.propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.elementType,
+    as: PropTypes.elementType as any,
 
     /** A dimmable element can blur its contents. */
     blurring: PropTypes.bool,

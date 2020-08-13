@@ -8,7 +8,7 @@ export interface ProgressProps extends StrictProgressProps {
 
 export interface StrictProgressProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A progress bar can show activity. */
   active?: boolean;

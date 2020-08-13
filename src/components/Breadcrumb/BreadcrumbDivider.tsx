@@ -9,7 +9,7 @@ export interface BreadcrumbDividerProps extends StrictBreadcrumbDividerProps {
 
 export interface StrictBreadcrumbDividerProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Primary content. */
   children?: React.ReactNode;

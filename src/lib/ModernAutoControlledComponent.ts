@@ -135,7 +135,7 @@ export abstract class ModernAutoControlledComponent<P extends object = any, S ex
         const defaultPropName = getDefaultPropName(prop);
         const { name } = this.constructor;
         // prevent defaultFoo={} along side foo={}
-        if (this.props[defaultPropName as keyof P] === undefined && this.props[prop as keyof P] === undefined) {
+        if (this.props[defaultPropName as keyof P] !== undefined && this.props[prop as keyof P] !== undefined) {
           console.error(`${name} prop "${prop}" is auto controlled. Specify either ${defaultPropName} or ${prop}, but not both.`);
         }
       }

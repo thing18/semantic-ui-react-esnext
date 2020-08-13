@@ -9,7 +9,7 @@ export interface TabPaneProps extends StrictTabPaneProps {
 
 export interface StrictTabPaneProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** A tab pane can be active. */
   active?: boolean;

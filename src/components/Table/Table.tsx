@@ -14,7 +14,7 @@ export interface TableProps extends StrictTableProps {
 
 export interface StrictTableProps {
   /** An element type to render as (string or function). */
-  as?: any;
+  as?: React.ElementType;
 
   /** Attach table to other content */
   attached?: boolean | 'top' | 'bottom';
