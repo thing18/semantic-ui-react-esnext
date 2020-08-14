@@ -67,7 +67,7 @@ export interface StrictFormFieldProps {
  */
 export const FormField: React.FC<FormFieldProps> = (props) => {
 
-  const { as: ElementType, children, className, content, control, disabled, error, inline, label, required, type, width, id, ...rest } = props;
+  const { as: ElementType = 'div', children, className, content, control, disabled, error, inline, label, required, type, width, id, ...rest } = props;
 
   const classes = getClassName([Use.Key, { disabled, error, inline, required }], [Use.Width, width, 'wide'], 'field', className);
 
@@ -84,14 +84,14 @@ export const FormField: React.FC<FormFieldProps> = (props) => {
   if (control == null) {
     if (label == null) {
       return (
-        <ElementType {...rest} className={classes}>
+        <ElementType {...rest} className={classes} id={id}>
           {Children.count(children) ? children : content}
         </ElementType>
       );
     }
 
     return (
-      <ElementType {...rest} className={classes}>
+      <ElementType {...rest} className={classes} id={id}>
         {errorLabelBefore}
         {createHTMLLabel(label, { autoGenerateKey: false })}
         {errorLabelAfter}

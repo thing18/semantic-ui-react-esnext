@@ -1,7 +1,7 @@
 import keyboardKey from 'keyboard-key';
 import React, { PureComponent } from 'react';
 
-import { SemanticShorthandItem, isBrowser, partitionHTMLProps, htmlInputAttrs, getClassName, Use, ModernAutoControlledComponent, ModernAutoControlledComponentState } from '../../lib';
+import { SemanticShorthandItem, isBrowser, partitionHTMLProps, htmlInputAttrs, getClassName, Use, ModernAutoControlledComponent, ModernAutoControlledComponentState, getClassName1, isPlainObject } from '../../lib';
 import { InputProps, Input } from '..';
 import { SearchCategory, SearchCategoryProps } from './SearchCategory';
 import { SearchResult, SearchResultProps } from './SearchResult';
@@ -189,6 +189,19 @@ interface SearchState extends ModernAutoControlledComponentState {
   searchClasses: string;
   prevValue: any;
 }
+
+const overrideSearchInputProps = (predefinedProps: any) => {
+  const { input } = predefinedProps;
+
+  if (input == null) {
+    return { ...predefinedProps, input: { className: 'prompt' } };
+  }
+  if (isPlainObject(input)) {
+    return { ...predefinedProps, input: { ...input, className: getClassName1(input.className, 'prompt') } };
+  }
+
+  return predefinedProps;
+};
 
 /**
  * A search module allows a user to query for results from a selection of data
@@ -472,7 +485,7 @@ export class Search extends ModernAutoControlledComponent<SearchProps, SearchSta
     const menu = document.querySelector('.ui.search.active.visible .results.visible');
     if (!menu) return;
 
-    const item = menu.querySelector('.result.active') as HTMLElement;
+    const item = menu.querySelector<HTMLElement>('.result.active');
     if (!item) return;
 
     const isOutOfUpperView = item.offsetTop < menu.scrollTop;
@@ -565,7 +578,7 @@ export class Search extends ModernAutoControlledComponent<SearchProps, SearchSta
       size, ...unhandled } = this.props;
 
     // Classes
-    const classes = getClassName('ui', open && 'active visible' as any, size, searchClasses, { category, focus, fluid, loading }, [Use.ValueKey, { aligned }], 'search', className);
+    const classes = getClassName('ui', open && 'active visible', size, searchClasses, { category, focus, fluid, loading }, [Use.ValueKey, { aligned }], 'search', className);
 
     const [htmlInputProps, rest] = partitionHTMLProps(unhandled, { htmlProps: htmlInputAttrs });
 
@@ -591,10 +604,11 @@ export class Search extends ModernAutoControlledComponent<SearchProps, SearchSta
               ...htmlInputProps,
               icon,
               value,
-              input: { className: 'prompt', tabIndex: '0', autoComplete: 'off' },
               onChange: this.handleSearchChange,
               onClick: this.handleInputClick,
+              tabIndex: '0',
             },
+            overrideProps: overrideSearchInputProps,
           })}
         {menuContent && <SearchResults className={open ? 'visible' : ''}>{menuContent}</SearchResults>}
       </ElementType>

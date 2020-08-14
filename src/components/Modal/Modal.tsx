@@ -1,14 +1,17 @@
-import React, { createRef, Fragment, isValidElement, useRef, useState, useEffect, Children, useReducer } from 'react';
+import React, { createRef, isValidElement, Children } from 'react';
+import shallowEqual from 'shallowequal';
 
-import { SemanticShorthandItem, isBrowser, doesNodeContainClick, getClassName } from '../../lib';
+import { SemanticShorthandItem, isBrowser, doesNodeContainClick, getClassName, ModernAutoControlledComponent, isPlainObject } from '../../lib';
 import { ModalHeader, ModalHeaderProps } from './ModalHeader';
 import { ModalContent, ModalContentProps } from './ModalContent';
 import { ModalActions, ModalActionsProps } from './ModalActions';
 import { ModalDescription } from './ModalDescription';
+import { ModalDimmerProps, ModalDimmer } from './ModalDimmer';
 import { StrictPortalProps, Portal } from '../Portal';
 import { eventStack } from '../EventStack';
 import { Icon } from '../Icon';
-import { MountNode } from '../MountNode';
+import { isLegacy, canFit, getLegacyStyles } from './lib';
+import { Ref } from '../Ref';
 
 export interface ModalProps extends StrictModalProps {
   [key: string]: any;
@@ -49,7 +52,7 @@ export interface StrictModalProps extends StrictPortalProps {
   defaultOpen?: boolean;
 
   /** A modal can appear in a dimmer. */
-  dimmer?: true | 'blurring' | 'inverted';
+  dimmer?: true | 'blurring' | 'inverted' | SemanticShorthandItem<ModalDimmerProps>;
 
   /** Event pool namespace that is used to handle component events */
   eventPool?: string;
@@ -113,12 +116,12 @@ export interface StrictModalProps extends StrictPortalProps {
   trigger?: React.ReactNode;
 }
 
-interface CModal extends React.FC<ModalProps> {
-  Actions: typeof ModalActions;
-  Content: typeof ModalContent;
-  Description: typeof ModalDescription;
-  Header: typeof ModalHeader;
-}
+// interface CModal extends React.FC<ModalProps> {
+//   Actions: typeof ModalActions;
+//   Content: typeof ModalContent;
+//   Description: typeof ModalDescription;
+//   Header: typeof ModalHeader;
+// }
 
 interface ModalState {
   open: boolean;
@@ -126,196 +129,256 @@ interface ModalState {
   mountClasses: string;
 }
 
-const reducer = (prev: ModalState, value: Partial<ModalState>) => ({ ...prev, ...value });
+// const reducer = (prev: ModalState, value: Partial<ModalState>) => ({ ...prev, ...value });
 
 /**
  * A modal displays content that temporarily blocks interactions with the main view of a site.
  * @see Confirm
  * @see Portal
  */
-const Modal: CModal = props => {
+class Modal extends ModernAutoControlledComponent {
 
-  // static autoControlledProps = ['open']
-  const {
-    as: ElementType = 'div', open, actions, basic, children, className, closeIcon, content, header, size, style, mountNode,
-    closeOnDocumentClick, trigger, eventPool, centered, dimmer, onOpen, onClose, closeOnDimmerClick, onActionClick, onMount, onUnmount,
-  } = props;
+  static defaultProps: Partial<ModalProps>;
+  static autoControlledProps: (keyof ModalProps)[];
 
-  const ref = useRef<any>();
-  const dimmerRef = useRef<any>();
-  const $this = useRef({ latestDocumentMouseDownEvent: null, animationRequestId: 0 });
-  const [state, setState] = useReducer(reducer, { open: open ?? props.defaultOpen ?? false, scrolling: false, mountClasses: '' });
+  static Actions: typeof ModalActions;
+  static Content: typeof ModalContent;
+  static Description: typeof ModalDescription;
+  static Dimmer: typeof ModalDimmer;
+  static Header: typeof ModalHeader;
 
-  useEffect(
-    () => {
-      setState({ open });
-      return handlePortalUnmount;
-    },
-    [open],
-  );
+  legacy = isBrowser() && isLegacy();
+  ref = createRef<any>();
+  dimmerRef = createRef<any>();
+  latestDocumentMouseDownEvent = null;
+  animationRequestId!: number;
+
+  componentWillUnmount() {
+
+    this.handlePortalUnmount();
+  }
 
   // Do not access document when server side rendering
-  const getMountNode = () => (isBrowser() ? mountNode || document.body : null);
+  getMountNode = () => (isBrowser() ? this.props.mountNode || document.body : null);
 
-  const handleActionsOverrides = (pprops: any) => ({
-    onActionClick: (e: any, actionProps: any) => {
-      pprops.onActionClick?.call(null, e, actionProps);
-      onActionClick?.call(null, e, props);
+  handleActionsOverrides = (p: any) => ({
+    onActionClick: (e: any, ap: ModalActionsProps) => {
+      p.onActionClick?.call(null, e, ap);
+      this.props.onActionClick?.call(null, e, this.props);
 
-      handleClose(e);
+      this.handleClose(e);
     },
-  });
+  })
 
-  const handleClose = (e: any) => {
+  handleClose = (e: any) => {
 
-    onClose?.call(null, e, props);
-    setState({ open: false });
-  };
+    this.props.onClose?.call(null, e, this.props);
+    this.setState({ open: false });
+  }
 
-  const handleDocumentMouseDown = (e: any) => $this.current.latestDocumentMouseDownEvent = e;
+  handleDocumentMouseDown = (e: any) => {
+    this.latestDocumentMouseDownEvent = e;
+  }
 
-  const handleDocumentClick = (e: any) => {
+  handleDocumentClick = (e: any) => {
 
-    const currentDocumentMouseDownEvent = $this.current.latestDocumentMouseDownEvent;
-    $this.current.latestDocumentMouseDownEvent = null;
+    const { closeOnDimmerClick } = this.props;
+    const currentDocumentMouseDownEvent = this.latestDocumentMouseDownEvent;
+    this.latestDocumentMouseDownEvent = null;
 
-    if (!closeOnDimmerClick || doesNodeContainClick(ref.current, currentDocumentMouseDownEvent) || doesNodeContainClick(ref.current, e)) return;
-
-    onClose?.call(null, e, props);
-    setState({ open: false });
-  };
-
-  const handleIconOverrides = (pprops: any) => ({
-    onClick: (e: any) => {
-      pprops.onClick?.call(null, e);
-      handleClose(e);
-    },
-  });
-
-  const handleOpen = (e: any) => {
-
-    onOpen?.call(null, e, props);
-    setState({ open: true });
-  };
-
-  const handlePortalMount = (e: any) => {
-
-    setState({ scrolling: false });
-    setPositionAndClassNames();
-
-    eventStack.sub('mousedown', handleDocumentMouseDown, { pool: eventPool, target: dimmerRef.current });
-    eventStack.sub('click', handleDocumentClick, { pool: eventPool, target: dimmerRef.current });
-    onMount?.call(null, e, props);
-  };
-
-  const handlePortalUnmount = (e?: any) => {
-
-    cancelAnimationFrame($this.current.animationRequestId);
-    eventStack.unsub('mousedown', handleDocumentMouseDown, { pool: eventPool, target: dimmerRef.current });
-    eventStack.unsub('click', handleDocumentClick, { pool: eventPool, target: dimmerRef.current });
-    onUnmount?.call(null, e, props);
-  };
-
-  const setDimmerNodeStyle = () => {
-
-    const { current } = dimmerRef;
-
-    if (current && current.style && current.style.display !== 'flex') {
-      current.style.setProperty('display', 'flex', 'important');
+    if (
+      !closeOnDimmerClick ||
+      doesNodeContainClick(this.ref.current, currentDocumentMouseDownEvent) ||
+      doesNodeContainClick(this.ref.current, e)
+    ) {
+      return;
     }
-  };
 
-  const setPositionAndClassNames = () => {
+    this.props.onClose?.call(null, e, this.props);
+    this.setState({ open: false });
+  }
+
+  handleIconOverrides = (p: any) => ({
+    onClick: (e: any) => {
+      p.onClick?.call(null, e);
+      this.handleClose(e);
+    },
+  })
+
+  handleOpen = (e: any) => {
+
+    this.props.onOpen?.call(null, e, this.props);
+    this.setState({ open: true });
+  }
+
+  handlePortalMount = (e: any) => {
+    const { eventPool } = this.props;
+
+    this.setState({ scrolling: false });
+    this.setPositionAndClassNames();
+
+    eventStack.sub('mousedown', this.handleDocumentMouseDown, {
+      pool: eventPool,
+      target: this.dimmerRef.current,
+    });
+    eventStack.sub('click', this.handleDocumentClick, {
+      pool: eventPool,
+      target: this.dimmerRef.current,
+    });
+    this.props.onMount?.call(null, e, this.props);
+  }
+
+  handlePortalUnmount = (e?: any) => {
+    const { eventPool } = this.props;
+
+    cancelAnimationFrame(this.animationRequestId);
+    eventStack.unsub('mousedown', this.handleDocumentMouseDown, {
+      pool: eventPool,
+      target: this.dimmerRef.current,
+    });
+    eventStack.unsub('click', this.handleDocumentClick, {
+      pool: eventPool,
+      target: this.dimmerRef.current,
+    });
+    this.props.onUnmount?.call(null, e, this.props);
+  }
+
+  setPositionAndClassNames = () => {
+    const { centered } = this.props;
 
     let scrolling;
-    const newState: Partial<ModalState> = {};
+    const newState = {} as any;
 
-    if (ref.current) {
-      const rect = ref.current.getBoundingClientRect();
+    if (this.ref.current) {
+      const rect = this.ref.current.getBoundingClientRect();
       const isFitted = canFit(rect);
 
       scrolling = !isFitted;
       // Styles should be computed for IE11
-      if (state.scrolling !== scrolling) {
+      const legacyStyles = this.legacy ? getLegacyStyles(isFitted, centered, rect) : {};
+
+      if (!shallowEqual(this.state.legacyStyles, legacyStyles)) {
+        newState.legacyStyles = legacyStyles;
+      }
+
+      if (this.state.scrolling !== scrolling) {
         newState.scrolling = scrolling;
       }
     }
 
-    // tslint:disable-next-line: object-shorthand-properties-first
-    const classes = getClassName({ 'dimmable dimmed': !!dimmer, blurring: dimmer === 'blurring', scrolling });
-
-    if (state.mountClasses !== classes) newState.mountClasses = classes;
-    if (Object.keys(newState)) setState(newState);
-
-    $this.current.animationRequestId = requestAnimationFrame(setPositionAndClassNames);
-
-    setDimmerNodeStyle();
-  };
-
-  // Short circuit when server side rendering
-  if (!isBrowser()) {
-    return isValidElement(trigger) ? trigger : null;
+    if (Object.keys(newState).length) this.setState(newState);
+    this.animationRequestId = requestAnimationFrame(this.setPositionAndClassNames);
   }
 
-  const { rest, portalProps } = getExtraProps(props);
+  renderContent = (rest: any) => {
+    const {
+      actions,
+      basic,
+      children,
+      className,
+      closeIcon,
+      content,
+      header,
+      size,
+      style,
+    } = this.props;
+    const { legacyStyles, scrolling } = this.state;
 
-  // wrap dimmer modals
-  const dimmerClasses = getClassName('ui', dimmer === 'inverted' && 'inverted' as any, !centered && 'top aligned' as any, 'page modals dimmer transition visible active');
-  const contentClasses = getClassName('ui', size, { basic, scrolling: state.scrolling }, 'modal transition visible active', className);
+    // tslint:disable-next-line: object-shorthand-properties-first
+    const classes = getClassName('ui', size, { basic, legacy: this.legacy, scrolling }, 'modal transition visible active', className);
+    const ElementType = this.props.as ?? 'div';
 
-  const closeIconName = closeIcon === true ? 'close' : closeIcon;
-  const closeIconJSX = Icon.create(closeIconName, { overrideProps: handleIconOverrides });
+    const closeIconName = closeIcon === true ? 'close' : closeIcon;
+    const closeIconJSX = Icon.create(closeIconName, { overrideProps: this.handleIconOverrides });
 
-  // Heads up!
-  //
-  // The SUI CSS selector to prevent the modal itself from blurring requires an immediate .dimmer child:
-  // .blurring.dimmed.dimmable>:not(.dimmer) { ... }
-  //
-  // The .blurring.dimmed.dimmable is the body, so that all body content inside is blurred.
-  // We need the immediate child to be the dimmer to :not() blur the modal itself!
-  // Otherwise, the portal div is also blurred, blurring the modal.
-  //
-  // We cannot them wrap the modalJSX in an actual <Dimmer /> instead, we apply the dimmer classes to the <Portal />.
-
-  return (
-    <Portal
-      closeOnDocumentClick={closeOnDocumentClick}
-      {...portalProps}
-      trigger={trigger}
-      eventPool={eventPool}
-      mountNode={getMountNode()}
-      open={state.open}
-      onClose={handleClose}
-      onMount={handlePortalMount}
-      onOpen={handleOpen}
-      onUnmount={handlePortalUnmount}
-    >
-      <div className={dimmerClasses} ref={dimmerRef}>
-        <ElementType {...rest} className={contentClasses} style={style} ref={ref}>
-          <MountNode className={state.mountClasses} node={mountNode} />
-
+    return (
+      <Ref innerRef={this.ref}>
+        <ElementType {...rest} className={classes} style={{ ...legacyStyles, ...style }}>
           {closeIconJSX}
-          {Children.count(children)
-            ? children
-            : (
-              <Fragment>
-                {ModalHeader.create(header, { autoGenerateKey: false })}
-                {ModalContent.create(content, { autoGenerateKey: false })}
-                {ModalActions.create(actions, { overrideProps: handleActionsOverrides })}
-              </Fragment>
-            )
-          }
+          {!Children.count(children) ? (
+            <>
+              {ModalHeader.create(header, { autoGenerateKey: false })}
+              {ModalContent.create(content, { autoGenerateKey: false })}
+              {ModalActions.create(actions, { overrideProps: this.handleActionsOverrides })}
+            </>
+          ) : (
+              children
+            )}
         </ElementType>
-      </div>
-    </Portal>
-  );
+      </Ref>
+    );
+  }
+
+  render() {
+    const { centered, closeOnDocumentClick, dimmer, eventPool, trigger } = this.props;
+    const { open, scrolling } = this.state;
+    const mountNode = this.getMountNode();
+
+    // Short circuit when server side rendering
+    if (!isBrowser()) {
+      return isValidElement(trigger) ? trigger : null;
+    }
+
+    const { rest, portalProps } = getExtraProps(this.props);
+
+    // Heads up!
+    //
+    // The SUI CSS selector to prevent the modal itself from blurring requires an immediate .dimmer child:
+    // .blurring.dimmed.dimmable>:not(.dimmer) { ... }
+    //
+    // The .blurring.dimmed.dimmable is the body, so that all body content inside is blurred.
+    // We need the immediate child to be the dimmer to :not() blur the modal itself!
+    // Otherwise, the portal div is also blurred, blurring the modal.
+    //
+    // We cannot them wrap the modalJSX in an actual <Dimmer /> instead, we apply the dimmer classes to the <Portal />.
+
+    return (
+      <Portal
+        closeOnDocumentClick={closeOnDocumentClick}
+        {...portalProps}
+        trigger={trigger}
+        eventPool={eventPool}
+        mountNode={mountNode}
+        open={open}
+        onClose={this.handleClose}
+        onMount={this.handlePortalMount}
+        onOpen={this.handleOpen}
+        onUnmount={this.handlePortalUnmount}
+      >
+        <Ref innerRef={this.dimmerRef}>
+          {ModalDimmer.create(isPlainObject(dimmer) ? dimmer : {}, {
+            autoGenerateKey: false,
+            defaultProps: {
+              blurring: dimmer === 'blurring',
+              inverted: dimmer === 'inverted',
+            },
+            overrideProps: {
+              children: this.renderContent(rest),
+              // tslint:disable-next-line: object-shorthand-properties-first
+              centered, mountNode, scrolling,
+            },
+          })}
+        </Ref>
+      </Portal>
+    );
+  }
+}
+
+Modal.defaultProps = {
+  centered: true,
+  dimmer: true,
+  closeOnDimmerClick: true,
+  closeOnDocumentClick: false,
+  eventPool: 'Modal',
 };
 
-Modal.defaultProps = { centered: true, dimmer: true, closeOnDimmerClick: true, closeOnDocumentClick: false, eventPool: 'Modal' };
-Modal.Header = ModalHeader;
+Modal.autoControlledProps = ['open'];
+
+Modal.Actions = ModalActions;
 Modal.Content = ModalContent;
 Modal.Description = ModalDescription;
-Modal.Actions = ModalActions;
+Modal.Dimmer = ModalDimmer;
+Modal.Header = ModalHeader;
 
 export { Modal };
 
@@ -340,39 +403,4 @@ const getExtraProps = (props: ModalProps) => {
   const pprops = { closeOnEscape, closeOnPortalMouseLeave, closeOnTriggerBlur, closeOnTriggerClick, closeOnTriggerMouseLeave, mouseEnterDelay, mouseLeaveDelay, openOnTriggerClick, openOnTriggerFocus, openOnTriggerMouseEnter, triggerRef };
 
   return { rest, portalProps: Object.entries(pprops).reduce((acc, [key, val]) => { if (val !== undefined) acc[key] = val; }, {} as any) };
-};
-
-// https://github.com/Semantic-Org/Semantic-UI/blob/2.4.1/src/definitions/modules/modal.js#L956
-const OFFSET = 0;
-// https://github.com/Semantic-Org/Semantic-UI/blob/2.4.1/src/definitions/modules/modal.js#L990
-const PADDING = 50;
-
-/**
- * Ensures that modal can fit viewport without scroll.
- *
- * @param modalRect {DOMRect}
- *
- * @see https://github.com/Semantic-Org/Semantic-UI/blob/2.4.1/src/definitions/modules/modal.js#L608
- */
-const canFit = (modalRect: ClientRect) => {
-  // original: scrollHeight = $module.prop('scrollHeight'),
-  // is replaced by .height because scrollHeight provides integer which produces glitches
-  // https://github.com/Semantic-Org/Semantic-UI-React/issues/2221
-  const scrollHeight = modalRect.height + OFFSET;
-  // $module.outerHeight() + settings.offset
-  const height = modalRect.height + OFFSET;
-
-  // original: $(window).height()
-  const contextHeight = window.innerHeight;
-  const verticalCenter = contextHeight / 2;
-  const topOffset = -(height / 2);
-
-  // padding with edge of page
-  const paddingHeight = PADDING;
-  const startPosition = verticalCenter + topOffset; // 0
-
-  // original: scrollHeight > height
-  //     ? startPosition + scrollHeight + paddingHeight < contextHeight
-  //     : height + paddingHeight * 2 < contextHeight
-  return startPosition + scrollHeight + paddingHeight < contextHeight;
 };

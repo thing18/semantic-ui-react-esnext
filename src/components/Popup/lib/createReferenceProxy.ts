@@ -16,7 +16,9 @@ class ReferenceProxy {
   }
 
   getBoundingClientRect() {
-    return this.ref.current!.getBoundingClientRect?.call(null);
+    const c = this.ref.current;
+
+    return c?.getBoundingClientRect() ?? {} as any;
   }
 
   get clientWidth() {

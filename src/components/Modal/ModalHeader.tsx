@@ -23,8 +23,8 @@ export interface StrictModalHeaderProps {
 /**
  * A modal can have a header.
  */
-const ModalHeader: FCX<ModalHeaderProps> = ({ className, ...props }) =>
-  ChildrenOrContent(props, className, 'header');
+const ModalHeader: FCX<ModalHeaderProps> = props =>
+  ChildrenOrContent(props, 'header');
 
 ModalHeader.create = createShorthandFactory(ModalHeader, (content) => ({ content }));
 

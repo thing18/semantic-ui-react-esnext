@@ -5,6 +5,7 @@ import { doesNodeContainClick } from '../../lib';
 import { EventStack } from '../EventStack';
 import { handleRef, Ref } from '../Ref';
 import { PortalInner } from './PortalInner';
+import { validateTrigger } from './lib/validateTrigger';
 
 export interface PortalProps extends StrictPortalProps {
   [key: string]: any;
@@ -325,6 +326,10 @@ export class Portal extends PureComponent<PortalProps, PortalState> {
   render() {
     const { children, eventPool, mountNode, trigger } = this.props;
     const { open } = this.state;
+
+    if (process.env.NODE_ENV !== 'production') {
+      validateTrigger(trigger);
+    }
 
     return (
       <Fragment>

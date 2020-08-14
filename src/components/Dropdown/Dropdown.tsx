@@ -90,7 +90,7 @@ export interface StrictDropdownProps {
   defaultUpward?: boolean;
 
   /** Initial value or value array if multiple. */
-  defaultValue?: string | number | boolean | number | string | boolean[];
+  defaultValue?: string | number | boolean | (number | string | boolean)[];
 
   /** A dropdown menu can open to the left or to the right. */
   direction?: 'left' | 'right';
@@ -295,7 +295,7 @@ export interface StrictDropdownProps {
   trigger?: React.ReactNode;
 
   /** Current value or value array if multiple. Creates a controlled component. */
-  value?: boolean | number | string | boolean | number | string[];
+  value?: string | number | boolean | (number | string | boolean)[];
 
   /** Controls whether the dropdown will open upward. */
   upward?: boolean;
@@ -419,11 +419,7 @@ export class Dropdown extends ModernAutoControlledComponent<DropdownProps, Dropd
 
   componentDidMount() {
 
-    const { open } = this.state;
-
-    if (open) {
-      this.open(null, false);
-    }
+    if (this.state.open) this.open(null, false);
   }
 
   shouldComponentUpdate(nextProps: DropdownProps, nextState: DropdownState) {
@@ -567,7 +563,7 @@ export class Dropdown extends ModernAutoControlledComponent<DropdownProps, Dropd
     const { multiple } = this.props;
 
     const item = this.getSelectedItem(selectedIndex);
-    const selectedValue = item ? item.value : undefined;
+    const selectedValue = item?.value;
 
     // prevent selecting null if there was no selected item value
     // prevent selecting duplicate items when the dropdown is closed
@@ -627,9 +623,7 @@ export class Dropdown extends ModernAutoControlledComponent<DropdownProps, Dropd
       search: this.props.search,
     }).length;
 
-    if (search && optionSize === 0) {
-      return;
-    }
+    if (search && optionSize === 0) return;
 
     const nextValue = this.makeSelectedItemActive(e, selectedIndex);
 
@@ -655,7 +649,7 @@ export class Dropdown extends ModernAutoControlledComponent<DropdownProps, Dropd
     this.clearSearchQuery();
 
     if (search) {
-      this.searchRef.current?.focus?.call(this.searchRef.current);
+      this.searchRef.current && this.searchRef.current.focus();
     }
   }
 
@@ -732,11 +726,7 @@ export class Dropdown extends ModernAutoControlledComponent<DropdownProps, Dropd
     // prevent handleClick()
     e.stopPropagation();
 
-    if (clearable && hasValue) {
-      this.clearValue(e);
-    } else {
-      this.toggle(e);
-    }
+    (clearable && hasValue) ? this.clearValue(e) : this.toggle(e);
   }
 
   handleItemClick = (e: any, item: DropdownItemProps) => {
@@ -749,12 +739,9 @@ export class Dropdown extends ModernAutoControlledComponent<DropdownProps, Dropd
     e.stopPropagation();
 
     // prevent closeOnDocumentClick() if multiple or item is disabled
-    if (multiple || item.disabled) {
-      e.nativeEvent.stopImmediatePropagation();
-    }
-    if (item.disabled) {
-      return;
-    }
+    if (multiple || item.disabled) e.nativeEvent.stopImmediatePropagation();
+
+    if (item.disabled) return;
 
     const isAdditionItem = item['data-additional'];
     const newValue = multiple ? Array.from(new Set([...currentValue as ValueN, value])) : value;
@@ -770,11 +757,8 @@ export class Dropdown extends ModernAutoControlledComponent<DropdownProps, Dropd
 
     this.clearSearchQuery();
 
-    if (search) {
-      this.searchRef.current && this.searchRef.current.focus();
-    } else {
-      this.ref.current && this.ref.current.focus();
-    }
+    const target = (search) ? this.searchRef.current : this.ref.current;
+    target && target.focus();
 
     this.closeOnChange(e);
 
@@ -864,7 +848,7 @@ export class Dropdown extends ModernAutoControlledComponent<DropdownProps, Dropd
       search: this.props.search,
     });
 
-    return options[selectedIndex];
+    return options?.[selectedIndex];
   }
 
   getItemByValue = (value: any) => {

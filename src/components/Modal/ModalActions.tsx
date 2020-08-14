@@ -1,6 +1,6 @@
 import React, { Children } from 'react';
 
-import { SemanticShorthandCollection, SemanticShorthandContent, FCX, createShorthandFactory, getClassName } from '../../lib';
+import { SemanticShorthandCollection, SemanticShorthandContent, FCX, createShorthandFactory, getClassName1 } from '../../lib';
 import { ButtonProps, Button } from '../Button';
 
 export interface ModalActionsProps extends StrictModalActionsProps {
@@ -35,18 +35,21 @@ export interface StrictModalActionsProps {
 /**
  * A modal can contain a row of actions.
  */
-const ModalActions: FCX<ModalActionsProps> = props => {
+function ModalActions(props: ModalActionsProps) {
 
   const { as: ElementType = 'div', actions, children, className, content, onActionClick, ...rest } = props;
 
-  const handleButtonOverrides = (pprops: ButtonProps) => ({
-    onClick: (e: any, bprops: ButtonProps) => {
-      pprops.onClick?.call(null, e, bprops);
-      onActionClick?.call(null, e, bprops);
-    },
-  });
+  function handleButtonOverrides(bp: ButtonProps) {
 
-  const classes = getClassName('actions', className);
+    return {
+      onClick: (e: any, bprops: ButtonProps) => {
+        bp.onClick?.call(null, e, bprops);
+        props.onActionClick?.call(null, e, bprops);
+      },
+    };
+  }
+
+  const classes = getClassName1('actions', className);
 
   if (Children.count(children)) {
     return (
@@ -55,6 +58,7 @@ const ModalActions: FCX<ModalActionsProps> = props => {
       </ElementType>
     );
   }
+
   if (content != null) {
     return (
       <ElementType {...rest} className={classes}>
@@ -68,7 +72,7 @@ const ModalActions: FCX<ModalActionsProps> = props => {
       {actions && actions.map((action) => Button.create(action, { overrideProps: handleButtonOverrides }))}
     </ElementType>
   );
-};
+}
 
 ModalActions.create = createShorthandFactory(ModalActions, (actions) => ({ actions }));
 

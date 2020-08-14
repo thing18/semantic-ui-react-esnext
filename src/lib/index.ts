@@ -10,6 +10,7 @@ export * from './normalizeOffset';
 export * from './doesNodeContainClick';
 export * from './ModernAutoControlledComponent';
 export * from './normalizeTransitionDuration';
+export * from './hooks';
 
 // export { default as leven } from './leven';
 // export * as SUI from './SUI';
